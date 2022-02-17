@@ -1,6 +1,5 @@
 # ELEC291
-Design projects involving electronic devices and circuits, electromagnetism, signals and systems, 
-and microcomputers.
+Design projects involving electronic devices and circuits, electromagnetism, signals and systems, and microcomputers.
 
 ## Lab 1
 Introduction to microcontroller systems. The 8051 microcontroller architecture. The AT89LP51RC2 microcontroller. Initialization and usage of character based LCDs.Compilation and loading of assembly programs.
