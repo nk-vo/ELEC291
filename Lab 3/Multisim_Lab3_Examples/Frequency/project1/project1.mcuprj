@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MCUProject Schema="67" Class="CMCUProject" Path="" PathAbs="" ProjectType="0">
+<ProjectFolders/>
+<ProjectFiles>
+<FileItem>
+<MCUFile Class="CMCUFile" Path="&amp;ASCmain.c" PathAbs="&amp;ASCD:\Courses\ELEC291\Jan_2022\Lab3\Multisim_Lab3_Example\Frequency\project1\main.c" UseFileOptions="0" FileOptions=""/>
+</FileItem>
+</ProjectFiles>
+<BuildSettings>
+<MCUProjectBuildSettings Class="CMCUProjectBuildSettings" ToolGroupType="3" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="&amp;ASCD:\Courses\ELEC291\Jan_2022\Lab3\Multisim_Lab3_Example\Frequency\project1\" OutputPath="&amp;ASC.\" OutputPathAbs="&amp;ASCD:\Courses\ELEC291\Jan_2022\Lab3\Multisim_Lab3_Example\Frequency\project1\" TargetFileType="6" SimPath="&amp;ASC.\" SimPathAbs="&amp;ASCD:\Courses\ELEC291\Jan_2022\Lab3\Multisim_Lab3_Example\Frequency\project1\" SimFile="&amp;ASCproject1.hex" CodeLoadType="0">
+<Compiler>
+<MCUToolSettings Class="CMCUToolSettings" ToolType="-1" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="" OutputPath="&amp;ASC.\" OutputPathAbs="" TargetType="-1" IncludeOptions="" PreFilenameOptions="&amp;ASC--ASMLIST -G -M -N255 -P --OPT=none --CHIP=8052AH  --ERRFORMAT=&quot;error; file %f; line %l; column %c; %s&quot;  --WARNFORMAT=&quot;warning; file %f; line %l; column %c; %s&quot;  --MSGFORMAT=&quot;message; file %f; line %l; column %c; %s&quot; " PostFilenameOptions="">
+<MCULibraries/>
+</MCUToolSettings>
+</Compiler>
+<Library>
+<MCUToolSettings Class="CMCUToolSettings" ToolType="6" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="" OutputPath="&amp;ASC.\" OutputPathAbs="" TargetType="7" IncludeOptions="" PreFilenameOptions="&amp;ASC r &quot;project1.lib&quot;" PostFilenameOptions="">
+<MCULibraries/>
+</MCUToolSettings>
+</Library>
+</MCUProjectBuildSettings>
+</BuildSettings>
+</MCUProject>

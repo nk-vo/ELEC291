@@ -1,0 +1,242 @@
+                  2   $LIST
+0000              4   
+0000              5   org 0000H
+0000 0203FC       6       ljmp MyProgram
+002B              7   org 0x002B
+002B 0203F0       8       ljmp Timer2_ISR
+0030              9   DSEG at 30H
+0030             10   x: ds 4
+0034             11   y: ds 4
+0038             12   bcd: ds 5
+003D             13   
+0000             14   BSEG
+0000             15   mf:dbit 1
+0001             16   
+002E             17   cseg
+002E             18   ; These 'equ' must match the hardware wiring
+002E             19   LCD_RS equ P3.2
+002E             20   ;LCD_RW equ PX.X ; Not used in this code, connect the pin to GND
+002E             21   LCD_E  equ P3.3
+002E             22   LCD_D4 equ P3.4
+002E             23   LCD_D5 equ P3.5
+002E             24   LCD_D6 equ P3.6
+002E             25   LCD_D7 equ P3.7
+002E             26   ToggleUnitnF equ P4.5
+002E             27   ToggleUnitpF equ P2.5
+002E             28   
+                570   $LIST
+                 31   $LIST
+0370             33   
+0370             34   ; In the 8051 we can define direct access variables starting at location 0x30 up to location 0x7F
+0030             35   dseg at 0x30
+0030             36   Timer2_overflow: ds 1 ; 8-bit overflow to measure the frequency of fast signals (over 65535Hz)
+0031             37   Counter: ds 2
+0033             38   Counter1: ds 2
+0035             39   
+0370             40   cseg
+0370             41   ;                     1234567890123456    <- This helps determine the location of the counter
+0370 43617061    42   Initial_Message:  db 'Capacitance (uF): ', 0
+     63697461
+     6E636520
+     28754629
+     3A2000
+0383 43617061    43   Unit_Message: db 'Capacitance (nF): ', 0
+     63697461
+     6E636520
+     286E4629
+     3A2000
+0396 43617061    44   Unit_Message2: db 'Capacitance (pF): ', 0
+     63697461
+     6E636520
+     28704629
+     3A2000
+03A9             45   
+03A9             46   ; When using a 22.1184MHz crystal in fast mode
+03A9             47   ; one cycle takes 1.0/22.1184MHz = 45.21123 ns
+03A9             48   ; (tuned manually to get as close to 1s as possible)
+03A9             49   Wait1s:
+03A9 7AB0        50       mov R2, #176
+03AB 79FA        51   X3: mov R1, #250
+03AD 78A6        52   X2: mov R0, #166
+03AF D8FE        53   X1: djnz R0, X1 ; 3 cycles->3*45.21123ns*166=22.51519us
+03B1 D9FA        54       djnz R1, X2 ; 22.51519us*250=5.629ms
+03B3 DAF6        55       djnz R2, X3 ; 5.629ms*176=1.0s (approximately)
+03B5 22          56       ret
+03B6             57   
+03B6             58   ; Sends 10-digit BCD number in bcd to the LCD
+03B6             59   Display_10_digit_BCD:
+03B6 C000        60            push ar0
+03B8 A83C        60            mov r0, bcd+4
+03BA 1200C4      60            lcall ?Display_BCD
+03BD D000        60            pop ar0
+03BF C000        61            push ar0
+03C1 A83B        61            mov r0, bcd+3
+03C3 1200C4      61            lcall ?Display_BCD
+03C6 D000        61            pop ar0
+03C8 C000        62            push ar0
+03CA A83A        62            mov r0, bcd+2
+03CC 1200C4      62            lcall ?Display_BCD
+03CF D000        62            pop ar0
+03D1 C000        63            push ar0
+03D3 A839        63            mov r0, bcd+1
+03D5 1200C4      63            lcall ?Display_BCD
+03D8 D000        63            pop ar0
+03DA C000        64            push ar0
+03DC A838        64            mov r0, bcd+0
+03DE 1200C4      64            lcall ?Display_BCD
+03E1 D000        64            pop ar0
+03E3 22          65            ret
+03E4             66   
+03E4             67   ;Initializes timer/counter 2 as a 16-bit counter
+03E4             68   InitTimer2:
+03E4 75C802      69            mov T2CON, #0b_0000_0010 ; Stop timer/counter.  Set as counter (clock input is pin T2).
+03E7             70            ; Set the reload value on overflow to zero (just in case is not zero)
+03E7 75CB00      71            mov RCAP2H, #0
+03EA 75CA00      72            mov RCAP2L, #0
+03ED D290        73       setb P1.0 ; P1.0 is connected to T2.  Make sure it can be used as input.
+03EF 22          74       ret
+03F0             75   
+03F0             76   Timer2_ISR:
+03F0 C2CF        77       clr TF2
+03F2 0530        78       inc Timer2_overflow
+03F4 32          79       reti
+03F5             80   
+03F5             81   ;---------------------------------;
+03F5             82   ; Hardware initialization         ;
+03F5             83   ;---------------------------------;
+03F5             84   Initialize_All:
+03F5 1203E4      85       lcall InitTimer2
+03F8 120088      86       lcall LCD_4BIT ; Initialize LCD
+03FB 22          87            ret
+03FC             88   
+03FC             89   ;---------------------------------;
+03FC             90   ; Main program loop               ;
+03FC             91   ;---------------------------------;
+03FC             92   MyProgram:
+03FC             93       ; Initialize the hardware:
+03FC 75817F      94       mov SP, #7FH
+03FF 1203F5      95       lcall Initialize_All
+0402             96   
+0402 C0E0        97            push acc
+0404 7401        97            mov a, #1
+0406 14          97            dec a
+0407 1200BF      97            lcall ?Set_Cursor_1 ; Select column and row
+040A D0E0        97            pop acc
+040C C083        98            push dph
+040E C082        98            push dpl
+0410 C0E0        98            push acc
+0412 900370      98            mov dptr, #Initial_Message
+0415 1200B2      98            lcall ?Send_Constant_String
+0418 D0E0        98            pop acc
+041A D082        98            pop dpl
+041C D083        98            pop dph
+041E             99       
+041E            100       
+041E            101   forever:
+041E            102       ; Measure the frequency applied to pin T2
+041E C2CA       103       clr TR2 ; Stop counter 2
+0420 E4         104       clr a
+0421 F5CC       105       mov TL2, a
+0423 F5CD       106       mov TH2, a
+0425 F530       107       mov Timer2_overflow, a
+0427 C2CF       108       clr TF2
+0429 D2CA       109       setb TR2 ; Start counter 2
+042B 1203A9     110       lcall Wait1s ; Wait one second
+042E C2CA       111       clr TR2 ; Stop counter 2, TH2-TL2 has the frequency
+0430            112   
+0430 85CC30     113       mov x+0, TL2
+0433 85CD31     114       mov x+1, TH2
+0436 753200     115       mov x+2, #0
+0439 753300     116       mov x+3, #0
+043C            117       
+043C E5CC       118       mov a, TL2
+043E 45CD       119       orl a, TH2
+0440 7534B8     120            mov y+0, #low (3000 % 0x10000) 
+0443 75350B     120            mov y+1, #high(3000 % 0x10000) 
+0446 753600     120            mov y+2, #low (3000 / 0x10000) 
+0449 753700     120            mov y+3, #high(3000 / 0x10000) 
+044C 120254     121       lcall mul32
+044F 12034A     122       lcall copy_xy
+0452 753000     123            mov x+0, #low (14400000000 % 0x10000) 
+0455 753190     123            mov x+1, #high(14400000000 % 0x10000) 
+0458 75324E     123            mov x+2, #low (14400000000 / 0x10000) 
+045B 75335A     123            mov x+3, #high(14400000000 / 0x10000) 
+045E 1202E1     124       lcall div32
+0461            125   
+0461            126       ;nF conversion
+0461 20C52D     127       jb ToggleUnitnF, Case1
+0464 C0E0       128            push acc
+0466 7401       128            mov a, #1
+0468 14         128            dec a
+0469 1200BF     128            lcall ?Set_Cursor_1 ; Select column and row
+046C D0E0       128            pop acc
+046E C083       129            push dph
+0470 C082       129            push dpl
+0472 C0E0       129            push acc
+0474 900383     129            mov dptr, #Unit_Message
+0477 1200B2     129            lcall ?Send_Constant_String
+047A D0E0       129            pop acc
+047C D082       129            pop dpl
+047E D083       129            pop dph
+0480 7534E8     130            mov y+0, #low (1000 % 0x10000) 
+0483 753503     130            mov y+1, #high(1000 % 0x10000) 
+0486 753600     130            mov y+2, #low (1000 / 0x10000) 
+0489 753700     130            mov y+3, #high(1000 / 0x10000) 
+048C 120254     131       lcall mul32
+048F 804C       132       sjmp Default
+0491            133   
+0491            134   Case1:
+0491            135       ;pF conversion
+0491 20A52D     136       jb ToggleUnitpF, Case
+0494 C0E0       137            push acc
+0496 7401       137            mov a, #1
+0498 14         137            dec a
+0499 1200BF     137            lcall ?Set_Cursor_1 ; Select column and row
+049C D0E0       137            pop acc
+049E C083       138            push dph
+04A0 C082       138            push dpl
+04A2 C0E0       138            push acc
+04A4 900396     138            mov dptr, #Unit_Message2
+04A7 1200B2     138            lcall ?Send_Constant_String
+04AA D0E0       138            pop acc
+04AC D082       138            pop dpl
+04AE D083       138            pop dph
+04B0 753440     139            mov y+0, #low (1000000 % 0x10000) 
+04B3 753542     139            mov y+1, #high(1000000 % 0x10000) 
+04B6 75360F     139            mov y+2, #low (1000000 / 0x10000) 
+04B9 753700     139            mov y+3, #high(1000000 / 0x10000) 
+04BC 120254     140       lcall mul32
+04BF 801C       141       sjmp Default
+04C1            142   
+04C1            143   Case:
+04C1 C0E0       144            push acc
+04C3 7401       144            mov a, #1
+04C5 14         144            dec a
+04C6 1200BF     144            lcall ?Set_Cursor_1 ; Select column and row
+04C9 D0E0       144            pop acc
+04CB C083       145            push dph
+04CD C082       145            push dpl
+04CF C0E0       145            push acc
+04D1 900370     145            mov dptr, #Initial_Message
+04D4 1200B2     145            lcall ?Send_Constant_String
+04D7 D0E0       145            pop acc
+04D9 D082       145            pop dpl
+04DB D083       145            pop dph
+04DD            146   
+04DD            147   Default:
+04DD 7534E8     148            mov y+0, #low (1000 % 0x10000) 
+04E0 753503     148            mov y+1, #high(1000 % 0x10000) 
+04E3 753600     148            mov y+2, #low (1000 / 0x10000) 
+04E6 753700     148            mov y+3, #high(1000 / 0x10000) 
+04E9 1202E1     149       lcall div32
+04EC            150   
+04EC            151            ; Convert the result to BCD and display on LCD
+04EC C0E0       152            push acc
+04EE 7401       152            mov a, #1
+04F0 14         152            dec a
+04F1 1200BD     152            lcall ?Set_Cursor_2 ; Select column and row
+04F4 D0E0       152            pop acc
+04F6 1200DA     153            lcall hex2bcd
+04F9 1203B6     154       lcall Display_10_digit_BCD
+04FC 02041E     155       ljmp forever ; Repeat! 
+04FF            156   end

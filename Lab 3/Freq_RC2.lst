@@ -1,0 +1,166 @@
+                  2   $LIST
+0000              4   
+0000              5   org 0000H
+0000 02012D       6      ljmp MyProgram
+0003              7   
+0003              8   cseg
+0003              9   ; These 'equ' must match the hardware wiring
+0003             10   LCD_RS equ P3.2
+0003             11   ;LCD_RW equ PX.X ; Not used in this code, connect the pin to GND
+0003             12   LCD_E  equ P3.3
+0003             13   LCD_D4 equ P3.4
+0003             14   LCD_D5 equ P3.5
+0003             15   LCD_D6 equ P3.6
+0003             16   LCD_D7 equ P3.7
+0003             17   
+                 19   	$LIST
+00AF             21   
+00AF             22   ;                     1234567890123456    <- This helps determine the location of the counter
+00AF 46726571    23   Initial_Message:  db 'Frequency (Hz): ', 0
+     75656E63
+     79202848
+     7A293A20
+     00
+00C0             24   
+00C0             25   
+00C0             26   ; When using a 22.1184MHz crystal in fast mode
+00C0             27   ; one cycle takes 1.0/22.1184MHz = 45.21123 ns
+00C0             28   ; (tuned manually to get as close to 1s as possible)
+00C0             29   Wait1s:
+00C0 7AB0        30       mov R2, #176
+00C2 79FA        31   X3: mov R1, #250
+00C4 78A6        32   X2: mov R0, #166
+00C6 D8FE        33   X1: djnz R0, X1 ; 3 cycles->3*45.21123ns*166=22.51519us
+00C8 D9FA        34       djnz R1, X2 ; 22.51519us*250=5.629ms
+00CA DAF6        35       djnz R2, X3 ; 5.629ms*176=1.0s (approximately)
+00CC 22          36       ret
+00CD             37   
+00CD             38   ;Initializes timer/counter 2 as a 16-bit counter
+00CD             39   InitTimer2:
+00CD 75C802      40            mov T2CON, #0b_0000_0010 ; Stop timer/counter.  Set as counter (clock input is pin T2).
+00D0             41            ; Set the reload value on overflow to zero (just in case is not zero)
+00D0 75CB00      42            mov RCAP2H, #0
+00D3 75CA00      43            mov RCAP2L, #0
+00D6 D290        44       setb P1.0 ; P1.0 is connected to T2.  Make sure it can be used as input.
+00D8 22          45       ret
+00D9             46   
+00D9             47   ;Converts the hex number in TH2-TL2 to BCD in R2-R1-R0
+00D9             48   hex2bcd:
+00D9 E4          49            clr a
+00DA 7800        50       mov R0, #0  ;Set BCD result to 00000000 
+00DC 7900        51       mov R1, #0
+00DE 7A00        52       mov R2, #0
+00E0 7B10        53       mov R3, #16 ;Loop counter.
+00E2             54   
+00E2             55   hex2bcd_loop:
+00E2 E5CC        56       mov a, TL2 ;Shift TH0-TL0 left through carry
+00E4 33          57       rlc a
+00E5 F5CC        58       mov TL2, a
+00E7             59       
+00E7 E5CD        60       mov a, TH2
+00E9 33          61       rlc a
+00EA F5CD        62       mov TH2, a
+00EC             63         
+00EC             64            ; Perform bcd + bcd + carry
+00EC             65            ; using BCD numbers
+00EC E8          66            mov a, R0
+00ED 38          67            addc a, R0
+00EE D4          68            da a
+00EF F8          69            mov R0, a
+00F0             70            
+00F0 E9          71            mov a, R1
+00F1 39          72            addc a, R1
+00F2 D4          73            da a
+00F3 F9          74            mov R1, a
+00F4             75            
+00F4 EA          76            mov a, R2
+00F5 3A          77            addc a, R2
+00F6 D4          78            da a
+00F7 FA          79            mov R2, a
+00F8             80            
+00F8 DBE8        81            djnz R3, hex2bcd_loop
+00FA 22          82            ret
+00FB             83   
+00FB             84   ; Dumps the 5-digit packed BCD number in R2-R1-R0 into the LCD
+00FB             85   DisplayBCD_LCD:
+00FB             86            ; 5th digit:
+00FB EA          87       mov a, R2
+00FC 540F        88       anl a, #0FH
+00FE 4430        89       orl a, #'0' ; convert to ASCII
+0100 120053      90            lcall ?WriteData
+0103             91            ; 4th digit:
+0103 E9          92       mov a, R1
+0104 C4          93       swap a
+0105 540F        94       anl a, #0FH
+0107 4430        95       orl a, #'0' ; convert to ASCII
+0109 120053      96            lcall ?WriteData
+010C             97            ; 3rd digit:
+010C E9          98       mov a, R1
+010D 540F        99       anl a, #0FH
+010F 4430       100       orl a, #'0' ; convert to ASCII
+0111 120053     101            lcall ?WriteData
+0114            102            ; 2nd digit:
+0114 E8         103       mov a, R0
+0115 C4         104       swap a
+0116 540F       105       anl a, #0FH
+0118 4430       106       orl a, #'0' ; convert to ASCII
+011A 120053     107            lcall ?WriteData
+011D            108            ; 1st digit:
+011D E8         109       mov a, R0
+011E 540F       110       anl a, #0FH
+0120 4430       111       orl a, #'0' ; convert to ASCII
+0122 120053     112            lcall ?WriteData
+0125            113       
+0125 22         114       ret
+0126            115   
+0126            116   ;---------------------------------;
+0126            117   ; Hardware initialization         ;
+0126            118   ;---------------------------------;
+0126            119   Initialize_All:
+0126 1200CD     120       lcall InitTimer2
+0129 12005D     121       lcall LCD_4BIT ; Initialize LCD
+012C 22         122            ret
+012D            123   
+012D            124   ;---------------------------------;
+012D            125   ; Main program loop               ;
+012D            126   ;---------------------------------;
+012D            127   MyProgram:
+012D            128       ; Initialize the hardware:
+012D 75817F     129       mov SP, #7FH
+0130 120126     130       lcall Initialize_All
+0133            131   
+0133 C0E0       132            push acc
+0135 7401       132            mov a, #1
+0137 14         132            dec a
+0138 120094     132            lcall ?Set_Cursor_1 ; Select column and row
+013B D0E0       132            pop acc
+013D C083       133            push dph
+013F C082       133            push dpl
+0141 C0E0       133            push acc
+0143 9000AF     133            mov dptr, #Initial_Message
+0146 120087     133            lcall ?Send_Constant_String
+0149 D0E0       133            pop acc
+014B D082       133            pop dpl
+014D D083       133            pop dph
+014F            134       
+014F            135   forever:
+014F            136       ; Measure the frequency applied to pin T2
+014F C2CA       137       clr TR2 ; Stop counter 2
+0151 E4         138       clr a
+0152 F5CC       139       mov TL2, a
+0154 F5CD       140       mov TH2, a
+0156 C2CF       141       clr TF2
+0158 D2CA       142       setb TR2 ; Start counter 2
+015A 1200C0     143       lcall Wait1s ; Wait one second
+015D C2CA       144       clr TR2 ; Stop counter 2, TH2-TL2 has the frequency
+015F            145   
+015F            146            ; Convert the result to BCD and display on LCD
+015F C0E0       147            push acc
+0161 7401       147            mov a, #1
+0163 14         147            dec a
+0164 120092     147            lcall ?Set_Cursor_2 ; Select column and row
+0167 D0E0       147            pop acc
+0169 1200D9     148            lcall hex2bcd
+016C 1200FB     149       lcall DisplayBCD_LCD
+016F 80DE       150       sjmp forever ; Repeat! 
+0171            151   end

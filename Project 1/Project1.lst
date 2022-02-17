@@ -1,0 +1,514 @@
+                  2   $LIST
+0000              4   
+0000              5   START_BUTTON     equ P0.0
+0000              6   P1_BUTTON                equ     P2.4
+0000              7   P2_BUTTON            equ         P2.6
+0000              8   RESTART_BUTTON  equ P2.0
+0000              9   
+0000             10   CLK           EQU 22118400 
+0000             11   TIMER0_RATE   EQU 4096     ; 2048Hz squarewave (peak amplitude of CEM-1203 speaker)
+0000             12   TIMER0_RELOAD EQU ((65536-(CLK/TIMER0_RATE)))
+0000             13   TIMER2_RATE   EQU 1000     ; 1000Hz, for a timer tick of 1ms
+0000             14   TIMER2_RELOAD EQU ((65536-(CLK/TIMER2_RATE)))
+0000             15   
+0000             16   org 0000H
+0000 02048D      17       ljmp MyProgram
+0003             18   ;org 0x000B
+0003             19   ;    ljmp Timer0_ISR
+0003             20   ;org 0x001B
+0003             21   ;    ljmp Timer1_ISR
+002B             22   org 0x002B
+002B 020481      23       ljmp Timer2_ISR
+002E             24   
+0030             25   DSEG at 30H
+0030             26   x: ds 4
+0034             27   y: ds 4
+0038             28   bcd: ds 5
+003D             29   Seed: ds 4
+0041             30   T2ov: ds 2
+0043             31   T1ov: ds 2
+0045             32   T0ov: ds 0
+0045             33   p1_point: ds 1
+0046             34   p2_point: ds 1
+0047             35   
+0000             36   BSEG
+0000             37   mf: dbit 1
+0001             38   tone: dbit 1
+0002             39   wait: dbit 1
+0003             40   update_score: dbit 1
+0004             41   
+002E             42   cseg
+002E             43   ; These 'equ' must match the hardware wiring
+002E             44   LCD_RS equ P3.2
+002E             45   ;LCD_RW equ PX.X ; Not used in this code, connect the pin to GND
+002E             46   LCD_E  equ P3.3
+002E             47   LCD_D4 equ P3.4
+002E             48   LCD_D5 equ P3.5
+002E             49   LCD_D6 equ P3.6
+002E             50   LCD_D7 equ P3.7
+002E             51   SOUND_OUT equ P1.1
+002E             52   
+                570   $LIST
+                 55   $LIST
+0370             57   
+0370             58   ; In the 8051 we can define direct access variables starting at location 0x30 up to location 0x7F
+0030             59   dseg at 0x30
+0030             60   Timer2_overflow: ds 1 ; 8-bit overflow to measure the frequency of fast signals (over 65535Hz)
+0031             61   Counter: ds 2
+0033             62   Counter1: ds 2
+0035             63   
+0370             64   cseg
+0370             65   ;                     1234567890123456    <- This helps determine the location of the counter
+0370 506C6179    66   Initial_Message_Top:    db 'Player1:          ', 0
+     6572313A
+     20202020
+     20202020
+     202000
+0383 506C6179    67   Initial_Message_Bottom: db 'Player2:          ', 0
+     6572323A
+     20202020
+     20202020
+     202000
+0396             68   
+0396 57696E6E    69   Player1_Win:    db 'Winner!', 0
+     65722100
+039E 4C6F7365    70   Player1_Lose:   db 'Loser!', 0
+     722100
+03A5 57696E6E    71   Player2_Win:    db 'Winner!', 0
+     65722100
+03AD 4C6F7365    72   Player2_Lose:   db 'Loser!', 0
+     722100
+03B4 506C6179    73   Play_again:     db 'Play again?', 0
+     20616761
+     696E3F00
+03C0 20202020    74   Clear:          db '                ', 0
+     20202020
+     20202020
+     20202020
+     00
+03D1             75   ; When using a 22.1184MHz crystal in fast mode
+03D1             76   ; one cycle takes 1.0/22.1184MHz = 45.21123 ns
+03D1             77   ; (tuned manually to get as close to 1s as possible)
+03D1             78   Wait1s:
+03D1 7AB0        79       mov R2, #176
+03D3 79FA        80   X3: mov R1, #250
+03D5 78A6        81   X2: mov R0, #166
+03D7 D8FE        82   X1: djnz R0, X1 ; 3 cycles->3*45.21123ns*166=22.51519us
+03D9 D9FA        83       djnz R1, X2 ; 22.51519us*250=5.629ms
+03DB DAF6        84       djnz R2, X3 ; 5.629ms*176=1.0s (approximately)
+03DD 22          85       ret
+03DE             86   Random:
+03DE 853D30      87       mov x+0, Seed+0
+03E1 853E31      88       mov x+1, Seed+1
+03E4 853F32      89       mov x+2, Seed+2
+03E7 854033      90       mov x+3, Seed+3
+03EA 7534FD      91            mov y+0, #low (214013 % 0x10000) 
+03ED 753543      91            mov y+1, #high(214013 % 0x10000) 
+03F0 753603      91            mov y+2, #low (214013 / 0x10000) 
+03F3 753700      91            mov y+3, #high(214013 / 0x10000) 
+03F6 120254      92       lcall mul32
+03F9 753443      93            mov y+0, #low (2451011 % 0x10000) 
+03FC 753566      93            mov y+1, #high(2451011 % 0x10000) 
+03FF 753625      93            mov y+2, #low (2451011 / 0x10000) 
+0402 753700      93            mov y+3, #high(2451011 / 0x10000) 
+0405 12019F      94       lcall add32
+0408 85303D      95       mov Seed+0, x+0
+040B 85313E      96       mov Seed+1, x+1
+040E 85323F      97       mov Seed+2, x+2
+0411 853340      98       mov Seed+3, x+3
+0414 22          99       ret
+0415            100   Wait_random:
+0415 C002       101            push AR2
+0417 AA3D       101            mov R2, Seed+0
+0419 120039     101            lcall ?Wait_Milli_Seconds
+041C D002       101            pop AR2
+041E C002       102            push AR2
+0420 AA3E       102            mov R2, Seed+1
+0422 120039     102            lcall ?Wait_Milli_Seconds
+0425 D002       102            pop AR2
+0427 C002       103            push AR2
+0429 AA3F       103            mov R2, Seed+2
+042B 120039     103            lcall ?Wait_Milli_Seconds
+042E D002       103            pop AR2
+0430 C002       104            push AR2
+0432 AA40       104            mov R2, Seed+3
+0434 120039     104            lcall ?Wait_Milli_Seconds
+0437 D002       104            pop AR2
+0439 22         105       ret
+043A            106   
+043A            107   ; Sends 10-digit BCD number in bcd to the LCD
+043A            108   Display_10_digit_BCD:
+043A C000       109            push ar0
+043C A83C       109            mov r0, bcd+4
+043E 1200C4     109            lcall ?Display_BCD
+0441 D000       109            pop ar0
+0443 C000       110            push ar0
+0445 A83B       110            mov r0, bcd+3
+0447 1200C4     110            lcall ?Display_BCD
+044A D000       110            pop ar0
+044C C000       111            push ar0
+044E A83A       111            mov r0, bcd+2
+0450 1200C4     111            lcall ?Display_BCD
+0453 D000       111            pop ar0
+0455 C000       112            push ar0
+0457 A839       112            mov r0, bcd+1
+0459 1200C4     112            lcall ?Display_BCD
+045C D000       112            pop ar0
+045E C000       113            push ar0
+0460 A838       113            mov r0, bcd+0
+0462 1200C4     113            lcall ?Display_BCD
+0465 D000       113            pop ar0
+0467 22         114            ret
+0468            115   
+0468            116   InitTimer0:
+0468 E589       117       mov a, TMOD
+046A 5400       118       anl a, #0x00
+046C 4401       119       orl a, #0x01
+046E F589       120       mov TMOD, a
+0470 D2A9       121       setb ET0
+0472            122       ; disable timer
+0472 C28C       123       clr TR0
+0474 22         124       ret
+0475            125   
+0475            126   ;Timer0_ISR:
+0475            127   ;    push acc
+0475            128   ;    push psw
+0475            129   ;    jb Wait, Wait_Period
+0475            130   ;    cpl Sound_Out
+0475            131   ;    reti
+0475            132   
+0475            133   ;Initializes timer/counter 2 as a 16-bit counter
+0475            134   InitTimer2:
+0475 75C802     135            mov T2CON, #0b_0000_0010 ; Stop timer/counter.  Set as counter (clock input is pin T2).
+0478            136            ; Set the reload value on overflow to zero (just in case is not zero)
+0478 75CB00     137            mov RCAP2H, #0
+047B 75CA00     138            mov RCAP2L, #0
+047E D290       139       setb P1.0 ; P1.0 is connected to T2.  Make sure it can be used as input.
+0480 22         140       ret
+0481            141   
+0481            142   Timer2_ISR:
+0481 C2CF       143       clr TF2
+0483 0530       144       inc Timer2_overflow
+0485 32         145       reti
+0486            146   
+0486            147   ;---------------------------------;
+0486            148   ; Hardware initialization         ;
+0486            149   ;---------------------------------;
+0486            150   Initialize_All:
+0486 120475     151       lcall InitTimer2
+0489 120088     152       lcall LCD_4BIT ; Initialize LCD
+048C 22         153            ret
+048D            154   
+048D            155   ;---------------------------------;
+048D            156   ; Main program loop               ;
+048D            157   ;---------------------------------;
+048D            158   MyProgram:
+048D            159       ; Initialize the hardware:
+048D 75817F     160       mov SP, #7FH
+0490 120486     161       lcall Initialize_All
+0493            162   
+0493 C0E0       163            push acc
+0495 7401       163            mov a, #1
+0497 14         163            dec a
+0498 1200BF     163            lcall ?Set_Cursor_1 ; Select column and row
+049B D0E0       163            pop acc
+049D C083       164            push dph
+049F C082       164            push dpl
+04A1 C0E0       164            push acc
+04A3 900370     164            mov dptr, #Initial_Message_Top
+04A6 1200B2     164            lcall ?Send_Constant_String
+04A9 D0E0       164            pop acc
+04AB D082       164            pop dpl
+04AD D083       164            pop dph
+04AF C0E0       165            push acc
+04B1 7401       165            mov a, #1
+04B3 14         165            dec a
+04B4 1200BD     165            lcall ?Set_Cursor_2 ; Select column and row
+04B7 D0E0       165            pop acc
+04B9 C083       166            push dph
+04BB C082       166            push dpl
+04BD C0E0       166            push acc
+04BF 900383     166            mov dptr, #Initial_Message_Bottom
+04C2 1200B2     166            lcall ?Send_Constant_String
+04C5 D0E0       166            pop acc
+04C7 D082       166            pop dpl
+04C9 D083       166            pop dph
+04CB            167   
+04CB D2CA       168       setb TR2
+04CD 20C5FD     169       jb P4.5, $
+04D0 85CD3D     170       mov Seed+0, TH2
+04D3 753E01     171       mov Seed+1, #0x01
+04D6 753F87     172       mov Seed+2, #0x87
+04D9 85CC40     173       mov Seed+3, TL2
+04DC C2CA       174       clr TR2
+04DE            175   
+04DE            176   loop:
+04DE C0E0       177            push acc
+04E0 740B       177            mov a, #11
+04E2 14         177            dec a
+04E3 1200BF     177            lcall ?Set_Cursor_1 ; Select column and row
+04E6 D0E0       177            pop acc
+04E8 C000       178            push ar0
+04EA A845       178            mov r0, p1_point
+04EC 1200C4     178            lcall ?Display_BCD
+04EF D000       178            pop ar0
+04F1 C0E0       179            push acc
+04F3 740B       179            mov a, #11
+04F5 14         179            dec a
+04F6 1200BD     179            lcall ?Set_Cursor_2 ; Select column and row
+04F9 D0E0       179            pop acc
+04FB C000       180            push ar0
+04FD A846       180            mov r0, p2_point
+04FF 1200C4     180            lcall ?Display_BCD
+0502 D000       180            pop ar0
+0504 B291       181       cpl SOUND_OUT
+0506 208012     182       jb START_BUTTON, Start_Game
+0509 C002       183            push AR2
+050B 7A32       183            mov R2, #50
+050D 120039     183            lcall ?Wait_Milli_Seconds
+0510 D002       183            pop AR2
+0512 208006     184       jb START_BUTTON, Start_Game
+0515 3080FD     185       jnb START_BUTTON, $
+0518 0204DE     186       ljmp loop
+051B            187   
+051B            188   Start_Game:
+051B 1203DE     189       lcall Random
+051E 120415     190       lcall Wait_random
+0521 E53E       191       mov a, seed+1
+0523 A2E3       192       mov c, acc.3
+0525 4003       193       jc lose_sound
+0527 02052D     194       ljmp win_sound
+052A            195   
+052A            196   lose_sound:
+052A 020576     197       ljmp no_hit1
+052D            198   win_sound:
+052D 020530     199       ljmp hit1
+0530            200   
+0530            201   hit1:
+0530 20A420     202       jb P1_BUTTON, hit2
+0533 C002       203            push AR2
+0535 7A32       203            mov R2, #50
+0537 120039     203            lcall ?Wait_Milli_Seconds
+053A D002       203            pop AR2
+053C 20A414     204       jb P1_BUTTON, hit2
+053F 30A4FD     205       jnb P1_BUTTON, $
+0542 E4         206       clr a
+0543 E545       207       mov a, p1_point
+0545 2401       208       add a, #0x01
+0547 F546       209       mov p2_point, a
+0549 B40504     210       cjne a, #0x5, p1_win
+054C E4         211       clr a
+054D 02051B     212       ljmp Start_Game
+0550            213   
+0550            214   p1_win:
+0550 0205DD     215       ljmp p1win
+0553            216   
+0553            217   hit2:
+0553 20A6DA     218       jb P2_BUTTON, hit1
+0556 C002       219            push AR2
+0558 7A32       219            mov R2, #50
+055A 120039     219            lcall ?Wait_Milli_Seconds
+055D D002       219            pop AR2
+055F 20A6CE     220       jb P2_BUTTON, hit1
+0562 30A6FD     221       jnb P2_BUTTON, $
+0565 E4         222       clr a 
+0566 E546       223       mov a, p2_point
+0568 2401       224       add a, #0x01
+056A F546       225       mov p2_point, a
+056C B40504     226       cjne a, #0x05, p2_win
+056F E4         227       clr a
+0570 02051B     228       ljmp Start_Game
+0573            229   
+0573            230   p2_win:
+0573 02066E     231       ljmp p2win
+0576            232   
+0576            233   no_hit1:
+0576 20A42F     234       jb P1_BUTTON, no_hit2
+0579 C002       235            push AR2
+057B 7A32       235            mov R2, #50
+057D 120039     235            lcall ?Wait_Milli_Seconds
+0580 D002       235            pop AR2
+0582 20A423     236       jb P1_BUTTON, no_hit2
+0585 30A4FD     237       jnb P1_BUTTON, $
+0588 E4         238       clr a 
+0589 E545       239       mov a, p1_point
+058B B4008D     240       cjne a, #0x00, Start_Game
+058E F530       241       mov x, a
+0590 753401     242            mov y+0, #low (1 % 0x10000) 
+0593 753500     242            mov y+1, #high(1 % 0x10000) 
+0596 753600     242            mov y+2, #low (1 / 0x10000) 
+0599 753700     242            mov y+3, #high(1 / 0x10000) 
+059C 1201C0     243       lcall sub32
+059F E530       244       mov a, x
+05A1 D4         245       da a
+05A2 F545       246       mov p1_point, a
+05A4 E4         247       clr a
+05A5 02051B     248       ljmp Start_Game
+05A8            249   
+05A8            250   no_hit2:
+05A8 20A6CB     251       jb P2_BUTTON, no_hit1
+05AB C002       252            push AR2
+05AD 7A32       252            mov R2, #50
+05AF 120039     252            lcall ?Wait_Milli_Seconds
+05B2 D002       252            pop AR2
+05B4 20A6BF     253       jb P2_BUTTON, no_hit1
+05B7 30A6FD     254       jnb P2_BUTTON, $
+05BA E4         255       clr a 
+05BB E546       256       mov a, p2_point
+05BD B4001A     257       cjne a, #0x00, start
+05C0 F530       258       mov x, a
+05C2 753401     259            mov y+0, #low (1 % 0x10000) 
+05C5 753500     259            mov y+1, #high(1 % 0x10000) 
+05C8 753600     259            mov y+2, #low (1 / 0x10000) 
+05CB 753700     259            mov y+3, #high(1 / 0x10000) 
+05CE 1201C0     260       lcall sub32
+05D1 E530       261       mov a, x
+05D3 D4         262       da a
+05D4 F546       263       mov p2_point, a
+05D6 E4         264       clr a
+05D7 0205DA     265       ljmp start
+05DA            266   
+05DA            267   start:
+05DA 02051B     268       ljmp Start_Game
+05DD            269   
+05DD            270   p1win:
+05DD C0E0       271            push acc
+05DF 7409       271            mov a, #9
+05E1 14         271            dec a
+05E2 1200BF     271            lcall ?Set_Cursor_1 ; Select column and row
+05E5 D0E0       271            pop acc
+05E7 C083       272            push dph
+05E9 C082       272            push dpl
+05EB C0E0       272            push acc
+05ED 900396     272            mov dptr, #Player1_Win
+05F0 1200B2     272            lcall ?Send_Constant_String
+05F3 D0E0       272            pop acc
+05F5 D082       272            pop dpl
+05F7 D083       272            pop dph
+05F9 C0E0       273            push acc
+05FB 7409       273            mov a, #9
+05FD 14         273            dec a
+05FE 1200BD     273            lcall ?Set_Cursor_2 ; Select column and row
+0601 D0E0       273            pop acc
+0603            273   
+0603 C083       274            push dph
+0605 C082       274            push dpl
+0607 C0E0       274            push acc
+0609 9003AD     274            mov dptr, #Player2_Lose
+060C 1200B2     274            lcall ?Send_Constant_String
+060F D0E0       274            pop acc
+0611 D082       274            pop dpl
+0613 D083       274            pop dph
+0615 C002       275            push AR2
+0617 7A32       275            mov R2, #50
+0619 120039     275            lcall ?Wait_Milli_Seconds
+061C D002       275            pop AR2
+061E C0E0       276            push acc
+0620 7401       276            mov a, #1
+0622 14         276            dec a
+0623 1200BF     276            lcall ?Set_Cursor_1 ; Select column and row
+0626 D0E0       276            pop acc
+0628 C083       277            push dph
+062A C082       277            push dpl
+062C C0E0       277            push acc
+062E 9003B4     277            mov dptr, #Play_again
+0631 1200B2     277            lcall ?Send_Constant_String
+0634 D0E0       277            pop acc
+0636 D082       277            pop dpl
+0638 D083       277            pop dph
+063A C0E0       278            push acc
+063C 7401       278            mov a, #1
+063E 14         278            dec a
+063F 1200BD     278            lcall ?Set_Cursor_2 ; Select column and row
+0642 D0E0       278            pop acc
+0644 C083       279            push dph
+0646 C082       279            push dpl
+0648 C0E0       279            push acc
+064A 9003C0     279            mov dptr, #Clear
+064D 1200B2     279            lcall ?Send_Constant_String
+0650 D0E0       279            pop acc
+0652 D082       279            pop dpl
+0654 D083       279            pop dph
+0656 30A012     280       jnb RESTART_BUTTON, p1w
+0659 C002       281            push AR2
+065B 7A32       281            mov R2, #50
+065D 120039     281            lcall ?Wait_Milli_Seconds
+0660 D002       281            pop AR2
+0662 30A006     282       jnb RESTART_BUTTON, p1w
+0665 20A0FD     283       jb RESTART_BUTTON, $
+0668 0206FF     284       ljmp restart
+066B            285   p1w:
+066B 0205DD     286       ljmp p1win
+066E            287   p2win:
+066E C0E0       288            push acc
+0670 7409       288            mov a, #9
+0672 14         288            dec a
+0673 1200BF     288            lcall ?Set_Cursor_1 ; Select column and row
+0676 D0E0       288            pop acc
+0678 C083       289            push dph
+067A C082       289            push dpl
+067C C0E0       289            push acc
+067E 9003A5     289            mov dptr, #Player2_Win
+0681 1200B2     289            lcall ?Send_Constant_String
+0684 D0E0       289            pop acc
+0686 D082       289            pop dpl
+0688 D083       289            pop dph
+068A C0E0       290            push acc
+068C 7409       290            mov a, #9
+068E 14         290            dec a
+068F 1200BD     290            lcall ?Set_Cursor_2 ; Select column and row
+0692 D0E0       290            pop acc
+0694            290   
+0694 C083       291            push dph
+0696 C082       291            push dpl
+0698 C0E0       291            push acc
+069A 90039E     291            mov dptr, #Player1_Lose
+069D 1200B2     291            lcall ?Send_Constant_String
+06A0 D0E0       291            pop acc
+06A2 D082       291            pop dpl
+06A4 D083       291            pop dph
+06A6 C002       292            push AR2
+06A8 7A32       292            mov R2, #50
+06AA 120039     292            lcall ?Wait_Milli_Seconds
+06AD D002       292            pop AR2
+06AF C0E0       293            push acc
+06B1 7401       293            mov a, #1
+06B3 14         293            dec a
+06B4 1200BF     293            lcall ?Set_Cursor_1 ; Select column and row
+06B7 D0E0       293            pop acc
+06B9 C083       294            push dph
+06BB C082       294            push dpl
+06BD C0E0       294            push acc
+06BF 9003B4     294            mov dptr, #Play_again
+06C2 1200B2     294            lcall ?Send_Constant_String
+06C5 D0E0       294            pop acc
+06C7 D082       294            pop dpl
+06C9 D083       294            pop dph
+06CB C0E0       295            push acc
+06CD 7401       295            mov a, #1
+06CF 14         295            dec a
+06D0 1200BD     295            lcall ?Set_Cursor_2 ; Select column and row
+06D3 D0E0       295            pop acc
+06D5 C083       296            push dph
+06D7 C082       296            push dpl
+06D9 C0E0       296            push acc
+06DB 9003C0     296            mov dptr, #Clear
+06DE 1200B2     296            lcall ?Send_Constant_String
+06E1 D0E0       296            pop acc
+06E3 D082       296            pop dpl
+06E5 D083       296            pop dph
+06E7 30A012     297       jnb RESTART_BUTTON, p2w
+06EA C002       298            push AR2
+06EC 7A32       298            mov R2, #50
+06EE 120039     298            lcall ?Wait_Milli_Seconds
+06F1 D002       298            pop AR2
+06F3 30A006     299       jnb RESTART_BUTTON, p2w
+06F6 20A0FD     300       jb RESTART_BUTTON, $
+06F9 0206FF     301       ljmp restart
+06FC            302   p2w:
+06FC 02066E     303       ljmp p2win
+06FF            304   restart:
+06FF 754500     305       mov p1_point, #0x00
+0702 754600     306       mov p2_point, #0x00
+0705 02051B     307       ljmp Start_Game
+0708            308   end
