@@ -1,0 +1,747 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Fri Mar 04 22:10:12 2022
+0000              5   ;--------------------------------------------------------
+                  5   $name FINALWORKINGmylabadc_spi
+                  6   $optc51 --model-small
+                  7   $printf_float
+0000              9            R_DSEG    segment data
+0000             10            R_CSEG    segment code
+0000             11            R_BSEG    segment bit
+0000             12            R_XSEG    segment xdata
+0000             13            R_PSEG    segment xdata
+0000             14            R_ISEG    segment idata
+0000             15            R_OSEG    segment data overlay
+0000             16            BIT_BANK  segment data overlay
+0000             17            R_HOME    segment code
+0000             18            R_GSINIT  segment code
+0000             19            R_IXSEG   segment xdata
+0000             20            R_CONST   segment code
+0000             21            R_XINIT   segment code
+0000             22            R_DINIT   segment code
+0000             23   
+0000             24   ;--------------------------------------------------------
+0000             25   ; Public variables in this module
+0000             26   ;--------------------------------------------------------
+0000             27            public _main
+0000             28            public _GetADC
+0000             29            public _waitms
+0000             30            public _wait_us
+0000             31            public __c51_external_startup
+0000             32            public _SPIWrite
+0000             33   ;--------------------------------------------------------
+0000             34   ; Special Function Registers
+0000             35   ;--------------------------------------------------------
+0000             36   _ACC            DATA 0xe0
+0000             37   _B              DATA 0xf0
+0000             38   _PSW            DATA 0xd0
+0000             39   _SP             DATA 0x81
+0000             40   _SPX            DATA 0xef
+0000             41   _DPL            DATA 0x82
+0000             42   _DPH            DATA 0x83
+0000             43   _DPLB           DATA 0xd4
+0000             44   _DPHB           DATA 0xd5
+0000             45   _PAGE           DATA 0xf6
+0000             46   _AX             DATA 0xe1
+0000             47   _BX             DATA 0xf7
+0000             48   _DSPR           DATA 0xe2
+0000             49   _FIRD           DATA 0xe3
+0000             50   _MACL           DATA 0xe4
+0000             51   _MACH           DATA 0xe5
+0000             52   _PCON           DATA 0x87
+0000             53   _AUXR           DATA 0x8e
+0000             54   _AUXR1          DATA 0xa2
+0000             55   _DPCF           DATA 0xa1
+0000             56   _CKRL           DATA 0x97
+0000             57   _CKCKON0        DATA 0x8f
+0000             58   _CKCKON1        DATA 0xaf
+0000             59   _CKSEL          DATA 0x85
+0000             60   _CLKREG         DATA 0xae
+0000             61   _OSCCON         DATA 0x85
+0000             62   _IE             DATA 0xa8
+0000             63   _IEN0           DATA 0xa8
+0000             64   _IEN1           DATA 0xb1
+0000             65   _IPH0           DATA 0xb7
+0000             66   _IP             DATA 0xb8
+0000             67   _IPL0           DATA 0xb8
+0000             68   _IPH1           DATA 0xb3
+0000             69   _IPL1           DATA 0xb2
+0000             70   _P0             DATA 0x80
+0000             71   _P1             DATA 0x90
+0000             72   _P2             DATA 0xa0
+0000             73   _P3             DATA 0xb0
+0000             74   _P4             DATA 0xc0
+0000             75   _P0M0           DATA 0xe6
+0000             76   _P0M1           DATA 0xe7
+0000             77   _P1M0           DATA 0xd6
+0000             78   _P1M1           DATA 0xd7
+0000             79   _P2M0           DATA 0xce
+0000             80   _P2M1           DATA 0xcf
+0000             81   _P3M0           DATA 0xc6
+0000             82   _P3M1           DATA 0xc7
+0000             83   _P4M0           DATA 0xbe
+0000             84   _P4M1           DATA 0xbf
+0000             85   _SCON           DATA 0x98
+0000             86   _SBUF           DATA 0x99
+0000             87   _SADEN          DATA 0xb9
+0000             88   _SADDR          DATA 0xa9
+0000             89   _BDRCON         DATA 0x9b
+0000             90   _BRL            DATA 0x9a
+0000             91   _TCON           DATA 0x88
+0000             92   _TMOD           DATA 0x89
+0000             93   _TCONB          DATA 0x91
+0000             94   _TL0            DATA 0x8a
+0000             95   _TH0            DATA 0x8c
+0000             96   _TL1            DATA 0x8b
+0000             97   _TH1            DATA 0x8d
+0000             98   _RL0            DATA 0xf2
+0000             99   _RH0            DATA 0xf4
+0000            100   _RL1            DATA 0xf3
+0000            101   _RH1            DATA 0xf5
+0000            102   _WDTRST         DATA 0xa6
+0000            103   _WDTPRG         DATA 0xa7
+0000            104   _T2CON          DATA 0xc8
+0000            105   _T2MOD          DATA 0xc9
+0000            106   _RCAP2H         DATA 0xcb
+0000            107   _RCAP2L         DATA 0xca
+0000            108   _TH2            DATA 0xcd
+0000            109   _TL2            DATA 0xcc
+0000            110   _SPCON          DATA 0xc3
+0000            111   _SPSTA          DATA 0xc4
+0000            112   _SPDAT          DATA 0xc5
+0000            113   _SSCON          DATA 0x93
+0000            114   _SSCS           DATA 0x94
+0000            115   _SSDAT          DATA 0x95
+0000            116   _SSADR          DATA 0x96
+0000            117   _KBLS           DATA 0x9c
+0000            118   _KBE            DATA 0x9d
+0000            119   _KBF            DATA 0x9e
+0000            120   _KBMOD          DATA 0x9f
+0000            121   _BMSEL          DATA 0x92
+0000            122   _FCON           DATA 0xd2
+0000            123   _EECON          DATA 0xd2
+0000            124   _ACSRA          DATA 0xa3
+0000            125   _ACSRB          DATA 0xab
+0000            126   _AREF           DATA 0xbd
+0000            127   _DADC           DATA 0xa4
+0000            128   _DADI           DATA 0xa5
+0000            129   _DADL           DATA 0xac
+0000            130   _DADH           DATA 0xad
+0000            131   _CCON           DATA 0xd8
+0000            132   _CMOD           DATA 0xd9
+0000            133   _CL             DATA 0xe9
+0000            134   _CH             DATA 0xf9
+0000            135   _CCAPM0         DATA 0xda
+0000            136   _CCAPM1         DATA 0xdb
+0000            137   _CCAPM2         DATA 0xdc
+0000            138   _CCAPM3         DATA 0xdd
+0000            139   _CCAPM4         DATA 0xde
+0000            140   _CCAP0H         DATA 0xfa
+0000            141   _CCAP1H         DATA 0xfb
+0000            142   _CCAP2H         DATA 0xfc
+0000            143   _CCAP3H         DATA 0xfd
+0000            144   _CCAP4H         DATA 0xfe
+0000            145   _CCAP0L         DATA 0xea
+0000            146   _CCAP1L         DATA 0xeb
+0000            147   _CCAP2L         DATA 0xec
+0000            148   _CCAP3L         DATA 0xed
+0000            149   _CCAP4L         DATA 0xee
+0000            150   ;--------------------------------------------------------
+0000            151   ; special function bits
+0000            152   ;--------------------------------------------------------
+0000            153   _ACC_0          BIT 0xe0
+0000            154   _ACC_1          BIT 0xe1
+0000            155   _ACC_2          BIT 0xe2
+0000            156   _ACC_3          BIT 0xe3
+0000            157   _ACC_4          BIT 0xe4
+0000            158   _ACC_5          BIT 0xe5
+0000            159   _ACC_6          BIT 0xe6
+0000            160   _ACC_7          BIT 0xe7
+0000            161   _B_0            BIT 0xf0
+0000            162   _B_1            BIT 0xf1
+0000            163   _B_2            BIT 0xf2
+0000            164   _B_3            BIT 0xf3
+0000            165   _B_4            BIT 0xf4
+0000            166   _B_5            BIT 0xf5
+0000            167   _B_6            BIT 0xf6
+0000            168   _B_7            BIT 0xf7
+0000            169   _P              BIT 0xd0
+0000            170   _F1             BIT 0xd1
+0000            171   _OV             BIT 0xd2
+0000            172   _RS0            BIT 0xd3
+0000            173   _RS1            BIT 0xd4
+0000            174   _F0             BIT 0xd5
+0000            175   _AC             BIT 0xd6
+0000            176   _CY             BIT 0xd7
+0000            177   _EX0            BIT 0xa8
+0000            178   _ET0            BIT 0xa9
+0000            179   _EX1            BIT 0xaa
+0000            180   _ET1            BIT 0xab
+0000            181   _ES             BIT 0xac
+0000            182   _ET2            BIT 0xad
+0000            183   _EC             BIT 0xae
+0000            184   _EA             BIT 0xaf
+0000            185   _PX0            BIT 0xb8
+0000            186   _PT0            BIT 0xb9
+0000            187   _PX1            BIT 0xba
+0000            188   _PT1            BIT 0xbb
+0000            189   _PS             BIT 0xbc
+0000            190   _PT2            BIT 0xbd
+0000            191   _IP0D           BIT 0xbf
+0000            192   _PPCL           BIT 0xbe
+0000            193   _PT2L           BIT 0xbd
+0000            194   _PLS            BIT 0xbc
+0000            195   _PT1L           BIT 0xbb
+0000            196   _PX1L           BIT 0xba
+0000            197   _PT0L           BIT 0xb9
+0000            198   _PX0L           BIT 0xb8
+0000            199   _P0_0           BIT 0x80
+0000            200   _P0_1           BIT 0x81
+0000            201   _P0_2           BIT 0x82
+0000            202   _P0_3           BIT 0x83
+0000            203   _P0_4           BIT 0x84
+0000            204   _P0_5           BIT 0x85
+0000            205   _P0_6           BIT 0x86
+0000            206   _P0_7           BIT 0x87
+0000            207   _P1_0           BIT 0x90
+0000            208   _P1_1           BIT 0x91
+0000            209   _P1_2           BIT 0x92
+0000            210   _P1_3           BIT 0x93
+0000            211   _P1_4           BIT 0x94
+0000            212   _P1_5           BIT 0x95
+0000            213   _P1_6           BIT 0x96
+0000            214   _P1_7           BIT 0x97
+0000            215   _P2_0           BIT 0xa0
+0000            216   _P2_1           BIT 0xa1
+0000            217   _P2_2           BIT 0xa2
+0000            218   _P2_3           BIT 0xa3
+0000            219   _P2_4           BIT 0xa4
+0000            220   _P2_5           BIT 0xa5
+0000            221   _P2_6           BIT 0xa6
+0000            222   _P2_7           BIT 0xa7
+0000            223   _P3_0           BIT 0xb0
+0000            224   _P3_1           BIT 0xb1
+0000            225   _P3_2           BIT 0xb2
+0000            226   _P3_3           BIT 0xb3
+0000            227   _P3_4           BIT 0xb4
+0000            228   _P3_5           BIT 0xb5
+0000            229   _P3_6           BIT 0xb6
+0000            230   _P3_7           BIT 0xb7
+0000            231   _RXD            BIT 0xb0
+0000            232   _TXD            BIT 0xb1
+0000            233   _INT0           BIT 0xb2
+0000            234   _INT1           BIT 0xb3
+0000            235   _T0             BIT 0xb4
+0000            236   _T1             BIT 0xb5
+0000            237   _WR             BIT 0xb6
+0000            238   _RD             BIT 0xb7
+0000            239   _P4_0           BIT 0xc0
+0000            240   _P4_1           BIT 0xc1
+0000            241   _P4_2           BIT 0xc2
+0000            242   _P4_3           BIT 0xc3
+0000            243   _P4_4           BIT 0xc4
+0000            244   _P4_5           BIT 0xc5
+0000            245   _P4_6           BIT 0xc6
+0000            246   _P4_7           BIT 0xc7
+0000            247   _RI             BIT 0x98
+0000            248   _TI             BIT 0x99
+0000            249   _RB8            BIT 0x9a
+0000            250   _TB8            BIT 0x9b
+0000            251   _REN            BIT 0x9c
+0000            252   _SM2            BIT 0x9d
+0000            253   _SM1            BIT 0x9e
+0000            254   _SM0            BIT 0x9f
+0000            255   _IT0            BIT 0x88
+0000            256   _IE0            BIT 0x89
+0000            257   _IT1            BIT 0x8a
+0000            258   _IE1            BIT 0x8b
+0000            259   _TR0            BIT 0x8c
+0000            260   _TF0            BIT 0x8d
+0000            261   _TR1            BIT 0x8e
+0000            262   _TF1            BIT 0x8f
+0000            263   _CP_RL2         BIT 0xc8
+0000            264   _C_T2           BIT 0xc9
+0000            265   _TR2            BIT 0xca
+0000            266   _EXEN2          BIT 0xcb
+0000            267   _TCLK           BIT 0xcc
+0000            268   _RCLK           BIT 0xcd
+0000            269   _EXF2           BIT 0xce
+0000            270   _TF2            BIT 0xcf
+0000            271   _CF             BIT 0xdf
+0000            272   _CR             BIT 0xde
+0000            273   _CCF4           BIT 0xdc
+0000            274   _CCF3           BIT 0xdb
+0000            275   _CCF2           BIT 0xda
+0000            276   _CCF1           BIT 0xd9
+0000            277   _CCF0           BIT 0xd8
+0000            278   ;--------------------------------------------------------
+0000            279   ; overlayable register banks
+0000            280   ;--------------------------------------------------------
+0000            281            rbank0 segment data overlay
+0000            282   ;--------------------------------------------------------
+0000            283   ; internal ram data
+0000            284   ;--------------------------------------------------------
+0000            285            rseg R_DSEG
+0000            286   ;--------------------------------------------------------
+0000            287   ; overlayable items in internal ram 
+0000            288   ;--------------------------------------------------------
+0000            289            rseg    R_OSEG
+0000            290   ;--------------------------------------------------------
+0000            291   ; indirectly addressable internal ram data
+0000            292   ;--------------------------------------------------------
+0000            293            rseg R_ISEG
+0000            294   ;--------------------------------------------------------
+0000            295   ; absolute internal ram data
+0000            296   ;--------------------------------------------------------
+0000            297            DSEG
+0000            298   ;--------------------------------------------------------
+0000            299   ; bit data
+0000            300   ;--------------------------------------------------------
+0000            301            rseg R_BSEG
+0000            302   ;--------------------------------------------------------
+0000            303   ; paged external ram data
+0000            304   ;--------------------------------------------------------
+0000            305            rseg R_PSEG
+0000            306   ;--------------------------------------------------------
+0000            307   ; external ram data
+0000            308   ;--------------------------------------------------------
+0000            309            rseg R_XSEG
+0000            310   ;--------------------------------------------------------
+0000            311   ; absolute external ram data
+0000            312   ;--------------------------------------------------------
+0000            313            XSEG
+0000            314   ;--------------------------------------------------------
+0000            315   ; external initialized ram data
+0000            316   ;--------------------------------------------------------
+0000            317            rseg R_IXSEG
+0000            318            rseg R_HOME
+0000            319            rseg R_GSINIT
+0000            320            rseg R_CSEG
+0000            321   ;--------------------------------------------------------
+0000            322   ; Reset entry point and interrupt vectors
+0000            323   ;--------------------------------------------------------
+0000            324            CSEG at 0x0000
+0000 020100     325            ljmp    _crt0
+0003            326   ;--------------------------------------------------------
+0003            327   ; global & static initialisations
+0003            328   ;--------------------------------------------------------
+0000            329            rseg R_HOME
+0000            330            rseg R_GSINIT
+0000            331            rseg R_GSINIT
+0000            332   ;--------------------------------------------------------
+0000            333   ; data variables initialization
+0000            334   ;--------------------------------------------------------
+0000            335            rseg R_DINIT
+0000            336            ; The linker places a 'ret' at the end of segment R_DINIT.
+0000            337   ;--------------------------------------------------------
+0000            338   ; code
+0000            339   ;--------------------------------------------------------
+0000            340            rseg R_CSEG
+0000            341   ;------------------------------------------------------------
+0000            342   ;Allocation info for local variables in function 'SPIWrite'
+0000            343   ;------------------------------------------------------------
+0000            344   ;out_byte                  Allocated to registers 
+0000            345   ;------------------------------------------------------------
+0000            346   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:16: unsigned char SPIWrite(unsigned char out_byte)
+0000            347   ;        -----------------------------------------
+0000            348   ;         function SPIWrite
+0000            349   ;        -----------------------------------------
+0000            350   _SPIWrite:
+0000            351            using   0
+0000 8582E0     352            mov     _ACC,dpl
+0003            353   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:21: BB_MOSI=ACC_7; BB_SCLK=1; B_7=BB_MISO; BB_SCLK=0;
+0003 A2E7       354            mov     c,_ACC_7
+0005 92A1       355            mov     _P2_1,c
+0007 D2A3       356            setb    _P2_3
+0009 A2A2       357            mov     c,_P2_2
+000B 92F7       358            mov     _B_7,c
+000D C2A3       359            clr     _P2_3
+000F            360   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:22: BB_MOSI=ACC_6; BB_SCLK=1; B_6=BB_MISO; BB_SCLK=0;
+000F A2E6       361            mov     c,_ACC_6
+0011 92A1       362            mov     _P2_1,c
+0013 D2A3       363            setb    _P2_3
+0015 A2A2       364            mov     c,_P2_2
+0017 92F6       365            mov     _B_6,c
+0019 C2A3       366            clr     _P2_3
+001B            367   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:23: BB_MOSI=ACC_5; BB_SCLK=1; B_5=BB_MISO; BB_SCLK=0;
+001B A2E5       368            mov     c,_ACC_5
+001D 92A1       369            mov     _P2_1,c
+001F D2A3       370            setb    _P2_3
+0021 A2A2       371            mov     c,_P2_2
+0023 92F5       372            mov     _B_5,c
+0025 C2A3       373            clr     _P2_3
+0027            374   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:24: BB_MOSI=ACC_4; BB_SCLK=1; B_4=BB_MISO; BB_SCLK=0;
+0027 A2E4       375            mov     c,_ACC_4
+0029 92A1       376            mov     _P2_1,c
+002B D2A3       377            setb    _P2_3
+002D A2A2       378            mov     c,_P2_2
+002F 92F4       379            mov     _B_4,c
+0031 C2A3       380            clr     _P2_3
+0033            381   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:25: BB_MOSI=ACC_3; BB_SCLK=1; B_3=BB_MISO; BB_SCLK=0;
+0033 A2E3       382            mov     c,_ACC_3
+0035 92A1       383            mov     _P2_1,c
+0037 D2A3       384            setb    _P2_3
+0039 A2A2       385            mov     c,_P2_2
+003B 92F3       386            mov     _B_3,c
+003D C2A3       387            clr     _P2_3
+003F            388   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:26: BB_MOSI=ACC_2; BB_SCLK=1; B_2=BB_MISO; BB_SCLK=0;
+003F A2E2       389            mov     c,_ACC_2
+0041 92A1       390            mov     _P2_1,c
+0043 D2A3       391            setb    _P2_3
+0045 A2A2       392            mov     c,_P2_2
+0047 92F2       393            mov     _B_2,c
+0049 C2A3       394            clr     _P2_3
+004B            395   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:27: BB_MOSI=ACC_1; BB_SCLK=1; B_1=BB_MISO; BB_SCLK=0;
+004B A2E1       396            mov     c,_ACC_1
+004D 92A1       397            mov     _P2_1,c
+004F D2A3       398            setb    _P2_3
+0051 A2A2       399            mov     c,_P2_2
+0053 92F1       400            mov     _B_1,c
+0055 C2A3       401            clr     _P2_3
+0057            402   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:28: BB_MOSI=ACC_0; BB_SCLK=1; B_0=BB_MISO; BB_SCLK=0;
+0057 A2E0       403            mov     c,_ACC_0
+0059 92A1       404            mov     _P2_1,c
+005B D2A3       405            setb    _P2_3
+005D A2A2       406            mov     c,_P2_2
+005F 92F0       407            mov     _B_0,c
+0061 C2A3       408            clr     _P2_3
+0063            409   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:30: return B;
+0063 85F082     410            mov     dpl,_B
+0066 22         411            ret
+0067            412   ;------------------------------------------------------------
+0067            413   ;Allocation info for local variables in function '_c51_external_startup'
+0067            414   ;------------------------------------------------------------
+0067            415   ;------------------------------------------------------------
+0067            416   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:33: unsigned char _c51_external_startup(void)
+0067            417   ;        -----------------------------------------
+0067            418   ;         function _c51_external_startup
+0067            419   ;        -----------------------------------------
+0067            420   __c51_external_startup:
+0067            421   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:35: AUXR=0B_0001_0001; // 1152 bytes of internal XDATA, P4.4 is a general purpose I/O
+0067 758E11     422            mov     _AUXR,#0x11
+006A            423   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:37: P0M0=0x00; P0M1=0x00;    
+006A 75E600     424            mov     _P0M0,#0x00
+006D 75E700     425            mov     _P0M1,#0x00
+0070            426   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:38: P1M0=0x00; P1M1=0x00;    
+0070 75D600     427            mov     _P1M0,#0x00
+0073 75D700     428            mov     _P1M1,#0x00
+0076            429   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:39: P2M0=0x00; P2M1=0x00;    
+0076 75CE00     430            mov     _P2M0,#0x00
+0079 75CF00     431            mov     _P2M1,#0x00
+007C            432   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:40: P3M0=0x00; P3M1=0x00;
+007C 75C600     433            mov     _P3M0,#0x00
+007F 75C700     434            mov     _P3M1,#0x00
+0082            435   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:43: ADC_CE=0;  // Disable SPI access to MCP3008
+0082 C2A0       436            clr     _P2_0
+0084            437   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:44: BB_SCLK=0; // Resting state of SPI clock is '0'
+0084 C2A3       438            clr     _P2_3
+0086            439   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:45: BB_MISO=1; // Write '1' to MISO before using as input
+0086 D2A2       440            setb    _P2_2
+0088            441   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:48: PCON|=0x80;
+0088 438780     442            orl     _PCON,#0x80
+008B            443   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:49: SCON = 0x52;
+008B 759852     444            mov     _SCON,#0x52
+008E            445   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:50: BDRCON=0;
+008E 759B00     446            mov     _BDRCON,#0x00
+0091            447   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:54: BRL=BRG_VAL;
+0091 759AF4     448            mov     _BRL,#0xF4
+0094            449   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:55: BDRCON=BRR|TBCK|RBCK|SPD;
+0094 759B1E     450            mov     _BDRCON,#0x1E
+0097            451   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:57: CLKREG=0x00; // TPS=0000B
+0097 75AE00     452            mov     _CLKREG,#0x00
+009A            453   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:59: return 0;
+009A 758200     454            mov     dpl,#0x00
+009D 22         455            ret
+009E            456   ;------------------------------------------------------------
+009E            457   ;Allocation info for local variables in function 'wait_us'
+009E            458   ;------------------------------------------------------------
+009E            459   ;x                         Allocated to registers r2 
+009E            460   ;j                         Allocated to registers r2 r3 
+009E            461   ;------------------------------------------------------------
+009E            462   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:62: void wait_us (unsigned char x)
+009E            463   ;        -----------------------------------------
+009E            464   ;         function wait_us
+009E            465   ;        -----------------------------------------
+009E            466   _wait_us:
+009E AA82       467            mov     r2,dpl
+00A0            468   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:66: TR0=0; // Stop timer 0
+00A0 C28C       469            clr     _TR0
+00A2            470   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:67: TMOD&=0xf0; // Clear the configuration bits for timer 0
+00A2 5389F0     471            anl     _TMOD,#0xF0
+00A5            472   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:68: TMOD|=0x01; // Mode 1: 16-bit timer
+00A5 438901     473            orl     _TMOD,#0x01
+00A8            474   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:70: if(x>5) x-=5; // Subtract the overhead
+00A8 EA         475            mov     a,r2
+00A9 24FA       476            add     a,#0xff - 0x05
+00AB 5001       477            jnc     L004002?
+00AD EA         478            mov     a,r2
+00AE 24FB       479            add     a,#0xfb
+00B0 FA         480            mov     r2,a
+00B1 8001       481            sjmp    L004003?
+00B3            482   L004002?:
+00B3            483   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:71: else x=1;
+00B3 7A01       484            mov     r2,#0x01
+00B5            485   L004003?:
+00B5            486   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:73: j=-ONE_USEC*x;
+00B5 8A00       487            mov     __mullong_PARM_2,r2
+00B7 750100     488            mov     (__mullong_PARM_2 + 1),#0x00
+00BA 750200     489            mov     (__mullong_PARM_2 + 2),#0x00
+00BD 750300     490            mov     (__mullong_PARM_2 + 3),#0x00
+00C0 90FFEA     491            mov     dptr,#0xFFEA
+00C3 74FF       492            mov     a,#0xFF
+00C5 F5F0       493            mov     b,a
+00C7 120100     494            lcall   __mullong
+00CA AA82       495            mov     r2,dpl
+00CC AB83       496            mov     r3,dph
+00CE            497   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:74: TF0=0;
+00CE C28D       498            clr     _TF0
+00D0            499   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:75: TH0=j/0x100;
+00D0 8B04       500            mov     ar4,r3
+00D2 7D00       501            mov     r5,#0x00
+00D4 8C8C       502            mov     _TH0,r4
+00D6            503   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:76: TL0=j%0x100;
+00D6 7B00       504            mov     r3,#0x00
+00D8 8A8A       505            mov     _TL0,r2
+00DA            506   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:77: TR0=1; // Start timer 0
+00DA D28C       507            setb    _TR0
+00DC            508   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:78: while(TF0==0); //Wait for overflow
+00DC            509   L004004?:
+00DC 308D28     510            jnb     _TF0,L004004?
+00DF 22         511            ret
+00E0            512   ;------------------------------------------------------------
+00E0            513   ;Allocation info for local variables in function 'waitms'
+00E0            514   ;------------------------------------------------------------
+00E0            515   ;ms                        Allocated to registers r2 r3 
+00E0            516   ;j                         Allocated to registers r4 r5 
+00E0            517   ;k                         Allocated to registers r6 
+00E0            518   ;------------------------------------------------------------
+00E0            519   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:81: void waitms (unsigned int ms)
+00E0            520   ;        -----------------------------------------
+00E0            521   ;         function waitms
+00E0            522   ;        -----------------------------------------
+00E0            523   _waitms:
+00E0 AA82       524            mov     r2,dpl
+00E2 AB83       525            mov     r3,dph
+00E4            526   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:85: for(j=0; j<ms; j++)
+00E4 7C00       527            mov     r4,#0x00
+00E6 7D00       528            mov     r5,#0x00
+00E8            529   L005005?:
+00E8 C3         530            clr     c
+00E9 EC         531            mov     a,r4
+00EA 9A         532            subb    a,r2
+00EB ED         533            mov     a,r5
+00EC 9B         534            subb    a,r3
+00ED 5001       535            jnc     L005009?
+00EF            536   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:86: for (k=0; k<4; k++) wait_us(250);
+00EF 7E00       537            mov     r6,#0x00
+00F1            538   L005001?:
+00F1 BE0428     539            cjne    r6,#0x04,L005018?
+00F4            540   L005018?:
+00F4 5001       541            jnc     L005007?
+00F6 7582FA     542            mov     dpl,#0xFA
+00F9 C002       543            push    ar2
+00FB C003       544            push    ar3
+00FD C004       545            push    ar4
+00FF C005       546            push    ar5
+0101 C006       547            push    ar6
+0103 120100     548            lcall   _wait_us
+0106 D006       549            pop     ar6
+0108 D005       550            pop     ar5
+010A D004       551            pop     ar4
+010C D003       552            pop     ar3
+010E D002       553            pop     ar2
+0110 0E         554            inc     r6
+0111 8001       555            sjmp    L005001?
+0113            556   L005007?:
+0113            557   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:85: for(j=0; j<ms; j++)
+0113 0C         558            inc     r4
+0114 BC0068     559            cjne    r4,#0x00,L005005?
+0117 0D         560            inc     r5
+0118 8001       561            sjmp    L005005?
+011A            562   L005009?:
+011A 22         563            ret
+011B            564   ;------------------------------------------------------------
+011B            565   ;Allocation info for local variables in function 'GetADC'
+011B            566   ;------------------------------------------------------------
+011B            567   ;channel                   Allocated to registers r2 
+011B            568   ;adc                       Allocated to registers r3 r4 
+011B            569   ;spid                      Allocated to registers r2 
+011B            570   ;------------------------------------------------------------
+011B            571   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:93: unsigned int volatile GetADC(unsigned char channel)
+011B            572   ;        -----------------------------------------
+011B            573   ;         function GetADC
+011B            574   ;        -----------------------------------------
+011B            575   _GetADC:
+011B AA82       576            mov     r2,dpl
+011D            577   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:98: ADC_CE=0; // Activate the MCP3008 ADC.
+011D C2A0       578            clr     _P2_0
+011F            579   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:100: SPIWrite(0x01);// Send the start bit.
+011F 758201     580            mov     dpl,#0x01
+0122 C002       581            push    ar2
+0124 120100     582            lcall   _SPIWrite
+0127 D002       583            pop     ar2
+0129            584   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:103: spid=SPIWrite((channel*0x10)|0x80);     //Send single/diff* bit, D2, D1, and D0 bits.
+0129 EA         585            mov     a,r2
+012A C4         586            swap    a
+012B 54F0       587            anl     a,#0xf0
+012D FA         588            mov     r2,a
+012E 7480       589            mov     a,#0x80
+0130 4A         590            orl     a,r2
+0131 F582       591            mov     dpl,a
+0133 120100     592            lcall   _SPIWrite
+0136 AA82       593            mov     r2,dpl
+0138            594   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:105: adc=((spid & 0x03)*0x100);// spid has the two most significant bits of the result.
+0138 7403       595            mov     a,#0x03
+013A 5A         596            anl     a,r2
+013B FC         597            mov     r4,a
+013C 7B00       598            mov     r3,#0x00
+013E            599   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:108: spid=SPIWrite(0x00);// It doesn't matter what we send now.
+013E 758200     600            mov     dpl,#0x00
+0141 C003       601            push    ar3
+0143 C004       602            push    ar4
+0145 120100     603            lcall   _SPIWrite
+0148 AA82       604            mov     r2,dpl
+014A D004       605            pop     ar4
+014C D003       606            pop     ar3
+014E            607   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:109: adc+=spid;// spid contains the low part of the result. 
+014E 7D00       608            mov     r5,#0x00
+0150 EA         609            mov     a,r2
+0151 2B         610            add     a,r3
+0152 FB         611            mov     r3,a
+0153 ED         612            mov     a,r5
+0154 3C         613            addc    a,r4
+0155 FC         614            mov     r4,a
+0156            615   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:111: ADC_CE=1; // Deactivate the MCP3008 ADC.
+0156 D2A0       616            setb    _P2_0
+0158            617   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:113: return adc;
+0158 8B82       618            mov     dpl,r3
+015A 8C83       619            mov     dph,r4
+015C 22         620            ret
+015D            621   ;------------------------------------------------------------
+015D            622   ;Allocation info for local variables in function 'main'
+015D            623   ;------------------------------------------------------------
+015D            624   ;y                         Allocated to registers r2 r3 r4 r5 
+015D            625   ;------------------------------------------------------------
+015D            626   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:121: void main (void)
+015D            627   ;        -----------------------------------------
+015D            628   ;         function main
+015D            629   ;        -----------------------------------------
+015D            630   _main:
+015D            631   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:126: waitms(500);    
+015D 9001F4     632            mov     dptr,#0x01F4
+0160 120100     633            lcall   _waitms
+0163            634   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:130: while(1)
+0163            635   L007002?:
+0163            636   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:139: y=(GetADC(0)*VREF)/1023.0;
+0163 758200     637            mov     dpl,#0x00
+0166 120100     638            lcall   _GetADC
+0169 120100     639            lcall   ___uint2fs
+016C AA82       640            mov     r2,dpl
+016E AB83       641            mov     r3,dph
+0170 ACF0       642            mov     r4,b
+0172 FD         643            mov     r5,a
+0173 C002       644            push    ar2
+0175 C003       645            push    ar3
+0177 C004       646            push    ar4
+0179 C005       647            push    ar5
+017B 90126F     648            mov     dptr,#0x126F
+017E 75F083     649            mov     b,#0x83
+0181 7440       650            mov     a,#0x40
+0183 120100     651            lcall   ___fsmul
+0186 AA82       652            mov     r2,dpl
+0188 AB83       653            mov     r3,dph
+018A ACF0       654            mov     r4,b
+018C FD         655            mov     r5,a
+018D E581       656            mov     a,sp
+018F 24FC       657            add     a,#0xfc
+0191 F581       658            mov     sp,a
+0193 E4         659            clr     a
+0194 C0E0       660            push    acc
+0196 74C0       661            mov     a,#0xC0
+0198 C0E0       662            push    acc
+019A 747F       663            mov     a,#0x7F
+019C C0E0       664            push    acc
+019E 7444       665            mov     a,#0x44
+01A0 C0E0       666            push    acc
+01A2 8A82       667            mov     dpl,r2
+01A4 8B83       668            mov     dph,r3
+01A6 8CF0       669            mov     b,r4
+01A8 ED         670            mov     a,r5
+01A9 120100     671            lcall   ___fsdiv
+01AC AA82       672            mov     r2,dpl
+01AE AB83       673            mov     r3,dph
+01B0 ACF0       674            mov     r4,b
+01B2 FD         675            mov     r5,a
+01B3 E581       676            mov     a,sp
+01B5 24FC       677            add     a,#0xfc
+01B7 F581       678            mov     sp,a
+01B9            679   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:142: y=y*100;//multiply voltage in volts by 100 to convert to kelvin
+01B9 C002       680            push    ar2
+01BB C003       681            push    ar3
+01BD C004       682            push    ar4
+01BF C005       683            push    ar5
+01C1 900000     684            mov     dptr,#0x0000
+01C4 75F0C8     685            mov     b,#0xC8
+01C7 7442       686            mov     a,#0x42
+01C9 120100     687            lcall   ___fsmul
+01CC AA82       688            mov     r2,dpl
+01CE AB83       689            mov     r3,dph
+01D0 ACF0       690            mov     r4,b
+01D2 FD         691            mov     r5,a
+01D3 E581       692            mov     a,sp
+01D5 24FC       693            add     a,#0xfc
+01D7 F581       694            mov     sp,a
+01D9            695   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:143: y=y-273;//subtract 273 to convert to celsius
+01D9 E4         696            clr     a
+01DA C0E0       697            push    acc
+01DC 7480       698            mov     a,#0x80
+01DE C0E0       699            push    acc
+01E0 7488       700            mov     a,#0x88
+01E2 C0E0       701            push    acc
+01E4 7443       702            mov     a,#0x43
+01E6 C0E0       703            push    acc
+01E8 8A82       704            mov     dpl,r2
+01EA 8B83       705            mov     dph,r3
+01EC 8CF0       706            mov     b,r4
+01EE ED         707            mov     a,r5
+01EF 120100     708            lcall   ___fssub
+01F2 AA82       709            mov     r2,dpl
+01F4 AB83       710            mov     r3,dph
+01F6 ACF0       711            mov     r4,b
+01F8 FD         712            mov     r5,a
+01F9 E581       713            mov     a,sp
+01FB 24FC       714            add     a,#0xfc
+01FD F581       715            mov     sp,a
+01FF            716   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:153: printf("%f\n", y);
+01FF C002       717            push    ar2
+0201 C003       718            push    ar3
+0203 C004       719            push    ar4
+0205 C005       720            push    ar5
+0207 7468       721            mov     a,#__str_0
+0209 C0E0       722            push    acc
+020B 7484       723            mov     a,#(__str_0 >> 8)
+020D C0E0       724            push    acc
+020F 7480       725            mov     a,#0x80
+0211 C0E0       726            push    acc
+0213 120100     727            lcall   _printf
+0216 E581       728            mov     a,sp
+0218 24F9       729            add     a,#0xf9
+021A F581       730            mov     sp,a
+021C            731   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:157: waitms(100);
+021C 900064     732            mov     dptr,#0x0064
+021F 120100     733            lcall   _waitms
+0222 020100     734            ljmp    L007002?
+0225            735            rseg R_CSEG
+0225            736   
+0000            737            rseg R_XINIT
+0000            738   
+0000            739            rseg R_CONST
+0000            740   __str_0:
+0000 2566       741            db '%f'
+0002 0A         742            db 0x0A
+0003 00         743            db 0x00
+0004            744   
+0003            745            CSEG
+0003            746   
+0003            747   end

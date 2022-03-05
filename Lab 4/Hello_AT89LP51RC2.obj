@@ -1,0 +1,104 @@
+<MODULE>
+Hello_AT89LP51RC2
+</MODULE>
+
+<OPTC51>
+--model-small
+</OPTC51>
+
+<SEGMENTS>
+R_GSINIT,code,0000,NO
+R_BSEG,bit,0000,NO
+R_XSEG,xdata,0000,NO
+BIT_BANK,data,0000,OV
+R_CONST,code,000F,NO
+rbank0,data,0000,OV
+R_PSEG,xdata,0000,NO
+R_DINIT,code,0000,NO
+R_DSEG,data,0000,NO
+R_OSEG,data,0000,OV
+R_IXSEG,xdata,0000,NO
+R_ISEG,idata,0000,NO
+R_HOME,code,0000,NO
+R_XINIT,code,0000,NO
+R_CSEG,code,002C,NO
+</SEGMENTS>
+
+<LOCALS>
+__str_0,R_CONST,0000,0000
+</LOCALS>
+
+<PUBLICS>
+_main,R_CSEG,0016,0000
+__c51_external_startup,R_CSEG,0000,0000
+</PUBLICS>
+
+<EXTERNALS>
+_printf,any,0000,0000
+_crt0,any,0000,0000
+</EXTERNALS>
+
+<CODE AT 0000>
+</CODE>
+
+<CODE R_HOME>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_CSEG>
+</CODE>
+
+<CODE AT 0000>
+02 addr16(_crt0;)  
+</CODE>
+
+<CODE R_HOME>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_DINIT>
+</CODE>
+
+<CODE R_CSEG>
+75 8E 11
+43 87 80
+75 98 52
+75 9B 00
+75 9A F4
+75 9B 1E
+75 82 00
+22
+74 data8(__str_0;)
+C0 E0
+74 data8(__str_0;0x0008;>>;)
+C0 E0
+74 80
+C0 E0
+12 addr16(_printf;)  
+15 81
+15 81
+15 81
+22
+</CODE>
+
+<CODE R_CSEG>
+</CODE>
+
+<CODE R_XINIT>
+</CODE>
+
+<CODE R_CONST>
+48 65 6C 6C 6F 2C 20 57 6F 72 6C 64 21 
+0A
+00
+</CODE>
+
+<CODE AT 0003>
+</CODE>
