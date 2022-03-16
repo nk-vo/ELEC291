@@ -1,0 +1,517 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Mon Mar 14 17:15:52 2022
+0000              5   ;--------------------------------------------------------
+                  5   $name Hello_AT89LP51RC2
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _main
+0000             27            public _waitms
+0000             28            public _wait_us
+0000             29            public __c51_external_startup
+0000             30   ;--------------------------------------------------------
+0000             31   ; Special Function Registers
+0000             32   ;--------------------------------------------------------
+0000             33   _ACC            DATA 0xe0
+0000             34   _B              DATA 0xf0
+0000             35   _PSW            DATA 0xd0
+0000             36   _SP             DATA 0x81
+0000             37   _SPX            DATA 0xef
+0000             38   _DPL            DATA 0x82
+0000             39   _DPH            DATA 0x83
+0000             40   _DPLB           DATA 0xd4
+0000             41   _DPHB           DATA 0xd5
+0000             42   _PAGE           DATA 0xf6
+0000             43   _AX             DATA 0xe1
+0000             44   _BX             DATA 0xf7
+0000             45   _DSPR           DATA 0xe2
+0000             46   _FIRD           DATA 0xe3
+0000             47   _MACL           DATA 0xe4
+0000             48   _MACH           DATA 0xe5
+0000             49   _PCON           DATA 0x87
+0000             50   _AUXR           DATA 0x8e
+0000             51   _AUXR1          DATA 0xa2
+0000             52   _DPCF           DATA 0xa1
+0000             53   _CKRL           DATA 0x97
+0000             54   _CKCKON0        DATA 0x8f
+0000             55   _CKCKON1        DATA 0xaf
+0000             56   _CKSEL          DATA 0x85
+0000             57   _CLKREG         DATA 0xae
+0000             58   _OSCCON         DATA 0x85
+0000             59   _IE             DATA 0xa8
+0000             60   _IEN0           DATA 0xa8
+0000             61   _IEN1           DATA 0xb1
+0000             62   _IPH0           DATA 0xb7
+0000             63   _IP             DATA 0xb8
+0000             64   _IPL0           DATA 0xb8
+0000             65   _IPH1           DATA 0xb3
+0000             66   _IPL1           DATA 0xb2
+0000             67   _P0             DATA 0x80
+0000             68   _P1             DATA 0x90
+0000             69   _P2             DATA 0xa0
+0000             70   _P3             DATA 0xb0
+0000             71   _P4             DATA 0xc0
+0000             72   _P0M0           DATA 0xe6
+0000             73   _P0M1           DATA 0xe7
+0000             74   _P1M0           DATA 0xd6
+0000             75   _P1M1           DATA 0xd7
+0000             76   _P2M0           DATA 0xce
+0000             77   _P2M1           DATA 0xcf
+0000             78   _P3M0           DATA 0xc6
+0000             79   _P3M1           DATA 0xc7
+0000             80   _P4M0           DATA 0xbe
+0000             81   _P4M1           DATA 0xbf
+0000             82   _SCON           DATA 0x98
+0000             83   _SBUF           DATA 0x99
+0000             84   _SADEN          DATA 0xb9
+0000             85   _SADDR          DATA 0xa9
+0000             86   _BDRCON         DATA 0x9b
+0000             87   _BRL            DATA 0x9a
+0000             88   _TCON           DATA 0x88
+0000             89   _TMOD           DATA 0x89
+0000             90   _TCONB          DATA 0x91
+0000             91   _TL0            DATA 0x8a
+0000             92   _TH0            DATA 0x8c
+0000             93   _TL1            DATA 0x8b
+0000             94   _TH1            DATA 0x8d
+0000             95   _RL0            DATA 0xf2
+0000             96   _RH0            DATA 0xf4
+0000             97   _RL1            DATA 0xf3
+0000             98   _RH1            DATA 0xf5
+0000             99   _WDTRST         DATA 0xa6
+0000            100   _WDTPRG         DATA 0xa7
+0000            101   _T2CON          DATA 0xc8
+0000            102   _T2MOD          DATA 0xc9
+0000            103   _RCAP2H         DATA 0xcb
+0000            104   _RCAP2L         DATA 0xca
+0000            105   _TH2            DATA 0xcd
+0000            106   _TL2            DATA 0xcc
+0000            107   _SPCON          DATA 0xc3
+0000            108   _SPSTA          DATA 0xc4
+0000            109   _SPDAT          DATA 0xc5
+0000            110   _SSCON          DATA 0x93
+0000            111   _SSCS           DATA 0x94
+0000            112   _SSDAT          DATA 0x95
+0000            113   _SSADR          DATA 0x96
+0000            114   _KBLS           DATA 0x9c
+0000            115   _KBE            DATA 0x9d
+0000            116   _KBF            DATA 0x9e
+0000            117   _KBMOD          DATA 0x9f
+0000            118   _BMSEL          DATA 0x92
+0000            119   _FCON           DATA 0xd2
+0000            120   _EECON          DATA 0xd2
+0000            121   _ACSRA          DATA 0xa3
+0000            122   _ACSRB          DATA 0xab
+0000            123   _AREF           DATA 0xbd
+0000            124   _DADC           DATA 0xa4
+0000            125   _DADI           DATA 0xa5
+0000            126   _DADL           DATA 0xac
+0000            127   _DADH           DATA 0xad
+0000            128   _CCON           DATA 0xd8
+0000            129   _CMOD           DATA 0xd9
+0000            130   _CL             DATA 0xe9
+0000            131   _CH             DATA 0xf9
+0000            132   _CCAPM0         DATA 0xda
+0000            133   _CCAPM1         DATA 0xdb
+0000            134   _CCAPM2         DATA 0xdc
+0000            135   _CCAPM3         DATA 0xdd
+0000            136   _CCAPM4         DATA 0xde
+0000            137   _CCAP0H         DATA 0xfa
+0000            138   _CCAP1H         DATA 0xfb
+0000            139   _CCAP2H         DATA 0xfc
+0000            140   _CCAP3H         DATA 0xfd
+0000            141   _CCAP4H         DATA 0xfe
+0000            142   _CCAP0L         DATA 0xea
+0000            143   _CCAP1L         DATA 0xeb
+0000            144   _CCAP2L         DATA 0xec
+0000            145   _CCAP3L         DATA 0xed
+0000            146   _CCAP4L         DATA 0xee
+0000            147   ;--------------------------------------------------------
+0000            148   ; special function bits
+0000            149   ;--------------------------------------------------------
+0000            150   _ACC_0          BIT 0xe0
+0000            151   _ACC_1          BIT 0xe1
+0000            152   _ACC_2          BIT 0xe2
+0000            153   _ACC_3          BIT 0xe3
+0000            154   _ACC_4          BIT 0xe4
+0000            155   _ACC_5          BIT 0xe5
+0000            156   _ACC_6          BIT 0xe6
+0000            157   _ACC_7          BIT 0xe7
+0000            158   _B_0            BIT 0xf0
+0000            159   _B_1            BIT 0xf1
+0000            160   _B_2            BIT 0xf2
+0000            161   _B_3            BIT 0xf3
+0000            162   _B_4            BIT 0xf4
+0000            163   _B_5            BIT 0xf5
+0000            164   _B_6            BIT 0xf6
+0000            165   _B_7            BIT 0xf7
+0000            166   _P              BIT 0xd0
+0000            167   _F1             BIT 0xd1
+0000            168   _OV             BIT 0xd2
+0000            169   _RS0            BIT 0xd3
+0000            170   _RS1            BIT 0xd4
+0000            171   _F0             BIT 0xd5
+0000            172   _AC             BIT 0xd6
+0000            173   _CY             BIT 0xd7
+0000            174   _EX0            BIT 0xa8
+0000            175   _ET0            BIT 0xa9
+0000            176   _EX1            BIT 0xaa
+0000            177   _ET1            BIT 0xab
+0000            178   _ES             BIT 0xac
+0000            179   _ET2            BIT 0xad
+0000            180   _EC             BIT 0xae
+0000            181   _EA             BIT 0xaf
+0000            182   _PX0            BIT 0xb8
+0000            183   _PT0            BIT 0xb9
+0000            184   _PX1            BIT 0xba
+0000            185   _PT1            BIT 0xbb
+0000            186   _PS             BIT 0xbc
+0000            187   _PT2            BIT 0xbd
+0000            188   _IP0D           BIT 0xbf
+0000            189   _PPCL           BIT 0xbe
+0000            190   _PT2L           BIT 0xbd
+0000            191   _PLS            BIT 0xbc
+0000            192   _PT1L           BIT 0xbb
+0000            193   _PX1L           BIT 0xba
+0000            194   _PT0L           BIT 0xb9
+0000            195   _PX0L           BIT 0xb8
+0000            196   _P0_0           BIT 0x80
+0000            197   _P0_1           BIT 0x81
+0000            198   _P0_2           BIT 0x82
+0000            199   _P0_3           BIT 0x83
+0000            200   _P0_4           BIT 0x84
+0000            201   _P0_5           BIT 0x85
+0000            202   _P0_6           BIT 0x86
+0000            203   _P0_7           BIT 0x87
+0000            204   _P1_0           BIT 0x90
+0000            205   _P1_1           BIT 0x91
+0000            206   _P1_2           BIT 0x92
+0000            207   _P1_3           BIT 0x93
+0000            208   _P1_4           BIT 0x94
+0000            209   _P1_5           BIT 0x95
+0000            210   _P1_6           BIT 0x96
+0000            211   _P1_7           BIT 0x97
+0000            212   _P2_0           BIT 0xa0
+0000            213   _P2_1           BIT 0xa1
+0000            214   _P2_2           BIT 0xa2
+0000            215   _P2_3           BIT 0xa3
+0000            216   _P2_4           BIT 0xa4
+0000            217   _P2_5           BIT 0xa5
+0000            218   _P2_6           BIT 0xa6
+0000            219   _P2_7           BIT 0xa7
+0000            220   _P3_0           BIT 0xb0
+0000            221   _P3_1           BIT 0xb1
+0000            222   _P3_2           BIT 0xb2
+0000            223   _P3_3           BIT 0xb3
+0000            224   _P3_4           BIT 0xb4
+0000            225   _P3_5           BIT 0xb5
+0000            226   _P3_6           BIT 0xb6
+0000            227   _P3_7           BIT 0xb7
+0000            228   _RXD            BIT 0xb0
+0000            229   _TXD            BIT 0xb1
+0000            230   _INT0           BIT 0xb2
+0000            231   _INT1           BIT 0xb3
+0000            232   _T0             BIT 0xb4
+0000            233   _T1             BIT 0xb5
+0000            234   _WR             BIT 0xb6
+0000            235   _RD             BIT 0xb7
+0000            236   _P4_0           BIT 0xc0
+0000            237   _P4_1           BIT 0xc1
+0000            238   _P4_2           BIT 0xc2
+0000            239   _P4_3           BIT 0xc3
+0000            240   _P4_4           BIT 0xc4
+0000            241   _P4_5           BIT 0xc5
+0000            242   _P4_6           BIT 0xc6
+0000            243   _P4_7           BIT 0xc7
+0000            244   _RI             BIT 0x98
+0000            245   _TI             BIT 0x99
+0000            246   _RB8            BIT 0x9a
+0000            247   _TB8            BIT 0x9b
+0000            248   _REN            BIT 0x9c
+0000            249   _SM2            BIT 0x9d
+0000            250   _SM1            BIT 0x9e
+0000            251   _SM0            BIT 0x9f
+0000            252   _IT0            BIT 0x88
+0000            253   _IE0            BIT 0x89
+0000            254   _IT1            BIT 0x8a
+0000            255   _IE1            BIT 0x8b
+0000            256   _TR0            BIT 0x8c
+0000            257   _TF0            BIT 0x8d
+0000            258   _TR1            BIT 0x8e
+0000            259   _TF1            BIT 0x8f
+0000            260   _CP_RL2         BIT 0xc8
+0000            261   _C_T2           BIT 0xc9
+0000            262   _TR2            BIT 0xca
+0000            263   _EXEN2          BIT 0xcb
+0000            264   _TCLK           BIT 0xcc
+0000            265   _RCLK           BIT 0xcd
+0000            266   _EXF2           BIT 0xce
+0000            267   _TF2            BIT 0xcf
+0000            268   _CF             BIT 0xdf
+0000            269   _CR             BIT 0xde
+0000            270   _CCF4           BIT 0xdc
+0000            271   _CCF3           BIT 0xdb
+0000            272   _CCF2           BIT 0xda
+0000            273   _CCF1           BIT 0xd9
+0000            274   _CCF0           BIT 0xd8
+0000            275   ;--------------------------------------------------------
+0000            276   ; overlayable register banks
+0000            277   ;--------------------------------------------------------
+0000            278            rbank0 segment data overlay
+0000            279   ;--------------------------------------------------------
+0000            280   ; internal ram data
+0000            281   ;--------------------------------------------------------
+0000            282            rseg R_DSEG
+0000            283   ;--------------------------------------------------------
+0000            284   ; overlayable items in internal ram 
+0000            285   ;--------------------------------------------------------
+0000            286            rseg R_OSEG
+0000            287   ;--------------------------------------------------------
+0000            288   ; indirectly addressable internal ram data
+0000            289   ;--------------------------------------------------------
+0000            290            rseg R_ISEG
+0000            291   ;--------------------------------------------------------
+0000            292   ; absolute internal ram data
+0000            293   ;--------------------------------------------------------
+0000            294            DSEG
+0000            295   ;--------------------------------------------------------
+0000            296   ; bit data
+0000            297   ;--------------------------------------------------------
+0000            298            rseg R_BSEG
+0000            299   ;--------------------------------------------------------
+0000            300   ; paged external ram data
+0000            301   ;--------------------------------------------------------
+0000            302            rseg R_PSEG
+0000            303   ;--------------------------------------------------------
+0000            304   ; external ram data
+0000            305   ;--------------------------------------------------------
+0000            306            rseg R_XSEG
+0000            307   ;--------------------------------------------------------
+0000            308   ; absolute external ram data
+0000            309   ;--------------------------------------------------------
+0000            310            XSEG
+0000            311   ;--------------------------------------------------------
+0000            312   ; external initialized ram data
+0000            313   ;--------------------------------------------------------
+0000            314            rseg R_IXSEG
+0000            315            rseg R_HOME
+0000            316            rseg R_GSINIT
+0000            317            rseg R_CSEG
+0000            318   ;--------------------------------------------------------
+0000            319   ; Reset entry point and interrupt vectors
+0000            320   ;--------------------------------------------------------
+0000            321            CSEG at 0x0000
+0000 020100     322            ljmp    _crt0
+0003            323   ;--------------------------------------------------------
+0003            324   ; global & static initialisations
+0003            325   ;--------------------------------------------------------
+0000            326            rseg R_HOME
+0000            327            rseg R_GSINIT
+0000            328            rseg R_GSINIT
+0000            329   ;--------------------------------------------------------
+0000            330   ; data variables initialization
+0000            331   ;--------------------------------------------------------
+0000            332            rseg R_DINIT
+0000            333            ; The linker places a 'ret' at the end of segment R_DINIT.
+0000            334   ;--------------------------------------------------------
+0000            335   ; code
+0000            336   ;--------------------------------------------------------
+0000            337            rseg R_CSEG
+0000            338   ;------------------------------------------------------------
+0000            339   ;Allocation info for local variables in function '_c51_external_startup'
+0000            340   ;------------------------------------------------------------
+0000            341   ;------------------------------------------------------------
+0000            342   ;        Hello_AT89LP51RC2.c:13: unsigned char _c51_external_startup(void)
+0000            343   ;        -----------------------------------------
+0000            344   ;         function _c51_external_startup
+0000            345   ;        -----------------------------------------
+0000            346   __c51_external_startup:
+0000            347            using   0
+0000            348   ;        Hello_AT89LP51RC2.c:15: AUXR=0B_0001_0001; // 1152 bytes of internal XDATA, P4.4 is a general purpose I/O
+0000 758E11     349            mov     _AUXR,#0x11
+0003            350   ;        Hello_AT89LP51RC2.c:17: PCON|=0x80;
+0003 438780     351            orl     _PCON,#0x80
+0006            352   ;        Hello_AT89LP51RC2.c:18: SCON = 0x52;
+0006 759852     353            mov     _SCON,#0x52
+0009            354   ;        Hello_AT89LP51RC2.c:19: BDRCON=0;
+0009 759B00     355            mov     _BDRCON,#0x00
+000C            356   ;        Hello_AT89LP51RC2.c:23: BRL=BRG_VAL;
+000C 759AF4     357            mov     _BRL,#0xF4
+000F            358   ;        Hello_AT89LP51RC2.c:24: BDRCON=BRR|TBCK|RBCK|SPD;
+000F 759B1E     359            mov     _BDRCON,#0x1E
+0012            360   ;        Hello_AT89LP51RC2.c:26: return 0;
+0012 758200     361            mov     dpl,#0x00
+0015 22         362            ret
+0016            363   ;------------------------------------------------------------
+0016            364   ;Allocation info for local variables in function 'wait_us'
+0016            365   ;------------------------------------------------------------
+0016            366   ;x                         Allocated to registers r2 
+0016            367   ;j                         Allocated to registers r2 r3 
+0016            368   ;------------------------------------------------------------
+0016            369   ;        Hello_AT89LP51RC2.c:29: void wait_us (unsigned char x)
+0016            370   ;        -----------------------------------------
+0016            371   ;         function wait_us
+0016            372   ;        -----------------------------------------
+0016            373   _wait_us:
+0016 AA82       374            mov     r2,dpl
+0018            375   ;        Hello_AT89LP51RC2.c:33: TR0=0; // Stop timer 0
+0018 C28C       376            clr     _TR0
+001A            377   ;        Hello_AT89LP51RC2.c:34: TMOD&=0xf0; // Clear the configuration bits for timer 0
+001A 5389F0     378            anl     _TMOD,#0xF0
+001D            379   ;        Hello_AT89LP51RC2.c:35: TMOD|=0x01; // Mode 1: 16-bit timer
+001D 438901     380            orl     _TMOD,#0x01
+0020            381   ;        Hello_AT89LP51RC2.c:37: if(x>5) x-=5; // Subtract the overhead
+0020 EA         382            mov     a,r2
+0021 24FA       383            add     a,#0xff - 0x05
+0023 5001       384            jnc     L003002?
+0025 EA         385            mov     a,r2
+0026 24FB       386            add     a,#0xfb
+0028 FA         387            mov     r2,a
+0029 8001       388            sjmp    L003003?
+002B            389   L003002?:
+002B            390   ;        Hello_AT89LP51RC2.c:38: else x=1;
+002B 7A01       391            mov     r2,#0x01
+002D            392   L003003?:
+002D            393   ;        Hello_AT89LP51RC2.c:40: j=-ONE_USEC*x;
+002D 8A00       394            mov     __mullong_PARM_2,r2
+002F 750100     395            mov     (__mullong_PARM_2 + 1),#0x00
+0032 750200     396            mov     (__mullong_PARM_2 + 2),#0x00
+0035 750300     397            mov     (__mullong_PARM_2 + 3),#0x00
+0038 90FFEA     398            mov     dptr,#0xFFEA
+003B 74FF       399            mov     a,#0xFF
+003D F5F0       400            mov     b,a
+003F 120100     401            lcall   __mullong
+0042 AA82       402            mov     r2,dpl
+0044 AB83       403            mov     r3,dph
+0046            404   ;        Hello_AT89LP51RC2.c:41: TF0=0;
+0046 C28D       405            clr     _TF0
+0048            406   ;        Hello_AT89LP51RC2.c:42: TH0=j/0x100;
+0048 8B04       407            mov     ar4,r3
+004A 7D00       408            mov     r5,#0x00
+004C 8C8C       409            mov     _TH0,r4
+004E            410   ;        Hello_AT89LP51RC2.c:43: TL0=j%0x100;
+004E 7B00       411            mov     r3,#0x00
+0050 8A8A       412            mov     _TL0,r2
+0052            413   ;        Hello_AT89LP51RC2.c:44: TR0=1; // Start timer 0
+0052 D28C       414            setb    _TR0
+0054            415   ;        Hello_AT89LP51RC2.c:45: while(TF0==0); //Wait for overflow
+0054            416   L003004?:
+0054 308DC0     417            jnb     _TF0,L003004?
+0057 22         418            ret
+0058            419   ;------------------------------------------------------------
+0058            420   ;Allocation info for local variables in function 'waitms'
+0058            421   ;------------------------------------------------------------
+0058            422   ;ms                        Allocated to registers r2 r3 
+0058            423   ;j                         Allocated to registers r4 r5 
+0058            424   ;k                         Allocated to registers r6 
+0058            425   ;------------------------------------------------------------
+0058            426   ;        Hello_AT89LP51RC2.c:48: void waitms (unsigned int ms)
+0058            427   ;        -----------------------------------------
+0058            428   ;         function waitms
+0058            429   ;        -----------------------------------------
+0058            430   _waitms:
+0058 AA82       431            mov     r2,dpl
+005A AB83       432            mov     r3,dph
+005C            433   ;        Hello_AT89LP51RC2.c:52: for(j=0; j<ms; j++)
+005C 7C00       434            mov     r4,#0x00
+005E 7D00       435            mov     r5,#0x00
+0060            436   L004005?:
+0060 C3         437            clr     c
+0061 EC         438            mov     a,r4
+0062 9A         439            subb    a,r2
+0063 ED         440            mov     a,r5
+0064 9B         441            subb    a,r3
+0065 5001       442            jnc     L004009?
+0067            443   ;        Hello_AT89LP51RC2.c:53: for (k=0; k<4; k++) wait_us(250);
+0067 7E00       444            mov     r6,#0x00
+0069            445   L004001?:
+0069 BE04C0     446            cjne    r6,#0x04,L004018?
+006C            447   L004018?:
+006C 5001       448            jnc     L004007?
+006E 7582FA     449            mov     dpl,#0xFA
+0071 C002       450            push    ar2
+0073 C003       451            push    ar3
+0075 C004       452            push    ar4
+0077 C005       453            push    ar5
+0079 C006       454            push    ar6
+007B 120100     455            lcall   _wait_us
+007E D006       456            pop     ar6
+0080 D005       457            pop     ar5
+0082 D004       458            pop     ar4
+0084 D003       459            pop     ar3
+0086 D002       460            pop     ar2
+0088 0E         461            inc     r6
+0089 8001       462            sjmp    L004001?
+008B            463   L004007?:
+008B            464   ;        Hello_AT89LP51RC2.c:52: for(j=0; j<ms; j++)
+008B 0C         465            inc     r4
+008C BC0000     466            cjne    r4,#0x00,L004005?
+008F 0D         467            inc     r5
+0090 8001       468            sjmp    L004005?
+0092            469   L004009?:
+0092 22         470            ret
+0093            471   ;------------------------------------------------------------
+0093            472   ;Allocation info for local variables in function 'main'
+0093            473   ;------------------------------------------------------------
+0093            474   ;------------------------------------------------------------
+0093            475   ;        Hello_AT89LP51RC2.c:56: void main (void)
+0093            476   ;        -----------------------------------------
+0093            477   ;         function main
+0093            478   ;        -----------------------------------------
+0093            479   _main:
+0093            480   ;        Hello_AT89LP51RC2.c:58: waitms(100);  // Debounce the reset button!
+0093 900064     481            mov     dptr,#0x0064
+0096 120100     482            lcall   _waitms
+0099            483   ;        Hello_AT89LP51RC2.c:59: printf("Hello, World!\n");
+0099 7440       484            mov     a,#__str_0
+009B C0E0       485            push    acc
+009D 7482       486            mov     a,#(__str_0 >> 8)
+009F C0E0       487            push    acc
+00A1 7480       488            mov     a,#0x80
+00A3 C0E0       489            push    acc
+00A5 120100     490            lcall   _printf
+00A8 1581       491            dec     sp
+00AA 1581       492            dec     sp
+00AC 1581       493            dec     sp
+00AE            494   ;        Hello_AT89LP51RC2.c:61: while(1)
+00AE            495   L005002?:
+00AE            496   ;        Hello_AT89LP51RC2.c:63: P3_7=!P3_7;
+00AE B2B7       497            cpl     _P3_7
+00B0            498   ;        Hello_AT89LP51RC2.c:64: waitms(500);
+00B0 9001F4     499            mov     dptr,#0x01F4
+00B3 120100     500            lcall   _waitms
+00B6 8001       501            sjmp    L005002?
+00B8            502            rseg R_CSEG
+00B8            503   
+0000            504            rseg R_XINIT
+0000            505   
+0000            506            rseg R_CONST
+0000            507   __str_0:
+0000 48656C6C   508            db 'Hello, World!'
+     6F2C2057
+     6F726C64
+     21
+000D 0A         509            db 0x0A
+000E 00         510            db 0x00
+000F            511   
+0003            512            CSEG
+0003            513   
+0003            514   end

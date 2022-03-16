@@ -1,7 +1,7 @@
 0000              1   ;--------------------------------------------------------
 0000              2   ; File Created by C51
 0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-0000              4   ; This file was generated Fri Mar 04 22:10:12 2022
+0000              4   ; This file was generated Mon Mar 14 17:29:48 2022
 0000              5   ;--------------------------------------------------------
                   5   $name FINALWORKINGmylabadc_spi
                   6   $optc51 --model-small
@@ -507,7 +507,7 @@
 00DA D28C       507            setb    _TR0
 00DC            508   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:78: while(TF0==0); //Wait for overflow
 00DC            509   L004004?:
-00DC 308D28     510            jnb     _TF0,L004004?
+00DC 308DE8     510            jnb     _TF0,L004004?
 00DF 22         511            ret
 00E0            512   ;------------------------------------------------------------
 00E0            513   ;Allocation info for local variables in function 'waitms'
@@ -536,7 +536,7 @@
 00EF            536   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:86: for (k=0; k<4; k++) wait_us(250);
 00EF 7E00       537            mov     r6,#0x00
 00F1            538   L005001?:
-00F1 BE0428     539            cjne    r6,#0x04,L005018?
+00F1 BE04E8     539            cjne    r6,#0x04,L005018?
 00F4            540   L005018?:
 00F4 5001       541            jnc     L005007?
 00F6 7582FA     542            mov     dpl,#0xFA
@@ -556,7 +556,7 @@
 0113            556   L005007?:
 0113            557   ;        D:\school\ELEC291\Lab 4\FINALWORKINGmylabadc_spi.c:85: for(j=0; j<ms; j++)
 0113 0C         558            inc     r4
-0114 BC0068     559            cjne    r4,#0x00,L005005?
+0114 BC0028     559            cjne    r4,#0x00,L005005?
 0117 0D         560            inc     r5
 0118 8001       561            sjmp    L005005?
 011A            562   L005009?:
@@ -718,7 +718,7 @@
 0201 C003       718            push    ar3
 0203 C004       719            push    ar4
 0205 C005       720            push    ar5
-0207 7468       721            mov     a,#__str_0
+0207 7428       721            mov     a,#__str_0
 0209 C0E0       722            push    acc
 020B 7484       723            mov     a,#(__str_0 >> 8)
 020D C0E0       724            push    acc

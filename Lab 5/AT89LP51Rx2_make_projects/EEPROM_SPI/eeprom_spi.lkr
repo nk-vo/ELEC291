@@ -1,0 +1,7 @@
+path=D:\CrossIDE\Call51\Bin\..\lib\small
+lib=libc51.lib
+lib=libint.lib
+lib=liblong.lib
+lib=libfloat.lib
+obj=eeprom_spi.obj
+obj=FT93C66.obj

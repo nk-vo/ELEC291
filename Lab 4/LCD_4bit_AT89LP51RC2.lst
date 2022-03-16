@@ -1,0 +1,902 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Mon Mar 14 19:27:59 2022
+0000              5   ;--------------------------------------------------------
+                  5   $name LCD_4bit_AT89LP51RC2
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _main
+0000             27            public _LCDprint
+0000             28            public _LCD_4BIT
+0000             29            public _WriteCommand
+0000             30            public _WriteData
+0000             31            public _LCD_byte
+0000             32            public _LCD_pulse
+0000             33            public _waitms
+0000             34            public _wait_us
+0000             35            public __c51_external_startup
+0000             36            public _LCDprint_PARM_3
+0000             37            public _LCDprint_PARM_2
+0000             38            public _mystr
+0000             39   ;--------------------------------------------------------
+0000             40   ; Special Function Registers
+0000             41   ;--------------------------------------------------------
+0000             42   _ACC            DATA 0xe0
+0000             43   _B              DATA 0xf0
+0000             44   _PSW            DATA 0xd0
+0000             45   _SP             DATA 0x81
+0000             46   _SPX            DATA 0xef
+0000             47   _DPL            DATA 0x82
+0000             48   _DPH            DATA 0x83
+0000             49   _DPLB           DATA 0xd4
+0000             50   _DPHB           DATA 0xd5
+0000             51   _PAGE           DATA 0xf6
+0000             52   _AX             DATA 0xe1
+0000             53   _BX             DATA 0xf7
+0000             54   _DSPR           DATA 0xe2
+0000             55   _FIRD           DATA 0xe3
+0000             56   _MACL           DATA 0xe4
+0000             57   _MACH           DATA 0xe5
+0000             58   _PCON           DATA 0x87
+0000             59   _AUXR           DATA 0x8e
+0000             60   _AUXR1          DATA 0xa2
+0000             61   _DPCF           DATA 0xa1
+0000             62   _CKRL           DATA 0x97
+0000             63   _CKCKON0        DATA 0x8f
+0000             64   _CKCKON1        DATA 0xaf
+0000             65   _CKSEL          DATA 0x85
+0000             66   _CLKREG         DATA 0xae
+0000             67   _OSCCON         DATA 0x85
+0000             68   _IE             DATA 0xa8
+0000             69   _IEN0           DATA 0xa8
+0000             70   _IEN1           DATA 0xb1
+0000             71   _IPH0           DATA 0xb7
+0000             72   _IP             DATA 0xb8
+0000             73   _IPL0           DATA 0xb8
+0000             74   _IPH1           DATA 0xb3
+0000             75   _IPL1           DATA 0xb2
+0000             76   _P0             DATA 0x80
+0000             77   _P1             DATA 0x90
+0000             78   _P2             DATA 0xa0
+0000             79   _P3             DATA 0xb0
+0000             80   _P4             DATA 0xc0
+0000             81   _P0M0           DATA 0xe6
+0000             82   _P0M1           DATA 0xe7
+0000             83   _P1M0           DATA 0xd6
+0000             84   _P1M1           DATA 0xd7
+0000             85   _P2M0           DATA 0xce
+0000             86   _P2M1           DATA 0xcf
+0000             87   _P3M0           DATA 0xc6
+0000             88   _P3M1           DATA 0xc7
+0000             89   _P4M0           DATA 0xbe
+0000             90   _P4M1           DATA 0xbf
+0000             91   _SCON           DATA 0x98
+0000             92   _SBUF           DATA 0x99
+0000             93   _SADEN          DATA 0xb9
+0000             94   _SADDR          DATA 0xa9
+0000             95   _BDRCON         DATA 0x9b
+0000             96   _BRL            DATA 0x9a
+0000             97   _TCON           DATA 0x88
+0000             98   _TMOD           DATA 0x89
+0000             99   _TCONB          DATA 0x91
+0000            100   _TL0            DATA 0x8a
+0000            101   _TH0            DATA 0x8c
+0000            102   _TL1            DATA 0x8b
+0000            103   _TH1            DATA 0x8d
+0000            104   _RL0            DATA 0xf2
+0000            105   _RH0            DATA 0xf4
+0000            106   _RL1            DATA 0xf3
+0000            107   _RH1            DATA 0xf5
+0000            108   _WDTRST         DATA 0xa6
+0000            109   _WDTPRG         DATA 0xa7
+0000            110   _T2CON          DATA 0xc8
+0000            111   _T2MOD          DATA 0xc9
+0000            112   _RCAP2H         DATA 0xcb
+0000            113   _RCAP2L         DATA 0xca
+0000            114   _TH2            DATA 0xcd
+0000            115   _TL2            DATA 0xcc
+0000            116   _SPCON          DATA 0xc3
+0000            117   _SPSTA          DATA 0xc4
+0000            118   _SPDAT          DATA 0xc5
+0000            119   _SSCON          DATA 0x93
+0000            120   _SSCS           DATA 0x94
+0000            121   _SSDAT          DATA 0x95
+0000            122   _SSADR          DATA 0x96
+0000            123   _KBLS           DATA 0x9c
+0000            124   _KBE            DATA 0x9d
+0000            125   _KBF            DATA 0x9e
+0000            126   _KBMOD          DATA 0x9f
+0000            127   _BMSEL          DATA 0x92
+0000            128   _FCON           DATA 0xd2
+0000            129   _EECON          DATA 0xd2
+0000            130   _ACSRA          DATA 0xa3
+0000            131   _ACSRB          DATA 0xab
+0000            132   _AREF           DATA 0xbd
+0000            133   _DADC           DATA 0xa4
+0000            134   _DADI           DATA 0xa5
+0000            135   _DADL           DATA 0xac
+0000            136   _DADH           DATA 0xad
+0000            137   _CCON           DATA 0xd8
+0000            138   _CMOD           DATA 0xd9
+0000            139   _CL             DATA 0xe9
+0000            140   _CH             DATA 0xf9
+0000            141   _CCAPM0         DATA 0xda
+0000            142   _CCAPM1         DATA 0xdb
+0000            143   _CCAPM2         DATA 0xdc
+0000            144   _CCAPM3         DATA 0xdd
+0000            145   _CCAPM4         DATA 0xde
+0000            146   _CCAP0H         DATA 0xfa
+0000            147   _CCAP1H         DATA 0xfb
+0000            148   _CCAP2H         DATA 0xfc
+0000            149   _CCAP3H         DATA 0xfd
+0000            150   _CCAP4H         DATA 0xfe
+0000            151   _CCAP0L         DATA 0xea
+0000            152   _CCAP1L         DATA 0xeb
+0000            153   _CCAP2L         DATA 0xec
+0000            154   _CCAP3L         DATA 0xed
+0000            155   _CCAP4L         DATA 0xee
+0000            156   ;--------------------------------------------------------
+0000            157   ; special function bits
+0000            158   ;--------------------------------------------------------
+0000            159   _ACC_0          BIT 0xe0
+0000            160   _ACC_1          BIT 0xe1
+0000            161   _ACC_2          BIT 0xe2
+0000            162   _ACC_3          BIT 0xe3
+0000            163   _ACC_4          BIT 0xe4
+0000            164   _ACC_5          BIT 0xe5
+0000            165   _ACC_6          BIT 0xe6
+0000            166   _ACC_7          BIT 0xe7
+0000            167   _B_0            BIT 0xf0
+0000            168   _B_1            BIT 0xf1
+0000            169   _B_2            BIT 0xf2
+0000            170   _B_3            BIT 0xf3
+0000            171   _B_4            BIT 0xf4
+0000            172   _B_5            BIT 0xf5
+0000            173   _B_6            BIT 0xf6
+0000            174   _B_7            BIT 0xf7
+0000            175   _P              BIT 0xd0
+0000            176   _F1             BIT 0xd1
+0000            177   _OV             BIT 0xd2
+0000            178   _RS0            BIT 0xd3
+0000            179   _RS1            BIT 0xd4
+0000            180   _F0             BIT 0xd5
+0000            181   _AC             BIT 0xd6
+0000            182   _CY             BIT 0xd7
+0000            183   _EX0            BIT 0xa8
+0000            184   _ET0            BIT 0xa9
+0000            185   _EX1            BIT 0xaa
+0000            186   _ET1            BIT 0xab
+0000            187   _ES             BIT 0xac
+0000            188   _ET2            BIT 0xad
+0000            189   _EC             BIT 0xae
+0000            190   _EA             BIT 0xaf
+0000            191   _PX0            BIT 0xb8
+0000            192   _PT0            BIT 0xb9
+0000            193   _PX1            BIT 0xba
+0000            194   _PT1            BIT 0xbb
+0000            195   _PS             BIT 0xbc
+0000            196   _PT2            BIT 0xbd
+0000            197   _IP0D           BIT 0xbf
+0000            198   _PPCL           BIT 0xbe
+0000            199   _PT2L           BIT 0xbd
+0000            200   _PLS            BIT 0xbc
+0000            201   _PT1L           BIT 0xbb
+0000            202   _PX1L           BIT 0xba
+0000            203   _PT0L           BIT 0xb9
+0000            204   _PX0L           BIT 0xb8
+0000            205   _P0_0           BIT 0x80
+0000            206   _P0_1           BIT 0x81
+0000            207   _P0_2           BIT 0x82
+0000            208   _P0_3           BIT 0x83
+0000            209   _P0_4           BIT 0x84
+0000            210   _P0_5           BIT 0x85
+0000            211   _P0_6           BIT 0x86
+0000            212   _P0_7           BIT 0x87
+0000            213   _P1_0           BIT 0x90
+0000            214   _P1_1           BIT 0x91
+0000            215   _P1_2           BIT 0x92
+0000            216   _P1_3           BIT 0x93
+0000            217   _P1_4           BIT 0x94
+0000            218   _P1_5           BIT 0x95
+0000            219   _P1_6           BIT 0x96
+0000            220   _P1_7           BIT 0x97
+0000            221   _P2_0           BIT 0xa0
+0000            222   _P2_1           BIT 0xa1
+0000            223   _P2_2           BIT 0xa2
+0000            224   _P2_3           BIT 0xa3
+0000            225   _P2_4           BIT 0xa4
+0000            226   _P2_5           BIT 0xa5
+0000            227   _P2_6           BIT 0xa6
+0000            228   _P2_7           BIT 0xa7
+0000            229   _P3_0           BIT 0xb0
+0000            230   _P3_1           BIT 0xb1
+0000            231   _P3_2           BIT 0xb2
+0000            232   _P3_3           BIT 0xb3
+0000            233   _P3_4           BIT 0xb4
+0000            234   _P3_5           BIT 0xb5
+0000            235   _P3_6           BIT 0xb6
+0000            236   _P3_7           BIT 0xb7
+0000            237   _RXD            BIT 0xb0
+0000            238   _TXD            BIT 0xb1
+0000            239   _INT0           BIT 0xb2
+0000            240   _INT1           BIT 0xb3
+0000            241   _T0             BIT 0xb4
+0000            242   _T1             BIT 0xb5
+0000            243   _WR             BIT 0xb6
+0000            244   _RD             BIT 0xb7
+0000            245   _P4_0           BIT 0xc0
+0000            246   _P4_1           BIT 0xc1
+0000            247   _P4_2           BIT 0xc2
+0000            248   _P4_3           BIT 0xc3
+0000            249   _P4_4           BIT 0xc4
+0000            250   _P4_5           BIT 0xc5
+0000            251   _P4_6           BIT 0xc6
+0000            252   _P4_7           BIT 0xc7
+0000            253   _RI             BIT 0x98
+0000            254   _TI             BIT 0x99
+0000            255   _RB8            BIT 0x9a
+0000            256   _TB8            BIT 0x9b
+0000            257   _REN            BIT 0x9c
+0000            258   _SM2            BIT 0x9d
+0000            259   _SM1            BIT 0x9e
+0000            260   _SM0            BIT 0x9f
+0000            261   _IT0            BIT 0x88
+0000            262   _IE0            BIT 0x89
+0000            263   _IT1            BIT 0x8a
+0000            264   _IE1            BIT 0x8b
+0000            265   _TR0            BIT 0x8c
+0000            266   _TF0            BIT 0x8d
+0000            267   _TR1            BIT 0x8e
+0000            268   _TF1            BIT 0x8f
+0000            269   _CP_RL2         BIT 0xc8
+0000            270   _C_T2           BIT 0xc9
+0000            271   _TR2            BIT 0xca
+0000            272   _EXEN2          BIT 0xcb
+0000            273   _TCLK           BIT 0xcc
+0000            274   _RCLK           BIT 0xcd
+0000            275   _EXF2           BIT 0xce
+0000            276   _TF2            BIT 0xcf
+0000            277   _CF             BIT 0xdf
+0000            278   _CR             BIT 0xde
+0000            279   _CCF4           BIT 0xdc
+0000            280   _CCF3           BIT 0xdb
+0000            281   _CCF2           BIT 0xda
+0000            282   _CCF1           BIT 0xd9
+0000            283   _CCF0           BIT 0xd8
+0000            284   ;--------------------------------------------------------
+0000            285   ; overlayable register banks
+0000            286   ;--------------------------------------------------------
+0000            287            rbank0 segment data overlay
+0000            288   ;--------------------------------------------------------
+0000            289   ; internal ram data
+0000            290   ;--------------------------------------------------------
+0000            291            rseg R_DSEG
+0000            292   _mystr:
+0000            293            ds 17
+0011            294   _LCDprint_PARM_2:
+0011            295            ds 1
+0012            296   ;--------------------------------------------------------
+0012            297   ; overlayable items in internal ram 
+0012            298   ;--------------------------------------------------------
+0000            299            rseg R_OSEG
+0000            300   ;--------------------------------------------------------
+0000            301   ; indirectly addressable internal ram data
+0000            302   ;--------------------------------------------------------
+0000            303            rseg R_ISEG
+0000            304   ;--------------------------------------------------------
+0000            305   ; absolute internal ram data
+0000            306   ;--------------------------------------------------------
+0000            307            DSEG
+0000            308   ;--------------------------------------------------------
+0000            309   ; bit data
+0000            310   ;--------------------------------------------------------
+0000            311            rseg R_BSEG
+0000            312   _LCDprint_PARM_3:
+0000            313            DBIT    1
+0001            314   ;--------------------------------------------------------
+0001            315   ; paged external ram data
+0001            316   ;--------------------------------------------------------
+0000            317            rseg R_PSEG
+0000            318   ;--------------------------------------------------------
+0000            319   ; external ram data
+0000            320   ;--------------------------------------------------------
+0000            321            rseg R_XSEG
+0000            322   ;--------------------------------------------------------
+0000            323   ; absolute external ram data
+0000            324   ;--------------------------------------------------------
+0000            325            XSEG
+0000            326   ;--------------------------------------------------------
+0000            327   ; external initialized ram data
+0000            328   ;--------------------------------------------------------
+0000            329            rseg R_IXSEG
+0000            330            rseg R_HOME
+0000            331            rseg R_GSINIT
+0000            332            rseg R_CSEG
+0000            333   ;--------------------------------------------------------
+0000            334   ; Reset entry point and interrupt vectors
+0000            335   ;--------------------------------------------------------
+0000            336            CSEG at 0x0000
+0000 020100     337            ljmp    _crt0
+0003            338   ;--------------------------------------------------------
+0003            339   ; global & static initialisations
+0003            340   ;--------------------------------------------------------
+0000            341            rseg R_HOME
+0000            342            rseg R_GSINIT
+0000            343            rseg R_GSINIT
+0000            344   ;--------------------------------------------------------
+0000            345   ; data variables initialization
+0000            346   ;--------------------------------------------------------
+0000            347            rseg R_DINIT
+0000            348            ; The linker places a 'ret' at the end of segment R_DINIT.
+0000            349   ;--------------------------------------------------------
+0000            350   ; code
+0000            351   ;--------------------------------------------------------
+0000            352            rseg R_CSEG
+0000            353   ;------------------------------------------------------------
+0000            354   ;Allocation info for local variables in function '_c51_external_startup'
+0000            355   ;------------------------------------------------------------
+0000            356   ;------------------------------------------------------------
+0000            357   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:27: unsigned char _c51_external_startup(void)
+0000            358   ;        -----------------------------------------
+0000            359   ;         function _c51_external_startup
+0000            360   ;        -----------------------------------------
+0000            361   __c51_external_startup:
+0000            362            using   0
+0000            363   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:30: P0M0=0; P0M1=0;
+0000 75E600     364            mov     _P0M0,#0x00
+0003 75E700     365            mov     _P0M1,#0x00
+0006            366   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:31: P1M0=0; P1M1=0;
+0006 75D600     367            mov     _P1M0,#0x00
+0009 75D700     368            mov     _P1M1,#0x00
+000C            369   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:32: P2M0=0; P2M1=0;
+000C 75CE00     370            mov     _P2M0,#0x00
+000F 75CF00     371            mov     _P2M1,#0x00
+0012            372   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:33: P3M0=0; P3M1=0;
+0012 75C600     373            mov     _P3M0,#0x00
+0015 75C700     374            mov     _P3M1,#0x00
+0018            375   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:36: PCON|=0x80;
+0018 438780     376            orl     _PCON,#0x80
+001B            377   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:37: SCON = 0x52;
+001B 759852     378            mov     _SCON,#0x52
+001E            379   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:38: BDRCON=0;
+001E 759B00     380            mov     _BDRCON,#0x00
+0021            381   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:39: BRL=BRG_VAL;
+0021 759AF4     382            mov     _BRL,#0xF4
+0024            383   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:40: BDRCON=BRR|TBCK|RBCK|SPD;
+0024 759B1E     384            mov     _BDRCON,#0x1E
+0027            385   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:42: CLKREG=0x00; // TPS=0000B
+0027 75AE00     386            mov     _CLKREG,#0x00
+002A            387   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:44: return 0;
+002A 758200     388            mov     dpl,#0x00
+002D 22         389            ret
+002E            390   ;------------------------------------------------------------
+002E            391   ;Allocation info for local variables in function 'wait_us'
+002E            392   ;------------------------------------------------------------
+002E            393   ;x                         Allocated to registers r2 
+002E            394   ;j                         Allocated to registers r2 r3 
+002E            395   ;------------------------------------------------------------
+002E            396   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:47: void wait_us (unsigned char x)
+002E            397   ;        -----------------------------------------
+002E            398   ;         function wait_us
+002E            399   ;        -----------------------------------------
+002E            400   _wait_us:
+002E AA82       401            mov     r2,dpl
+0030            402   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:51: TR0=0; // Stop timer 0
+0030 C28C       403            clr     _TR0
+0032            404   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:52: TMOD&=0xf0; // Clear the configuration bits for timer 0
+0032 5389F0     405            anl     _TMOD,#0xF0
+0035            406   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:53: TMOD|=0x01; // Mode 1: 16-bit timer
+0035 438901     407            orl     _TMOD,#0x01
+0038            408   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:55: if(x>5) x-=5; // Subtract the overhead
+0038 EA         409            mov     a,r2
+0039 24FA       410            add     a,#0xff - 0x05
+003B 5001       411            jnc     L003002?
+003D EA         412            mov     a,r2
+003E 24FB       413            add     a,#0xfb
+0040 FA         414            mov     r2,a
+0041 8001       415            sjmp    L003003?
+0043            416   L003002?:
+0043            417   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:56: else x=1;
+0043 7A01       418            mov     r2,#0x01
+0045            419   L003003?:
+0045            420   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:58: j=-ONE_USEC*x;
+0045 8A00       421            mov     __mullong_PARM_2,r2
+0047 750100     422            mov     (__mullong_PARM_2 + 1),#0x00
+004A 750200     423            mov     (__mullong_PARM_2 + 2),#0x00
+004D 750300     424            mov     (__mullong_PARM_2 + 3),#0x00
+0050 90FFEA     425            mov     dptr,#0xFFEA
+0053 74FF       426            mov     a,#0xFF
+0055 F5F0       427            mov     b,a
+0057 120100     428            lcall   __mullong
+005A AA82       429            mov     r2,dpl
+005C AB83       430            mov     r3,dph
+005E            431   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:59: TF0=0;
+005E C28D       432            clr     _TF0
+0060            433   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:60: TH0=j/0x100;
+0060 8B04       434            mov     ar4,r3
+0062 7D00       435            mov     r5,#0x00
+0064 8C8C       436            mov     _TH0,r4
+0066            437   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:61: TL0=j%0x100;
+0066 7B00       438            mov     r3,#0x00
+0068 8A8A       439            mov     _TL0,r2
+006A            440   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:62: TR0=1; // Start timer 0
+006A D28C       441            setb    _TR0
+006C            442   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:63: while(TF0==0); //Wait for overflow
+006C            443   L003004?:
+006C 308DD0     444            jnb     _TF0,L003004?
+006F 22         445            ret
+0070            446   ;------------------------------------------------------------
+0070            447   ;Allocation info for local variables in function 'waitms'
+0070            448   ;------------------------------------------------------------
+0070            449   ;ms                        Allocated to registers r2 r3 
+0070            450   ;j                         Allocated to registers r4 r5 
+0070            451   ;k                         Allocated to registers r6 
+0070            452   ;------------------------------------------------------------
+0070            453   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:66: void waitms (unsigned int ms)
+0070            454   ;        -----------------------------------------
+0070            455   ;         function waitms
+0070            456   ;        -----------------------------------------
+0070            457   _waitms:
+0070 AA82       458            mov     r2,dpl
+0072 AB83       459            mov     r3,dph
+0074            460   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:70: for(j=0; j<ms; j++)
+0074 7C00       461            mov     r4,#0x00
+0076 7D00       462            mov     r5,#0x00
+0078            463   L004005?:
+0078 C3         464            clr     c
+0079 EC         465            mov     a,r4
+007A 9A         466            subb    a,r2
+007B ED         467            mov     a,r5
+007C 9B         468            subb    a,r3
+007D 5001       469            jnc     L004009?
+007F            470   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:71: for (k=0; k<4; k++) wait_us(250);
+007F 7E00       471            mov     r6,#0x00
+0081            472   L004001?:
+0081 BE04D0     473            cjne    r6,#0x04,L004018?
+0084            474   L004018?:
+0084 5001       475            jnc     L004007?
+0086 7582FA     476            mov     dpl,#0xFA
+0089 C002       477            push    ar2
+008B C003       478            push    ar3
+008D C004       479            push    ar4
+008F C005       480            push    ar5
+0091 C006       481            push    ar6
+0093 120100     482            lcall   _wait_us
+0096 D006       483            pop     ar6
+0098 D005       484            pop     ar5
+009A D004       485            pop     ar4
+009C D003       486            pop     ar3
+009E D002       487            pop     ar2
+00A0 0E         488            inc     r6
+00A1 8001       489            sjmp    L004001?
+00A3            490   L004007?:
+00A3            491   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:70: for(j=0; j<ms; j++)
+00A3 0C         492            inc     r4
+00A4 BC0010     493            cjne    r4,#0x00,L004005?
+00A7 0D         494            inc     r5
+00A8 8001       495            sjmp    L004005?
+00AA            496   L004009?:
+00AA 22         497            ret
+00AB            498   ;------------------------------------------------------------
+00AB            499   ;Allocation info for local variables in function 'LCD_pulse'
+00AB            500   ;------------------------------------------------------------
+00AB            501   ;------------------------------------------------------------
+00AB            502   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:74: void LCD_pulse (void)
+00AB            503   ;        -----------------------------------------
+00AB            504   ;         function LCD_pulse
+00AB            505   ;        -----------------------------------------
+00AB            506   _LCD_pulse:
+00AB            507   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:76: LCD_E=1;
+00AB D2B3       508            setb    _P3_3
+00AD            509   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:77: wait_us(40);
+00AD 758228     510            mov     dpl,#0x28
+00B0 120100     511            lcall   _wait_us
+00B3            512   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:78: LCD_E=0;
+00B3 C2B3       513            clr     _P3_3
+00B5 22         514            ret
+00B6            515   ;------------------------------------------------------------
+00B6            516   ;Allocation info for local variables in function 'LCD_byte'
+00B6            517   ;------------------------------------------------------------
+00B6            518   ;x                         Allocated to registers r2 
+00B6            519   ;------------------------------------------------------------
+00B6            520   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:81: void LCD_byte (unsigned char x)
+00B6            521   ;        -----------------------------------------
+00B6            522   ;         function LCD_byte
+00B6            523   ;        -----------------------------------------
+00B6            524   _LCD_byte:
+00B6 AA82       525            mov     r2,dpl
+00B8            526   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:84: ACC=x; //Send high nible
+00B8 8AE0       527            mov     _ACC,r2
+00BA            528   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:85: LCD_D7=ACC_7;
+00BA A2E7       529            mov     c,_ACC_7
+00BC 92B7       530            mov     _P3_7,c
+00BE            531   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:86: LCD_D6=ACC_6;
+00BE A2E6       532            mov     c,_ACC_6
+00C0 92B6       533            mov     _P3_6,c
+00C2            534   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:87: LCD_D5=ACC_5;
+00C2 A2E5       535            mov     c,_ACC_5
+00C4 92B5       536            mov     _P3_5,c
+00C6            537   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:88: LCD_D4=ACC_4;
+00C6 A2E4       538            mov     c,_ACC_4
+00C8 92B4       539            mov     _P3_4,c
+00CA            540   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:89: LCD_pulse();
+00CA C002       541            push    ar2
+00CC 120100     542            lcall   _LCD_pulse
+00CF            543   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:90: wait_us(40);
+00CF 758228     544            mov     dpl,#0x28
+00D2 120100     545            lcall   _wait_us
+00D5 D002       546            pop     ar2
+00D7            547   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:91: ACC=x; //Send low nible
+00D7 8AE0       548            mov     _ACC,r2
+00D9            549   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:92: LCD_D7=ACC_3;
+00D9 A2E3       550            mov     c,_ACC_3
+00DB 92B7       551            mov     _P3_7,c
+00DD            552   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:93: LCD_D6=ACC_2;
+00DD A2E2       553            mov     c,_ACC_2
+00DF 92B6       554            mov     _P3_6,c
+00E1            555   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:94: LCD_D5=ACC_1;
+00E1 A2E1       556            mov     c,_ACC_1
+00E3 92B5       557            mov     _P3_5,c
+00E5            558   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:95: LCD_D4=ACC_0;
+00E5 A2E0       559            mov     c,_ACC_0
+00E7 92B4       560            mov     _P3_4,c
+00E9            561   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:96: LCD_pulse();
+00E9 020100     562            ljmp    _LCD_pulse
+00EC            563   ;------------------------------------------------------------
+00EC            564   ;Allocation info for local variables in function 'WriteData'
+00EC            565   ;------------------------------------------------------------
+00EC            566   ;x                         Allocated to registers r2 
+00EC            567   ;------------------------------------------------------------
+00EC            568   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:99: void WriteData (unsigned char x)
+00EC            569   ;        -----------------------------------------
+00EC            570   ;         function WriteData
+00EC            571   ;        -----------------------------------------
+00EC            572   _WriteData:
+00EC AA82       573            mov     r2,dpl
+00EE            574   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:101: LCD_RS=1;
+00EE D2B2       575            setb    _P3_2
+00F0            576   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:102: LCD_byte(x);
+00F0 8A82       577            mov     dpl,r2
+00F2 120100     578            lcall   _LCD_byte
+00F5            579   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:103: waitms(2);
+00F5 900002     580            mov     dptr,#0x0002
+00F8 020100     581            ljmp    _waitms
+00FB            582   ;------------------------------------------------------------
+00FB            583   ;Allocation info for local variables in function 'WriteCommand'
+00FB            584   ;------------------------------------------------------------
+00FB            585   ;x                         Allocated to registers r2 
+00FB            586   ;------------------------------------------------------------
+00FB            587   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:106: void WriteCommand (unsigned char x)
+00FB            588   ;        -----------------------------------------
+00FB            589   ;         function WriteCommand
+00FB            590   ;        -----------------------------------------
+00FB            591   _WriteCommand:
+00FB AA82       592            mov     r2,dpl
+00FD            593   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:108: LCD_RS=0;
+00FD C2B2       594            clr     _P3_2
+00FF            595   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:109: LCD_byte(x);
+00FF 8A82       596            mov     dpl,r2
+0101 120100     597            lcall   _LCD_byte
+0104            598   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:110: waitms(5);
+0104 900005     599            mov     dptr,#0x0005
+0107 020100     600            ljmp    _waitms
+010A            601   ;------------------------------------------------------------
+010A            602   ;Allocation info for local variables in function 'LCD_4BIT'
+010A            603   ;------------------------------------------------------------
+010A            604   ;------------------------------------------------------------
+010A            605   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:113: void LCD_4BIT (void)
+010A            606   ;        -----------------------------------------
+010A            607   ;         function LCD_4BIT
+010A            608   ;        -----------------------------------------
+010A            609   _LCD_4BIT:
+010A            610   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:115: LCD_E=0; // Resting state of LCD's enable is zero
+010A C2B3       611            clr     _P3_3
+010C            612   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:117: waitms(20);
+010C 900014     613            mov     dptr,#0x0014
+010F 120100     614            lcall   _waitms
+0112            615   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:119: WriteCommand(0x33);
+0112 758233     616            mov     dpl,#0x33
+0115 120100     617            lcall   _WriteCommand
+0118            618   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:120: WriteCommand(0x33);
+0118 758233     619            mov     dpl,#0x33
+011B 120100     620            lcall   _WriteCommand
+011E            621   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:121: WriteCommand(0x32); // Change to 4-bit mode
+011E 758232     622            mov     dpl,#0x32
+0121 120100     623            lcall   _WriteCommand
+0124            624   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:124: WriteCommand(0x28);
+0124 758228     625            mov     dpl,#0x28
+0127 120100     626            lcall   _WriteCommand
+012A            627   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:125: WriteCommand(0x0c);
+012A 75820C     628            mov     dpl,#0x0C
+012D 120100     629            lcall   _WriteCommand
+0130            630   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:126: WriteCommand(0x01); // Clear screen command (takes some time)
+0130 758201     631            mov     dpl,#0x01
+0133 120100     632            lcall   _WriteCommand
+0136            633   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:127: waitms(20); // Wait for clear screen command to finsih.
+0136 900014     634            mov     dptr,#0x0014
+0139 020100     635            ljmp    _waitms
+013C            636   ;------------------------------------------------------------
+013C            637   ;Allocation info for local variables in function 'LCDprint'
+013C            638   ;------------------------------------------------------------
+013C            639   ;line                      Allocated with name '_LCDprint_PARM_2'
+013C            640   ;string                    Allocated to registers r2 r3 r4 
+013C            641   ;j                         Allocated to registers r5 r6 
+013C            642   ;------------------------------------------------------------
+013C            643   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:130: void LCDprint(char * string, unsigned char line, bit clear)
+013C            644   ;        -----------------------------------------
+013C            645   ;         function LCDprint
+013C            646   ;        -----------------------------------------
+013C            647   _LCDprint:
+013C AA82       648            mov     r2,dpl
+013E AB83       649            mov     r3,dph
+0140 ACF0       650            mov     r4,b
+0142            651   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:134: WriteCommand(line==2?0xc0:0x80);
+0142 7402       652            mov     a,#0x02
+0144 B53850     653            cjne    a,_LCDprint_PARM_2,L010013?
+0147 7DC0       654            mov     r5,#0xC0
+0149 8001       655            sjmp    L010014?
+014B            656   L010013?:
+014B 7D80       657            mov     r5,#0x80
+014D            658   L010014?:
+014D 8D82       659            mov     dpl,r5
+014F C002       660            push    ar2
+0151 C003       661            push    ar3
+0153 C004       662            push    ar4
+0155 120100     663            lcall   _WriteCommand
+0158            664   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:135: waitms(5);
+0158 900005     665            mov     dptr,#0x0005
+015B 120100     666            lcall   _waitms
+015E D004       667            pop     ar4
+0160 D003       668            pop     ar3
+0162 D002       669            pop     ar2
+0164            670   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:136: for(j=0; string[j]!=0; j++)         WriteData(string[j]);// Write the message
+0164 7D00       671            mov     r5,#0x00
+0166 7E00       672            mov     r6,#0x00
+0168            673   L010003?:
+0168 ED         674            mov     a,r5
+0169 2A         675            add     a,r2
+016A FF         676            mov     r7,a
+016B EE         677            mov     a,r6
+016C 3B         678            addc    a,r3
+016D F8         679            mov     r0,a
+016E 8C01       680            mov     ar1,r4
+0170 8F82       681            mov     dpl,r7
+0172 8883       682            mov     dph,r0
+0174 89F0       683            mov     b,r1
+0176 120100     684            lcall   __gptrget
+0179 FF         685            mov     r7,a
+017A 6001       686            jz      L010006?
+017C 8F82       687            mov     dpl,r7
+017E C002       688            push    ar2
+0180 C003       689            push    ar3
+0182 C004       690            push    ar4
+0184 C005       691            push    ar5
+0186 C006       692            push    ar6
+0188 120100     693            lcall   _WriteData
+018B D006       694            pop     ar6
+018D D005       695            pop     ar5
+018F D004       696            pop     ar4
+0191 D003       697            pop     ar3
+0193 D002       698            pop     ar2
+0195 0D         699            inc     r5
+0196 BD00D0     700            cjne    r5,#0x00,L010003?
+0199 0E         701            inc     r6
+019A 8001       702            sjmp    L010003?
+019C            703   L010006?:
+019C            704   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:137: if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+019C 30E890     705            jnb     _LCDprint_PARM_3,L010011?
+019F 8D02       706            mov     ar2,r5
+01A1 8E03       707            mov     ar3,r6
+01A3            708   L010007?:
+01A3 C3         709            clr     c
+01A4 EA         710            mov     a,r2
+01A5 9410       711            subb    a,#0x10
+01A7 EB         712            mov     a,r3
+01A8 6480       713            xrl     a,#0x80
+01AA 9480       714            subb    a,#0x80
+01AC 5001       715            jnc     L010011?
+01AE 758220     716            mov     dpl,#0x20
+01B1 C002       717            push    ar2
+01B3 C003       718            push    ar3
+01B5 120100     719            lcall   _WriteData
+01B8 D003       720            pop     ar3
+01BA D002       721            pop     ar2
+01BC 0A         722            inc     r2
+01BD BA00D0     723            cjne    r2,#0x00,L010007?
+01C0 0B         724            inc     r3
+01C1 8001       725            sjmp    L010007?
+01C3            726   L010011?:
+01C3 22         727            ret
+01C4            728   ;------------------------------------------------------------
+01C4            729   ;Allocation info for local variables in function 'main'
+01C4            730   ;------------------------------------------------------------
+01C4            731   ;j                         Allocated to registers r2 
+01C4            732   ;c                         Allocated to registers r4 
+01C4            733   ;------------------------------------------------------------
+01C4            734   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:140: void main (void)
+01C4            735   ;        -----------------------------------------
+01C4            736   ;         function main
+01C4            737   ;        -----------------------------------------
+01C4            738   _main:
+01C4            739   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:145: waitms(500); // Gives time to putty to start before sending text
+01C4 9001F4     740            mov     dptr,#0x01F4
+01C7 120100     741            lcall   _waitms
+01CA            742   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:148: LCD_4BIT();
+01CA 120100     743            lcall   _LCD_4BIT
+01CD            744   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:151: LCDprint("LCD 4-bit test:", 1, 1);
+01CD 753801     745            mov     _LCDprint_PARM_2,#0x01
+01D0 D2E8       746            setb    _LCDprint_PARM_3
+01D2 908610     747            mov     dptr,#__str_0
+01D5 75F080     748            mov     b,#0x80
+01D8 120100     749            lcall   _LCDprint
+01DB            750   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:152: LCDprint("Hello, World!", 2, 1);
+01DB 753802     751            mov     _LCDprint_PARM_2,#0x02
+01DE D2E8       752            setb    _LCDprint_PARM_3
+01E0 908650     753            mov     dptr,#__str_1
+01E3 75F080     754            mov     b,#0x80
+01E6 120100     755            lcall   _LCDprint
+01E9            756   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:155: printf("LCD test.\nType something and press <Enter>\n(it will show in the LCD, %d characters max): ", CHARS_PER_LINE);
+01E9 7410       757            mov     a,#0x10
+01EB C0E0       758            push    acc
+01ED E4         759            clr     a
+01EE C0E0       760            push    acc
+01F0 74D0       761            mov     a,#__str_2
+01F2 C0E0       762            push    acc
+01F4 7486       763            mov     a,#(__str_2 >> 8)
+01F6 C0E0       764            push    acc
+01F8 7480       765            mov     a,#0x80
+01FA C0E0       766            push    acc
+01FC 120100     767            lcall   _printf
+01FF E581       768            mov     a,sp
+0201 24FB       769            add     a,#0xfb
+0203 F581       770            mov     sp,a
+0205            771   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:157: while(1)
+0205            772   L011013?:
+0205            773   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:159: if(RI)
+0205 309890     774            jnb     _RI,L011013?
+0208            775   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:162: for(j=0; j<CHARS_PER_LINE; j++)
+0208 7A00       776            mov     r2,#0x00
+020A 7B00       777            mov     r3,#0x00
+020C            778   L011004?:
+020C BB1010     779            cjne    r3,#0x10,L011024?
+020F            780   L011024?:
+020F 5001       781            jnc     L011007?
+0211            782   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:164: c=getchar();
+0211 C002       783            push    ar2
+0213 C003       784            push    ar3
+0215 120100     785            lcall   _getchar
+0218 AC82       786            mov     r4,dpl
+021A D003       787            pop     ar3
+021C D002       788            pop     ar2
+021E            789   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:165: if((c=='\n')||(c=='\r'))
+021E BC0AD0     790            cjne    r4,#0x0A,L011026?
+0221 8001       791            sjmp    L011001?
+0223            792   L011026?:
+0223 BC0D50     793            cjne    r4,#0x0D,L011002?
+0226            794   L011001?:
+0226            795   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:167: mystr[j]=0;
+0226 EA         796            mov     a,r2
+0227 2478       797            add     a,#_mystr
+0229 F8         798            mov     r0,a
+022A 7600       799            mov     @r0,#0x00
+022C            800   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:168: LCDprint(mystr, 2, 1);
+022C 753802     801            mov     _LCDprint_PARM_2,#0x02
+022F D2E8       802            setb    _LCDprint_PARM_3
+0231 904478     803            mov     dptr,#_mystr
+0234 75F040     804            mov     b,#0x40
+0237 C002       805            push    ar2
+0239 120100     806            lcall   _LCDprint
+023C D002       807            pop     ar2
+023E            808   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:169: break;
+023E 8001       809            sjmp    L011007?
+0240            810   L011002?:
+0240            811   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:171: mystr[j]=c;
+0240 EB         812            mov     a,r3
+0241 2478       813            add     a,#_mystr
+0243 F8         814            mov     r0,a
+0244 A604       815            mov     @r0,ar4
+0246            816   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:162: for(j=0; j<CHARS_PER_LINE; j++)
+0246 0B         817            inc     r3
+0247 8B02       818            mov     ar2,r3
+0249 8001       819            sjmp    L011004?
+024B            820   L011007?:
+024B            821   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:173: if(j==CHARS_PER_LINE)
+024B BA1090     822            cjne    r2,#0x10,L011009?
+024E            823   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:175: mystr[j]=0;
+024E EA         824            mov     a,r2
+024F 2478       825            add     a,#_mystr
+0251 F8         826            mov     r0,a
+0252 7600       827            mov     @r0,#0x00
+0254            828   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:176: LCDprint(mystr, 2, 1);
+0254 753802     829            mov     _LCDprint_PARM_2,#0x02
+0257 D2E8       830            setb    _LCDprint_PARM_3
+0259 904478     831            mov     dptr,#_mystr
+025C 75F040     832            mov     b,#0x40
+025F 120100     833            lcall   _LCDprint
+0262            834   L011009?:
+0262            835   ;        D:\school\ELEC291\Lab 4\LCD_4bit_AT89LP51RC2.c:178: printf("\nType something: ");
+0262 74D0       836            mov     a,#__str_3
+0264 C0E0       837            push    acc
+0266 7489       838            mov     a,#(__str_3 >> 8)
+0268 C0E0       839            push    acc
+026A 7480       840            mov     a,#0x80
+026C C0E0       841            push    acc
+026E 120100     842            lcall   _printf
+0271 1581       843            dec     sp
+0273 1581       844            dec     sp
+0275 1581       845            dec     sp
+0277 020100     846            ljmp    L011013?
+027A            847            rseg R_CSEG
+027A            848   
+0000            849            rseg R_XINIT
+0000            850   
+0000            851            rseg R_CONST
+0000            852   __str_0:
+0000 4C434420   853            db 'LCD 4-bit test:'
+     342D6269
+     74207465
+     73743A
+000F 00         854            db 0x00
+0010            855   __str_1:
+0010 48656C6C   856            db 'Hello, World!'
+     6F2C2057
+     6F726C64
+     21
+001D 00         857            db 0x00
+001E            858   __str_2:
+001E 4C434420   859            db 'LCD test.'
+     74657374
+     2E
+0027 0A         860            db 0x0A
+0028 54797065   861            db 'Type something and press <Enter>'
+     20736F6D
+     65746869
+     6E672061
+     6E642070
+     72657373
+     203C456E
+     7465723E
+0048 0A         862            db 0x0A
+0049 28697420   863            db '(it will show in '
+     77696C6C
+     2073686F
+     7720696E
+     20
+005A 74686520   864            db 'the LCD, %d characters max): '
+     4C43442C
+     20256420
+     63686172
+     61637465
+     7273206D
+     6178293A
+     20
+0077 00         865            db 0x00
+0078            866   __str_3:
+0078 0A         867            db 0x0A
+0079 54797065   868            db 'Type something: '
+     20736F6D
+     65746869
+     6E673A20
+0089 00         869            db 0x00
+008A            870   
+0003            871            CSEG
+0003            872   
+0003            873   end

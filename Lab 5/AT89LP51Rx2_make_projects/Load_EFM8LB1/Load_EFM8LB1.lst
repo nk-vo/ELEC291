@@ -1,0 +1,2931 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Fri Mar 11 18:35:06 2022
+0000              5   ;--------------------------------------------------------
+                  5   $name Load_EFM8LB1
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _Bootloader
+0000             27            public _id
+0000             28            public _main
+0000             29            public _C2_DeviceErase
+0000             30            public _C2_PageErase
+0000             31            public _C2_BlockWrite
+0000             32            public _C2_BlockRead
+0000             33            public _C2_GetRevID
+0000             34            public _C2_GetDevID
+0000             35            public _C2_Init
+0000             36            public _C2_ReadSFR
+0000             37            public _C2_WriteSFR
+0000             38            public _C2_Reset
+0000             39            public _C2_WriteDR
+0000             40            public _C2_ReadDR
+0000             41            public _C2_WriteAR
+0000             42            public _C2_ReadAR
+0000             43            public __c51_external_startup
+0000             44            public _W_BUF
+0000             45            public _R_BUF
+0000             46            public _C2_WriteSFR_PARM_2
+0000             47            public _C2_PTR
+0000             48            public _FLASH_ADDR
+0000             49            public _NUM_BYTES
+0000             50            public _Timer0us
+0000             51            public _waitms
+0000             52   ;--------------------------------------------------------
+0000             53   ; Special Function Registers
+0000             54   ;--------------------------------------------------------
+0000             55   _ACC            DATA 0xe0
+0000             56   _B              DATA 0xf0
+0000             57   _PSW            DATA 0xd0
+0000             58   _SP             DATA 0x81
+0000             59   _SPX            DATA 0xef
+0000             60   _DPL            DATA 0x82
+0000             61   _DPH            DATA 0x83
+0000             62   _DPLB           DATA 0xd4
+0000             63   _DPHB           DATA 0xd5
+0000             64   _PAGE           DATA 0xf6
+0000             65   _AX             DATA 0xe1
+0000             66   _BX             DATA 0xf7
+0000             67   _DSPR           DATA 0xe2
+0000             68   _FIRD           DATA 0xe3
+0000             69   _MACL           DATA 0xe4
+0000             70   _MACH           DATA 0xe5
+0000             71   _PCON           DATA 0x87
+0000             72   _AUXR           DATA 0x8e
+0000             73   _AUXR1          DATA 0xa2
+0000             74   _DPCF           DATA 0xa1
+0000             75   _CKRL           DATA 0x97
+0000             76   _CKCKON0        DATA 0x8f
+0000             77   _CKCKON1        DATA 0xaf
+0000             78   _CKSEL          DATA 0x85
+0000             79   _CLKREG         DATA 0xae
+0000             80   _OSCCON         DATA 0x85
+0000             81   _IE             DATA 0xa8
+0000             82   _IEN0           DATA 0xa8
+0000             83   _IEN1           DATA 0xb1
+0000             84   _IPH0           DATA 0xb7
+0000             85   _IP             DATA 0xb8
+0000             86   _IPL0           DATA 0xb8
+0000             87   _IPH1           DATA 0xb3
+0000             88   _IPL1           DATA 0xb2
+0000             89   _P0             DATA 0x80
+0000             90   _P1             DATA 0x90
+0000             91   _P2             DATA 0xa0
+0000             92   _P3             DATA 0xb0
+0000             93   _P4             DATA 0xc0
+0000             94   _P0M0           DATA 0xe6
+0000             95   _P0M1           DATA 0xe7
+0000             96   _P1M0           DATA 0xd6
+0000             97   _P1M1           DATA 0xd7
+0000             98   _P2M0           DATA 0xce
+0000             99   _P2M1           DATA 0xcf
+0000            100   _P3M0           DATA 0xc6
+0000            101   _P3M1           DATA 0xc7
+0000            102   _P4M0           DATA 0xbe
+0000            103   _P4M1           DATA 0xbf
+0000            104   _SCON           DATA 0x98
+0000            105   _SBUF           DATA 0x99
+0000            106   _SADEN          DATA 0xb9
+0000            107   _SADDR          DATA 0xa9
+0000            108   _BDRCON         DATA 0x9b
+0000            109   _BRL            DATA 0x9a
+0000            110   _TCON           DATA 0x88
+0000            111   _TMOD           DATA 0x89
+0000            112   _TCONB          DATA 0x91
+0000            113   _TL0            DATA 0x8a
+0000            114   _TH0            DATA 0x8c
+0000            115   _TL1            DATA 0x8b
+0000            116   _TH1            DATA 0x8d
+0000            117   _RL0            DATA 0xf2
+0000            118   _RH0            DATA 0xf4
+0000            119   _RL1            DATA 0xf3
+0000            120   _RH1            DATA 0xf5
+0000            121   _WDTRST         DATA 0xa6
+0000            122   _WDTPRG         DATA 0xa7
+0000            123   _T2CON          DATA 0xc8
+0000            124   _T2MOD          DATA 0xc9
+0000            125   _RCAP2H         DATA 0xcb
+0000            126   _RCAP2L         DATA 0xca
+0000            127   _TH2            DATA 0xcd
+0000            128   _TL2            DATA 0xcc
+0000            129   _SPCON          DATA 0xc3
+0000            130   _SPSTA          DATA 0xc4
+0000            131   _SPDAT          DATA 0xc5
+0000            132   _SSCON          DATA 0x93
+0000            133   _SSCS           DATA 0x94
+0000            134   _SSDAT          DATA 0x95
+0000            135   _SSADR          DATA 0x96
+0000            136   _KBLS           DATA 0x9c
+0000            137   _KBE            DATA 0x9d
+0000            138   _KBF            DATA 0x9e
+0000            139   _KBMOD          DATA 0x9f
+0000            140   _BMSEL          DATA 0x92
+0000            141   _FCON           DATA 0xd2
+0000            142   _EECON          DATA 0xd2
+0000            143   _ACSRA          DATA 0xa3
+0000            144   _ACSRB          DATA 0xab
+0000            145   _AREF           DATA 0xbd
+0000            146   _DADC           DATA 0xa4
+0000            147   _DADI           DATA 0xa5
+0000            148   _DADL           DATA 0xac
+0000            149   _DADH           DATA 0xad
+0000            150   _CCON           DATA 0xd8
+0000            151   _CMOD           DATA 0xd9
+0000            152   _CL             DATA 0xe9
+0000            153   _CH             DATA 0xf9
+0000            154   _CCAPM0         DATA 0xda
+0000            155   _CCAPM1         DATA 0xdb
+0000            156   _CCAPM2         DATA 0xdc
+0000            157   _CCAPM3         DATA 0xdd
+0000            158   _CCAPM4         DATA 0xde
+0000            159   _CCAP0H         DATA 0xfa
+0000            160   _CCAP1H         DATA 0xfb
+0000            161   _CCAP2H         DATA 0xfc
+0000            162   _CCAP3H         DATA 0xfd
+0000            163   _CCAP4H         DATA 0xfe
+0000            164   _CCAP0L         DATA 0xea
+0000            165   _CCAP1L         DATA 0xeb
+0000            166   _CCAP2L         DATA 0xec
+0000            167   _CCAP3L         DATA 0xed
+0000            168   _CCAP4L         DATA 0xee
+0000            169   ;--------------------------------------------------------
+0000            170   ; special function bits
+0000            171   ;--------------------------------------------------------
+0000            172   _ACC_0          BIT 0xe0
+0000            173   _ACC_1          BIT 0xe1
+0000            174   _ACC_2          BIT 0xe2
+0000            175   _ACC_3          BIT 0xe3
+0000            176   _ACC_4          BIT 0xe4
+0000            177   _ACC_5          BIT 0xe5
+0000            178   _ACC_6          BIT 0xe6
+0000            179   _ACC_7          BIT 0xe7
+0000            180   _B_0            BIT 0xf0
+0000            181   _B_1            BIT 0xf1
+0000            182   _B_2            BIT 0xf2
+0000            183   _B_3            BIT 0xf3
+0000            184   _B_4            BIT 0xf4
+0000            185   _B_5            BIT 0xf5
+0000            186   _B_6            BIT 0xf6
+0000            187   _B_7            BIT 0xf7
+0000            188   _P              BIT 0xd0
+0000            189   _F1             BIT 0xd1
+0000            190   _OV             BIT 0xd2
+0000            191   _RS0            BIT 0xd3
+0000            192   _RS1            BIT 0xd4
+0000            193   _F0             BIT 0xd5
+0000            194   _AC             BIT 0xd6
+0000            195   _CY             BIT 0xd7
+0000            196   _EX0            BIT 0xa8
+0000            197   _ET0            BIT 0xa9
+0000            198   _EX1            BIT 0xaa
+0000            199   _ET1            BIT 0xab
+0000            200   _ES             BIT 0xac
+0000            201   _ET2            BIT 0xad
+0000            202   _EC             BIT 0xae
+0000            203   _EA             BIT 0xaf
+0000            204   _PX0            BIT 0xb8
+0000            205   _PT0            BIT 0xb9
+0000            206   _PX1            BIT 0xba
+0000            207   _PT1            BIT 0xbb
+0000            208   _PS             BIT 0xbc
+0000            209   _PT2            BIT 0xbd
+0000            210   _IP0D           BIT 0xbf
+0000            211   _PPCL           BIT 0xbe
+0000            212   _PT2L           BIT 0xbd
+0000            213   _PLS            BIT 0xbc
+0000            214   _PT1L           BIT 0xbb
+0000            215   _PX1L           BIT 0xba
+0000            216   _PT0L           BIT 0xb9
+0000            217   _PX0L           BIT 0xb8
+0000            218   _P0_0           BIT 0x80
+0000            219   _P0_1           BIT 0x81
+0000            220   _P0_2           BIT 0x82
+0000            221   _P0_3           BIT 0x83
+0000            222   _P0_4           BIT 0x84
+0000            223   _P0_5           BIT 0x85
+0000            224   _P0_6           BIT 0x86
+0000            225   _P0_7           BIT 0x87
+0000            226   _P1_0           BIT 0x90
+0000            227   _P1_1           BIT 0x91
+0000            228   _P1_2           BIT 0x92
+0000            229   _P1_3           BIT 0x93
+0000            230   _P1_4           BIT 0x94
+0000            231   _P1_5           BIT 0x95
+0000            232   _P1_6           BIT 0x96
+0000            233   _P1_7           BIT 0x97
+0000            234   _P2_0           BIT 0xa0
+0000            235   _P2_1           BIT 0xa1
+0000            236   _P2_2           BIT 0xa2
+0000            237   _P2_3           BIT 0xa3
+0000            238   _P2_4           BIT 0xa4
+0000            239   _P2_5           BIT 0xa5
+0000            240   _P2_6           BIT 0xa6
+0000            241   _P2_7           BIT 0xa7
+0000            242   _P3_0           BIT 0xb0
+0000            243   _P3_1           BIT 0xb1
+0000            244   _P3_2           BIT 0xb2
+0000            245   _P3_3           BIT 0xb3
+0000            246   _P3_4           BIT 0xb4
+0000            247   _P3_5           BIT 0xb5
+0000            248   _P3_6           BIT 0xb6
+0000            249   _P3_7           BIT 0xb7
+0000            250   _RXD            BIT 0xb0
+0000            251   _TXD            BIT 0xb1
+0000            252   _INT0           BIT 0xb2
+0000            253   _INT1           BIT 0xb3
+0000            254   _T0             BIT 0xb4
+0000            255   _T1             BIT 0xb5
+0000            256   _WR             BIT 0xb6
+0000            257   _RD             BIT 0xb7
+0000            258   _P4_0           BIT 0xc0
+0000            259   _P4_1           BIT 0xc1
+0000            260   _P4_2           BIT 0xc2
+0000            261   _P4_3           BIT 0xc3
+0000            262   _P4_4           BIT 0xc4
+0000            263   _P4_5           BIT 0xc5
+0000            264   _P4_6           BIT 0xc6
+0000            265   _P4_7           BIT 0xc7
+0000            266   _RI             BIT 0x98
+0000            267   _TI             BIT 0x99
+0000            268   _RB8            BIT 0x9a
+0000            269   _TB8            BIT 0x9b
+0000            270   _REN            BIT 0x9c
+0000            271   _SM2            BIT 0x9d
+0000            272   _SM1            BIT 0x9e
+0000            273   _SM0            BIT 0x9f
+0000            274   _IT0            BIT 0x88
+0000            275   _IE0            BIT 0x89
+0000            276   _IT1            BIT 0x8a
+0000            277   _IE1            BIT 0x8b
+0000            278   _TR0            BIT 0x8c
+0000            279   _TF0            BIT 0x8d
+0000            280   _TR1            BIT 0x8e
+0000            281   _TF1            BIT 0x8f
+0000            282   _CP_RL2         BIT 0xc8
+0000            283   _C_T2           BIT 0xc9
+0000            284   _TR2            BIT 0xca
+0000            285   _EXEN2          BIT 0xcb
+0000            286   _TCLK           BIT 0xcc
+0000            287   _RCLK           BIT 0xcd
+0000            288   _EXF2           BIT 0xce
+0000            289   _TF2            BIT 0xcf
+0000            290   _CF             BIT 0xdf
+0000            291   _CR             BIT 0xde
+0000            292   _CCF4           BIT 0xdc
+0000            293   _CCF3           BIT 0xdb
+0000            294   _CCF2           BIT 0xda
+0000            295   _CCF1           BIT 0xd9
+0000            296   _CCF0           BIT 0xd8
+0000            297   ;--------------------------------------------------------
+0000            298   ; overlayable register banks
+0000            299   ;--------------------------------------------------------
+0000            300            rbank0 segment data overlay
+0000            301   ;--------------------------------------------------------
+0000            302   ; internal ram data
+0000            303   ;--------------------------------------------------------
+0000            304            rseg R_DSEG
+0000            305   _NUM_BYTES:
+0000            306            ds 1
+0001            307   _FLASH_ADDR:
+0001            308            ds 2
+0003            309   _C2_PTR:
+0003            310            ds 1
+0004            311   _C2_WriteSFR_PARM_2:
+0004            312            ds 1
+0005            313   _main_i_1_106:
+0005            314            ds 2
+0007            315   _main_k_1_106:
+0007            316            ds 2
+0009            317   _main_sloc0_1_0:
+0009            318            ds 2
+000B            319   ;--------------------------------------------------------
+000B            320   ; overlayable items in internal ram 
+000B            321   ;--------------------------------------------------------
+0000            322            rseg    R_OSEG
+0000            323            rseg    R_OSEG
+0000            324            rseg    R_OSEG
+0000            325            rseg    R_OSEG
+0000            326   ;--------------------------------------------------------
+0000            327   ; indirectly addressable internal ram data
+0000            328   ;--------------------------------------------------------
+0000            329            rseg R_ISEG
+0000            330   _R_BUF:
+0000            331            ds 64
+0040            332   _W_BUF:
+0040            333            ds 64
+0080            334   ;--------------------------------------------------------
+0080            335   ; absolute internal ram data
+0080            336   ;--------------------------------------------------------
+0000            337            DSEG
+0000            338   ;--------------------------------------------------------
+0000            339   ; bit data
+0000            340   ;--------------------------------------------------------
+0000            341            rseg R_BSEG
+0000            342   ;--------------------------------------------------------
+0000            343   ; paged external ram data
+0000            344   ;--------------------------------------------------------
+0000            345            rseg R_PSEG
+0000            346   ;--------------------------------------------------------
+0000            347   ; external ram data
+0000            348   ;--------------------------------------------------------
+0000            349            rseg R_XSEG
+0000            350   ;--------------------------------------------------------
+0000            351   ; absolute external ram data
+0000            352   ;--------------------------------------------------------
+0000            353            XSEG
+0000            354   ;--------------------------------------------------------
+0000            355   ; external initialized ram data
+0000            356   ;--------------------------------------------------------
+0000            357            rseg R_IXSEG
+0000            358            rseg R_HOME
+0000            359            rseg R_GSINIT
+0000            360            rseg R_CSEG
+0000            361   ;--------------------------------------------------------
+0000            362   ; Reset entry point and interrupt vectors
+0000            363   ;--------------------------------------------------------
+0000            364            CSEG at 0x0000
+0000 020100     365            ljmp    _crt0
+0003            366   ;--------------------------------------------------------
+0003            367   ; global & static initialisations
+0003            368   ;--------------------------------------------------------
+0000            369            rseg R_HOME
+0000            370            rseg R_GSINIT
+0000            371            rseg R_GSINIT
+0000            372   ;--------------------------------------------------------
+0000            373   ; data variables initialization
+0000            374   ;--------------------------------------------------------
+0000            375            rseg R_DINIT
+0000            376            ; The linker places a 'ret' at the end of segment R_DINIT.
+0000            377   ;--------------------------------------------------------
+0000            378   ; code
+0000            379   ;--------------------------------------------------------
+0000            380            rseg R_CSEG
+0000            381   ;------------------------------------------------------------
+0000            382   ;Allocation info for local variables in function '_c51_external_startup'
+0000            383   ;------------------------------------------------------------
+0000            384   ;------------------------------------------------------------
+0000            385   ;        Load_EFM8LB1.c:170: unsigned char _c51_external_startup(void)
+0000            386   ;        -----------------------------------------
+0000            387   ;         function _c51_external_startup
+0000            388   ;        -----------------------------------------
+0000            389   __c51_external_startup:
+0000            390            using   0
+0000            391   ;        Load_EFM8LB1.c:172: AUXR=0B_0001_0001; // 1152 bytes of internal XDATA, P4.4 is a general purpose I/O
+0000 758E11     392            mov     _AUXR,#0x11
+0003            393   ;        Load_EFM8LB1.c:174: PCON|=0x80;
+0003 438780     394            orl     _PCON,#0x80
+0006            395   ;        Load_EFM8LB1.c:175: SCON = 0x52;
+0006 759852     396            mov     _SCON,#0x52
+0009            397   ;        Load_EFM8LB1.c:176: BDRCON=0;
+0009 759B00     398            mov     _BDRCON,#0x00
+000C            399   ;        Load_EFM8LB1.c:180: BRL=BRG_VAL;
+000C 759AF4     400            mov     _BRL,#0xF4
+000F            401   ;        Load_EFM8LB1.c:181: BDRCON=BRR|TBCK|RBCK|SPD;
+000F 759B1E     402            mov     _BDRCON,#0x1E
+0012            403   ;        Load_EFM8LB1.c:183: return 0;
+0012 758200     404            mov     dpl,#0x00
+0015 22         405            ret
+0016            406   ;------------------------------------------------------------
+0016            407   ;Allocation info for local variables in function 'Timer0us'
+0016            408   ;------------------------------------------------------------
+0016            409   ;x                         Allocated to registers r2 
+0016            410   ;j                         Allocated to registers r2 r3 
+0016            411   ;------------------------------------------------------------
+0016            412   ;        Load_EFM8LB1.c:186: void Timer0us (unsigned char x)
+0016            413   ;        -----------------------------------------
+0016            414   ;         function Timer0us
+0016            415   ;        -----------------------------------------
+0016            416   _Timer0us:
+0016 AA82       417            mov     r2,dpl
+0018            418   ;        Load_EFM8LB1.c:190: TR0=0; // Stop timer 0
+0018 C28C       419            clr     _TR0
+001A            420   ;        Load_EFM8LB1.c:191: TMOD&=0xf0; // Clear the configuration bits for timer 0
+001A 5389F0     421            anl     _TMOD,#0xF0
+001D            422   ;        Load_EFM8LB1.c:192: TMOD|=0x01; // Mode 1: 16-bit timer
+001D 438901     423            orl     _TMOD,#0x01
+0020            424   ;        Load_EFM8LB1.c:194: if(x>5) x-=5; // Subtract the overhead
+0020 EA         425            mov     a,r2
+0021 24FA       426            add     a,#0xff - 0x05
+0023 5001       427            jnc     L003002?
+0025 EA         428            mov     a,r2
+0026 24FB       429            add     a,#0xfb
+0028 FA         430            mov     r2,a
+0029 8001       431            sjmp    L003003?
+002B            432   L003002?:
+002B            433   ;        Load_EFM8LB1.c:195: else x=1;
+002B 7A01       434            mov     r2,#0x01
+002D            435   L003003?:
+002D            436   ;        Load_EFM8LB1.c:197: j=-ONE_USEC*x;
+002D 8A00       437            mov     __mullong_PARM_2,r2
+002F 750100     438            mov     (__mullong_PARM_2 + 1),#0x00
+0032 750200     439            mov     (__mullong_PARM_2 + 2),#0x00
+0035 750300     440            mov     (__mullong_PARM_2 + 3),#0x00
+0038 90FFEA     441            mov     dptr,#0xFFEA
+003B 74FF       442            mov     a,#0xFF
+003D F5F0       443            mov     b,a
+003F 120100     444            lcall   __mullong
+0042 AA82       445            mov     r2,dpl
+0044 AB83       446            mov     r3,dph
+0046            447   ;        Load_EFM8LB1.c:198: TF0=0;
+0046 C28D       448            clr     _TF0
+0048            449   ;        Load_EFM8LB1.c:199: TH0=j/0x100;
+0048 8B04       450            mov     ar4,r3
+004A 7D00       451            mov     r5,#0x00
+004C 8C8C       452            mov     _TH0,r4
+004E            453   ;        Load_EFM8LB1.c:200: TL0=j%0x100;
+004E 7B00       454            mov     r3,#0x00
+0050 8A8A       455            mov     _TL0,r2
+0052            456   ;        Load_EFM8LB1.c:201: TR0=1; // Start timer 0
+0052 D28C       457            setb    _TR0
+0054            458   ;        Load_EFM8LB1.c:202: while(TF0==0); //Wait for overflow
+0054            459   L003004?:
+0054 308D10     460            jnb     _TF0,L003004?
+0057 22         461            ret
+0058            462   ;------------------------------------------------------------
+0058            463   ;Allocation info for local variables in function 'waitms'
+0058            464   ;------------------------------------------------------------
+0058            465   ;ms                        Allocated to registers r2 r3 
+0058            466   ;j                         Allocated to registers r4 r5 
+0058            467   ;k                         Allocated to registers r6 
+0058            468   ;------------------------------------------------------------
+0058            469   ;        Load_EFM8LB1.c:205: void waitms (unsigned int ms)
+0058            470   ;        -----------------------------------------
+0058            471   ;         function waitms
+0058            472   ;        -----------------------------------------
+0058            473   _waitms:
+0058 AA82       474            mov     r2,dpl
+005A AB83       475            mov     r3,dph
+005C            476   ;        Load_EFM8LB1.c:209: for(j=0; j<ms; j++)
+005C 7C00       477            mov     r4,#0x00
+005E 7D00       478            mov     r5,#0x00
+0060            479   L004005?:
+0060 C3         480            clr     c
+0061 EC         481            mov     a,r4
+0062 9A         482            subb    a,r2
+0063 ED         483            mov     a,r5
+0064 9B         484            subb    a,r3
+0065 5001       485            jnc     L004009?
+0067            486   ;        Load_EFM8LB1.c:210: for (k=0; k<4; k++) Timer0us(250);
+0067 7E00       487            mov     r6,#0x00
+0069            488   L004001?:
+0069 BE0410     489            cjne    r6,#0x04,L004018?
+006C            490   L004018?:
+006C 5001       491            jnc     L004007?
+006E 7582FA     492            mov     dpl,#0xFA
+0071 C002       493            push    ar2
+0073 C003       494            push    ar3
+0075 C004       495            push    ar4
+0077 C005       496            push    ar5
+0079 C006       497            push    ar6
+007B 120100     498            lcall   _Timer0us
+007E D006       499            pop     ar6
+0080 D005       500            pop     ar5
+0082 D004       501            pop     ar4
+0084 D003       502            pop     ar3
+0086 D002       503            pop     ar2
+0088 0E         504            inc     r6
+0089 8001       505            sjmp    L004001?
+008B            506   L004007?:
+008B            507   ;        Load_EFM8LB1.c:209: for(j=0; j<ms; j++)
+008B 0C         508            inc     r4
+008C BC0050     509            cjne    r4,#0x00,L004005?
+008F 0D         510            inc     r5
+0090 8001       511            sjmp    L004005?
+0092            512   L004009?:
+0092 22         513            ret
+0093            514   ;------------------------------------------------------------
+0093            515   ;Allocation info for local variables in function 'C2_ReadAR'
+0093            516   ;------------------------------------------------------------
+0093            517   ;i                         Allocated to registers r3 
+0093            518   ;addr                      Allocated to registers r2 
+0093            519   ;------------------------------------------------------------
+0093            520   ;        Load_EFM8LB1.c:216: unsigned char C2_ReadAR(void)
+0093            521   ;        -----------------------------------------
+0093            522   ;         function C2_ReadAR
+0093            523   ;        -----------------------------------------
+0093            524   _C2_ReadAR:
+0093            525   ;        Load_EFM8LB1.c:222: StrobeC2CK; // Strobe C2CK with C2D driver disabled
+0093 C2A0       526            clr     _P2_0
+0095 D2A0       527            setb    _P2_0
+0097            528   ;        Load_EFM8LB1.c:225: C2D = LOW;                       
+0097 C2A1       529            clr     _P2_1
+0099            530   ;        Load_EFM8LB1.c:226: C2D_DriverOn; // Enable C2D driver (output)
+0099 43CF02     531            orl     _P2M1,#0x02
+009C            532   ;        Load_EFM8LB1.c:227: StrobeC2CK;
+009C C2A0       533            clr     _P2_0
+009E D2A0       534            setb    _P2_0
+00A0            535   ;        Load_EFM8LB1.c:228: C2D = HIGH;
+00A0 D2A1       536            setb    _P2_1
+00A2            537   ;        Load_EFM8LB1.c:229: StrobeC2CK;
+00A2 C2A0       538            clr     _P2_0
+00A4 D2A0       539            setb    _P2_0
+00A6            540   ;        Load_EFM8LB1.c:231: C2D_DriverOff; // Disable C2D driver (input)
+00A6 53CFFD     541            anl     _P2M1,#0xFD
+00A9 43A002     542            orl     _P2,#0x02
+00AC            543   ;        Load_EFM8LB1.c:234: addr = 0;
+00AC 7A00       544            mov     r2,#0x00
+00AE            545   ;        Load_EFM8LB1.c:235: for (i=0;i<8;i++) // Shift in 8 bit ADDRESS field LSB-first
+00AE 7B00       546            mov     r3,#0x00
+00B0            547   L005003?:
+00B0 BB08D0     548            cjne    r3,#0x08,L005013?
+00B3            549   L005013?:
+00B3 5001       550            jnc     L005006?
+00B5            551   ;        Load_EFM8LB1.c:237: addr >>= 1;                   
+00B5 EA         552            mov     a,r2
+00B6 C3         553            clr     c
+00B7 13         554            rrc     a
+00B8 FA         555            mov     r2,a
+00B9            556   ;        Load_EFM8LB1.c:238: StrobeC2CK;     
+00B9 C2A0       557            clr     _P2_0
+00BB D2A0       558            setb    _P2_0
+00BD            559   ;        Load_EFM8LB1.c:239: if (C2D)
+00BD 30A150     560            jnb     _P2_1,L005005?
+00C0            561   ;        Load_EFM8LB1.c:240: addr |= 0x80;
+00C0 430280     562            orl     ar2,#0x80
+00C3            563   L005005?:
+00C3            564   ;        Load_EFM8LB1.c:235: for (i=0;i<8;i++) // Shift in 8 bit ADDRESS field LSB-first
+00C3 0B         565            inc     r3
+00C4 8001       566            sjmp    L005003?
+00C6            567   L005006?:
+00C6            568   ;        Load_EFM8LB1.c:244: StrobeC2CK; // Strobe C2CK with C2D driver disabled
+00C6 C2A0       569            clr     _P2_0
+00C8 D2A0       570            setb    _P2_0
+00CA            571   ;        Load_EFM8LB1.c:246: return addr; // Return Address register read value
+00CA 8A82       572            mov     dpl,r2
+00CC 22         573            ret
+00CD            574   ;------------------------------------------------------------
+00CD            575   ;Allocation info for local variables in function 'C2_WriteAR'
+00CD            576   ;------------------------------------------------------------
+00CD            577   ;addr                      Allocated to registers r2 
+00CD            578   ;i                         Allocated to registers r3 
+00CD            579   ;------------------------------------------------------------
+00CD            580   ;        Load_EFM8LB1.c:250: void C2_WriteAR(unsigned char addr)
+00CD            581   ;        -----------------------------------------
+00CD            582   ;         function C2_WriteAR
+00CD            583   ;        -----------------------------------------
+00CD            584   _C2_WriteAR:
+00CD AA82       585            mov     r2,dpl
+00CF            586   ;        Load_EFM8LB1.c:255: StrobeC2CK; // Strobe C2CK with C2D driver disabled
+00CF C2A0       587            clr     _P2_0
+00D1 D2A0       588            setb    _P2_0
+00D3            589   ;        Load_EFM8LB1.c:258: C2D = HIGH;             
+00D3 D2A1       590            setb    _P2_1
+00D5            591   ;        Load_EFM8LB1.c:259: C2D_DriverOn;
+00D5 43CF02     592            orl     _P2M1,#0x02
+00D8            593   ;        Load_EFM8LB1.c:260: StrobeC2CK; 
+00D8 C2A0       594            clr     _P2_0
+00DA D2A0       595            setb    _P2_0
+00DC            596   ;        Load_EFM8LB1.c:261: C2D = HIGH;
+00DC D2A1       597            setb    _P2_1
+00DE            598   ;        Load_EFM8LB1.c:262: StrobeC2CK;
+00DE C2A0       599            clr     _P2_0
+00E0 D2A0       600            setb    _P2_0
+00E2            601   ;        Load_EFM8LB1.c:265: for(i=0;i<8;i++)
+00E2 7B00       602            mov     r3,#0x00
+00E4            603   L006001?:
+00E4 BB08D0     604            cjne    r3,#0x08,L006010?
+00E7            605   L006010?:
+00E7 5001       606            jnc     L006004?
+00E9            607   ;        Load_EFM8LB1.c:267: C2D = (addr & 0x01);
+00E9 EA         608            mov     a,r2
+00EA 13         609            rrc     a
+00EB 92A1       610            mov     _P2_1,c
+00ED            611   ;        Load_EFM8LB1.c:268: StrobeC2CK;
+00ED C2A0       612            clr     _P2_0
+00EF D2A0       613            setb    _P2_0
+00F1            614   ;        Load_EFM8LB1.c:269: addr >>= 1;
+00F1 EA         615            mov     a,r2
+00F2 C3         616            clr     c
+00F3 13         617            rrc     a
+00F4 FA         618            mov     r2,a
+00F5            619   ;        Load_EFM8LB1.c:265: for(i=0;i<8;i++)
+00F5 0B         620            inc     r3
+00F6 8001       621            sjmp    L006001?
+00F8            622   L006004?:
+00F8            623   ;        Load_EFM8LB1.c:273: C2D_DriverOff;
+00F8 53CFFD     624            anl     _P2M1,#0xFD
+00FB 43A002     625            orl     _P2,#0x02
+00FE            626   ;        Load_EFM8LB1.c:274: StrobeC2CK;
+00FE C2A0       627            clr     _P2_0
+0100 D2A0       628            setb    _P2_0
+0102            629   ;        Load_EFM8LB1.c:276: return;
+0102 22         630            ret
+0103            631   ;------------------------------------------------------------
+0103            632   ;Allocation info for local variables in function 'C2_ReadDR'
+0103            633   ;------------------------------------------------------------
+0103            634   ;i                         Allocated to registers r3 
+0103            635   ;dat                       Allocated to registers r2 
+0103            636   ;------------------------------------------------------------
+0103            637   ;        Load_EFM8LB1.c:280: unsigned char C2_ReadDR(void)
+0103            638   ;        -----------------------------------------
+0103            639   ;         function C2_ReadDR
+0103            640   ;        -----------------------------------------
+0103            641   _C2_ReadDR:
+0103            642   ;        Load_EFM8LB1.c:286: StrobeC2CK; // Strobe C2CK with C2D driver disabled
+0103 C2A0       643            clr     _P2_0
+0105 D2A0       644            setb    _P2_0
+0107            645   ;        Load_EFM8LB1.c:289: C2D = LOW;
+0107 C2A1       646            clr     _P2_1
+0109            647   ;        Load_EFM8LB1.c:290: C2D_DriverOn;
+0109 43CF02     648            orl     _P2M1,#0x02
+010C            649   ;        Load_EFM8LB1.c:291: StrobeC2CK;
+010C C2A0       650            clr     _P2_0
+010E D2A0       651            setb    _P2_0
+0110            652   ;        Load_EFM8LB1.c:292: C2D = LOW;
+0110 C2A1       653            clr     _P2_1
+0112            654   ;        Load_EFM8LB1.c:293: StrobeC2CK;
+0112 C2A0       655            clr     _P2_0
+0114 D2A0       656            setb    _P2_0
+0116            657   ;        Load_EFM8LB1.c:296: C2D = LOW;
+0116 C2A1       658            clr     _P2_1
+0118            659   ;        Load_EFM8LB1.c:297: StrobeC2CK;
+0118 C2A0       660            clr     _P2_0
+011A D2A0       661            setb    _P2_0
+011C            662   ;        Load_EFM8LB1.c:298: C2D = LOW;
+011C C2A1       663            clr     _P2_1
+011E            664   ;        Load_EFM8LB1.c:299: StrobeC2CK;
+011E C2A0       665            clr     _P2_0
+0120 D2A0       666            setb    _P2_0
+0122            667   ;        Load_EFM8LB1.c:302: C2D_DriverOff;
+0122 53CFFD     668            anl     _P2M1,#0xFD
+0125 43A002     669            orl     _P2,#0x02
+0128            670   ;        Load_EFM8LB1.c:303: do
+0128            671   L007001?:
+0128            672   ;        Load_EFM8LB1.c:305: StrobeC2CK;
+0128 C2A0       673            clr     _P2_0
+012A D2A0       674            setb    _P2_0
+012C            675   ;        Load_EFM8LB1.c:307: while (!C2D); // Strobe C2CK until target transmits a '1'
+012C 30A150     676            jnb     _P2_1,L007001?
+012F            677   ;        Load_EFM8LB1.c:310: dat = 0;
+012F 7A00       678            mov     r2,#0x00
+0131            679   ;        Load_EFM8LB1.c:311: for (i=0;i<8;i++) // Shift in 8-bit DATA field LSB-first
+0131 7B00       680            mov     r3,#0x00
+0133            681   L007006?:
+0133 BB08D0     682            cjne    r3,#0x08,L007019?
+0136            683   L007019?:
+0136 5001       684            jnc     L007009?
+0138            685   ;        Load_EFM8LB1.c:313: dat >>= 1;
+0138 EA         686            mov     a,r2
+0139 C3         687            clr     c
+013A 13         688            rrc     a
+013B FA         689            mov     r2,a
+013C            690   ;        Load_EFM8LB1.c:314: StrobeC2CK;
+013C C2A0       691            clr     _P2_0
+013E D2A0       692            setb    _P2_0
+0140            693   ;        Load_EFM8LB1.c:315: if (C2D)
+0140 30A150     694            jnb     _P2_1,L007008?
+0143            695   ;        Load_EFM8LB1.c:316: dat  |= 0x80;
+0143 430280     696            orl     ar2,#0x80
+0146            697   L007008?:
+0146            698   ;        Load_EFM8LB1.c:311: for (i=0;i<8;i++) // Shift in 8-bit DATA field LSB-first
+0146 0B         699            inc     r3
+0147 8001       700            sjmp    L007006?
+0149            701   L007009?:
+0149            702   ;        Load_EFM8LB1.c:320: StrobeC2CK;
+0149 C2A0       703            clr     _P2_0
+014B D2A0       704            setb    _P2_0
+014D            705   ;        Load_EFM8LB1.c:322: return dat;
+014D 8A82       706            mov     dpl,r2
+014F 22         707            ret
+0150            708   ;------------------------------------------------------------
+0150            709   ;Allocation info for local variables in function 'C2_WriteDR'
+0150            710   ;------------------------------------------------------------
+0150            711   ;dat                       Allocated to registers r2 
+0150            712   ;i                         Allocated to registers r3 
+0150            713   ;------------------------------------------------------------
+0150            714   ;        Load_EFM8LB1.c:326: void C2_WriteDR(unsigned char dat)
+0150            715   ;        -----------------------------------------
+0150            716   ;         function C2_WriteDR
+0150            717   ;        -----------------------------------------
+0150            718   _C2_WriteDR:
+0150 AA82       719            mov     r2,dpl
+0152            720   ;        Load_EFM8LB1.c:331: StrobeC2CK; // Strobe C2CK with C2D driver disabled
+0152 C2A0       721            clr     _P2_0
+0154 D2A0       722            setb    _P2_0
+0156            723   ;        Load_EFM8LB1.c:334: C2D = HIGH;
+0156 D2A1       724            setb    _P2_1
+0158            725   ;        Load_EFM8LB1.c:335: C2D_DriverOn;
+0158 43CF02     726            orl     _P2M1,#0x02
+015B            727   ;        Load_EFM8LB1.c:336: StrobeC2CK;
+015B C2A0       728            clr     _P2_0
+015D D2A0       729            setb    _P2_0
+015F            730   ;        Load_EFM8LB1.c:337: C2D = LOW;
+015F C2A1       731            clr     _P2_1
+0161            732   ;        Load_EFM8LB1.c:338: StrobeC2CK;
+0161 C2A0       733            clr     _P2_0
+0163 D2A0       734            setb    _P2_0
+0165            735   ;        Load_EFM8LB1.c:341: C2D = LOW;
+0165 C2A1       736            clr     _P2_1
+0167            737   ;        Load_EFM8LB1.c:342: StrobeC2CK;
+0167 C2A0       738            clr     _P2_0
+0169 D2A0       739            setb    _P2_0
+016B            740   ;        Load_EFM8LB1.c:343: C2D = LOW;
+016B C2A1       741            clr     _P2_1
+016D            742   ;        Load_EFM8LB1.c:344: StrobeC2CK;
+016D C2A0       743            clr     _P2_0
+016F D2A0       744            setb    _P2_0
+0171            745   ;        Load_EFM8LB1.c:347: for (i=0;i<8;i++) // Shift out 8-bit DATA field LSB-first
+0171 7B00       746            mov     r3,#0x00
+0173            747   L008004?:
+0173 BB08D0     748            cjne    r3,#0x08,L008015?
+0176            749   L008015?:
+0176 5001       750            jnc     L008007?
+0178            751   ;        Load_EFM8LB1.c:349: C2D = (dat & 0x01);
+0178 EA         752            mov     a,r2
+0179 13         753            rrc     a
+017A 92A1       754            mov     _P2_1,c
+017C            755   ;        Load_EFM8LB1.c:350: StrobeC2CK;
+017C C2A0       756            clr     _P2_0
+017E D2A0       757            setb    _P2_0
+0180            758   ;        Load_EFM8LB1.c:351: dat >>= 1;
+0180 EA         759            mov     a,r2
+0181 C3         760            clr     c
+0182 13         761            rrc     a
+0183 FA         762            mov     r2,a
+0184            763   ;        Load_EFM8LB1.c:347: for (i=0;i<8;i++) // Shift out 8-bit DATA field LSB-first
+0184 0B         764            inc     r3
+0185 8001       765            sjmp    L008004?
+0187            766   L008007?:
+0187            767   ;        Load_EFM8LB1.c:355: C2D_DriverOff; // Disable C2D driver for input
+0187 53CFFD     768            anl     _P2M1,#0xFD
+018A 43A002     769            orl     _P2,#0x02
+018D            770   ;        Load_EFM8LB1.c:356: do
+018D            771   L008001?:
+018D            772   ;        Load_EFM8LB1.c:358: StrobeC2CK; // Strobe C2CK until target transmits a '1'
+018D C2A0       773            clr     _P2_0
+018F D2A0       774            setb    _P2_0
+0191            775   ;        Load_EFM8LB1.c:360: while (!C2D);
+0191 30A150     776            jnb     _P2_1,L008001?
+0194            777   ;        Load_EFM8LB1.c:363: StrobeC2CK; // Strobe C2CK with C2D driver disabled
+0194 C2A0       778            clr     _P2_0
+0196 D2A0       779            setb    _P2_0
+0198            780   ;        Load_EFM8LB1.c:365: return;
+0198 22         781            ret
+0199            782   ;------------------------------------------------------------
+0199            783   ;Allocation info for local variables in function 'C2_Reset'
+0199            784   ;------------------------------------------------------------
+0199            785   ;------------------------------------------------------------
+0199            786   ;        Load_EFM8LB1.c:369: void C2_Reset(void)
+0199            787   ;        -----------------------------------------
+0199            788   ;         function C2_Reset
+0199            789   ;        -----------------------------------------
+0199            790   _C2_Reset:
+0199            791   ;        Load_EFM8LB1.c:371: C2CK = LOW;   // Put target device in reset state by pulling
+0199 C2A0       792            clr     _P2_0
+019B            793   ;        Load_EFM8LB1.c:372: Timer0us(20); // C2CK low for >20us
+019B 758214     794            mov     dpl,#0x14
+019E 120100     795            lcall   _Timer0us
+01A1            796   ;        Load_EFM8LB1.c:373: C2CK = HIGH;  // Release target device from reset
+01A1 D2A0       797            setb    _P2_0
+01A3 22         798            ret
+01A4            799   ;------------------------------------------------------------
+01A4            800   ;Allocation info for local variables in function 'C2_WriteSFR'
+01A4            801   ;------------------------------------------------------------
+01A4            802   ;sfrdata                   Allocated with name '_C2_WriteSFR_PARM_2'
+01A4            803   ;sfraddress                Allocated to registers r2 
+01A4            804   ;------------------------------------------------------------
+01A4            805   ;        Load_EFM8LB1.c:381: void C2_WriteSFR (unsigned char sfraddress, unsigned char sfrdata)
+01A4            806   ;        -----------------------------------------
+01A4            807   ;         function C2_WriteSFR
+01A4            808   ;        -----------------------------------------
+01A4            809   _C2_WriteSFR:
+01A4            810   ;        Load_EFM8LB1.c:383: C2_WriteAR (sfraddress);
+01A4 120100     811            lcall   _C2_WriteAR
+01A7            812   ;        Load_EFM8LB1.c:384: C2_WriteDR (sfrdata);
+01A7 85C082     813            mov     dpl,_C2_WriteSFR_PARM_2
+01AA 120100     814            lcall   _C2_WriteDR
+01AD            815   ;        Load_EFM8LB1.c:385: Poll_InBusy; // Wait for input acknowledge
+01AD            816   L010001?:
+01AD 120100     817            lcall   _C2_ReadAR
+01B0 E582       818            mov     a,dpl
+01B2 20E190     819            jb      acc.1,L010001?
+01B5 22         820            ret
+01B6            821   ;------------------------------------------------------------
+01B6            822   ;Allocation info for local variables in function 'C2_ReadSFR'
+01B6            823   ;------------------------------------------------------------
+01B6            824   ;sfraddress                Allocated to registers r2 
+01B6            825   ;j                         Allocated to registers r2 
+01B6            826   ;------------------------------------------------------------
+01B6            827   ;        Load_EFM8LB1.c:388: unsigned char C2_ReadSFR (unsigned char sfraddress)
+01B6            828   ;        -----------------------------------------
+01B6            829   ;         function C2_ReadSFR
+01B6            830   ;        -----------------------------------------
+01B6            831   _C2_ReadSFR:
+01B6            832   ;        Load_EFM8LB1.c:391: C2_WriteAR (sfraddress);
+01B6 120100     833            lcall   _C2_WriteAR
+01B9            834   ;        Load_EFM8LB1.c:392: j=C2_ReadDR ();
+01B9 120100     835            lcall   _C2_ReadDR
+01BC AA82       836            mov     r2,dpl
+01BE            837   ;        Load_EFM8LB1.c:393: Poll_InBusy; // Wait for input acknowledge
+01BE            838   L011001?:
+01BE C002       839            push    ar2
+01C0 120100     840            lcall   _C2_ReadAR
+01C3 E582       841            mov     a,dpl
+01C5 D002       842            pop     ar2
+01C7 20E110     843            jb      acc.1,L011001?
+01CA            844   ;        Load_EFM8LB1.c:394: return j;
+01CA 8A82       845            mov     dpl,r2
+01CC 22         846            ret
+01CD            847   ;------------------------------------------------------------
+01CD            848   ;Allocation info for local variables in function 'C2_Init'
+01CD            849   ;------------------------------------------------------------
+01CD            850   ;------------------------------------------------------------
+01CD            851   ;        Load_EFM8LB1.c:398: void C2_Init(void)
+01CD            852   ;        -----------------------------------------
+01CD            853   ;         function C2_Init
+01CD            854   ;        -----------------------------------------
+01CD            855   _C2_Init:
+01CD            856   ;        Load_EFM8LB1.c:400: C2_Reset();    // Reset the target device
+01CD 120100     857            lcall   _C2_Reset
+01D0            858   ;        Load_EFM8LB1.c:401: Timer0us(2);   // Delay for at least 2us
+01D0 758202     859            mov     dpl,#0x02
+01D3 120100     860            lcall   _Timer0us
+01D6            861   ;        Load_EFM8LB1.c:409: C2_WriteAR(FPCTL); // Target the C2 FLASH Programming Control register (FPCTL)
+01D6 758202     862            mov     dpl,#0x02
+01D9 120100     863            lcall   _C2_WriteAR
+01DC            864   ;        Load_EFM8LB1.c:410: C2_WriteDR(0x02);  // Write the first key code to enable C2 FLASH programming
+01DC 758202     865            mov     dpl,#0x02
+01DF 120100     866            lcall   _C2_WriteDR
+01E2            867   ;        Load_EFM8LB1.c:411: C2_WriteDR(0x01);  // Write the second key code to enable C2 FLASH programming
+01E2 758201     868            mov     dpl,#0x01
+01E5 120100     869            lcall   _C2_WriteDR
+01E8            870   ;        Load_EFM8LB1.c:412: waitms(20);        // Delay for at least 20ms to ensure the target is ready for C2 FLASH programming
+01E8 900014     871            mov     dptr,#0x0014
+01EB 120100     872            lcall   _waitms
+01EE            873   ;        Load_EFM8LB1.c:417: C2_WriteSFR(0xFF, 0x80);
+01EE 75C080     874            mov     _C2_WriteSFR_PARM_2,#0x80
+01F1 7582FF     875            mov     dpl,#0xFF
+01F4 120100     876            lcall   _C2_WriteSFR
+01F7            877   ;        Load_EFM8LB1.c:418: Timer0us(5); //Delay 5 us
+01F7 758205     878            mov     dpl,#0x05
+01FA 120100     879            lcall   _Timer0us
+01FD            880   ;        Load_EFM8LB1.c:419: C2_WriteSFR(0xEF, 0x02);
+01FD 75C002     881            mov     _C2_WriteSFR_PARM_2,#0x02
+0200 7582EF     882            mov     dpl,#0xEF
+0203 120100     883            lcall   _C2_WriteSFR
+0206            884   ;        Load_EFM8LB1.c:421: C2_WriteSFR(0xA9, 0x00);
+0206 75C000     885            mov     _C2_WriteSFR_PARM_2,#0x00
+0209 7582A9     886            mov     dpl,#0xA9
+020C 020100     887            ljmp    _C2_WriteSFR
+020F            888   ;------------------------------------------------------------
+020F            889   ;Allocation info for local variables in function 'C2_GetDevID'
+020F            890   ;------------------------------------------------------------
+020F            891   ;------------------------------------------------------------
+020F            892   ;        Load_EFM8LB1.c:425: unsigned char C2_GetDevID(void)
+020F            893   ;        -----------------------------------------
+020F            894   ;         function C2_GetDevID
+020F            895   ;        -----------------------------------------
+020F            896   _C2_GetDevID:
+020F            897   ;        Load_EFM8LB1.c:427: C2_WriteAR(DEVICEID); // Select DeviceID register for C2 Data register accesses
+020F 758200     898            mov     dpl,#0x00
+0212 120100     899            lcall   _C2_WriteAR
+0215            900   ;        Load_EFM8LB1.c:428: return C2_ReadDR();   // Read and return the DeviceID register
+0215 020100     901            ljmp    _C2_ReadDR
+0218            902   ;------------------------------------------------------------
+0218            903   ;Allocation info for local variables in function 'C2_GetRevID'
+0218            904   ;------------------------------------------------------------
+0218            905   ;------------------------------------------------------------
+0218            906   ;        Load_EFM8LB1.c:432: unsigned char C2_GetRevID(void)
+0218            907   ;        -----------------------------------------
+0218            908   ;         function C2_GetRevID
+0218            909   ;        -----------------------------------------
+0218            910   _C2_GetRevID:
+0218            911   ;        Load_EFM8LB1.c:434: C2_WriteAR(REVID);   // Select REVID regsiter for C2 Data register accesses
+0218 758201     912            mov     dpl,#0x01
+021B 120100     913            lcall   _C2_WriteAR
+021E            914   ;        Load_EFM8LB1.c:435: return C2_ReadDR();  // Read and return the DeviceID register
+021E 020100     915            ljmp    _C2_ReadDR
+0221            916   ;------------------------------------------------------------
+0221            917   ;Allocation info for local variables in function 'C2_BlockRead'
+0221            918   ;------------------------------------------------------------
+0221            919   ;i                         Allocated to registers r2 
+0221            920   ;status                    Allocated to registers r2 
+0221            921   ;------------------------------------------------------------
+0221            922   ;        Load_EFM8LB1.c:445: char C2_BlockRead(void)
+0221            923   ;        -----------------------------------------
+0221            924   ;         function C2_BlockRead
+0221            925   ;        -----------------------------------------
+0221            926   _C2_BlockRead:
+0221            927   ;        Load_EFM8LB1.c:450: C2_WriteAR(FPDAT);      // Select the FLASH Programming Data register for C2 Data register accesses
+0221 7582B4     928            mov     dpl,#0xB4
+0224 120100     929            lcall   _C2_WriteAR
+0227            930   ;        Load_EFM8LB1.c:451: C2_WriteDR(BLOCK_READ); // Send FLASH block read command
+0227 758206     931            mov     dpl,#0x06
+022A 120100     932            lcall   _C2_WriteDR
+022D            933   ;        Load_EFM8LB1.c:452: Poll_InBusy;            // Wait for input acknowledge
+022D            934   L015001?:
+022D 120100     935            lcall   _C2_ReadAR
+0230 E582       936            mov     a,dpl
+0232 20E150     937            jb      acc.1,L015001?
+0235            938   ;        Load_EFM8LB1.c:455: Poll_OutReady;                      // Wait for status information
+0235            939   L015004?:
+0235 120100     940            lcall   _C2_ReadAR
+0238 E582       941            mov     a,dpl
+023A 30E090     942            jnb     acc.0,L015004?
+023D            943   ;        Load_EFM8LB1.c:456: status = C2_ReadDR();               // Read FLASH programming interface status
+023D 120100     944            lcall   _C2_ReadDR
+0240 AA82       945            mov     r2,dpl
+0242            946   ;        Load_EFM8LB1.c:457: if (status != COMMAND_OK) return 0; // Exit and indicate error
+0242 BA0DD0     947            cjne    r2,#0x0D,L015050?
+0245 8001       948            sjmp    L015008?
+0247            949   L015050?:
+0247 758200     950            mov     dpl,#0x00
+024A 22         951            ret
+024B            952   L015008?:
+024B            953   ;        Load_EFM8LB1.c:459: C2_WriteDR(FLASH_ADDR >> 8);        // Send address high byte to FPDAT
+024B 854182     954            mov     dpl,(_FLASH_ADDR + 1)
+024E 120100     955            lcall   _C2_WriteDR
+0251            956   ;        Load_EFM8LB1.c:460: Poll_InBusy;                        // Wait for input acknowledge
+0251            957   L015009?:
+0251 120100     958            lcall   _C2_ReadAR
+0254 E582       959            mov     a,dpl
+0256 20E150     960            jb      acc.1,L015009?
+0259            961   ;        Load_EFM8LB1.c:461: C2_WriteDR(FLASH_ADDR & 0x00FF);    // Send address low byte to FPDAT
+0259 AB40       962            mov     r3,_FLASH_ADDR
+025B 8B82       963            mov     dpl,r3
+025D 120100     964            lcall   _C2_WriteDR
+0260            965   ;        Load_EFM8LB1.c:462: Poll_InBusy;                        // Wait for input acknowledge
+0260            966   L015012?:
+0260 120100     967            lcall   _C2_ReadAR
+0263 E582       968            mov     a,dpl
+0265 20E190     969            jb      acc.1,L015012?
+0268            970   ;        Load_EFM8LB1.c:463: C2_WriteDR(NUM_BYTES);              // Send block size
+0268 858082     971            mov     dpl,_NUM_BYTES
+026B 120100     972            lcall   _C2_WriteDR
+026E            973   ;        Load_EFM8LB1.c:464: Poll_InBusy;                        // Wait for input acknowledge
+026E            974   L015015?:
+026E 120100     975            lcall   _C2_ReadAR
+0271 E582       976            mov     a,dpl
+0273 20E1D0     977            jb      acc.1,L015015?
+0276            978   ;        Load_EFM8LB1.c:467: Poll_OutReady;                      // Wait for status information
+0276            979   L015018?:
+0276 120100     980            lcall   _C2_ReadAR
+0279 E582       981            mov     a,dpl
+027B 30E010     982            jnb     acc.0,L015018?
+027E            983   ;        Load_EFM8LB1.c:468: status = C2_ReadDR();               // Read FLASH programming interface status
+027E 120100     984            lcall   _C2_ReadDR
+0281 AA82       985            mov     r2,dpl
+0283            986   ;        Load_EFM8LB1.c:469: if (status != COMMAND_OK)
+0283 BA0D50     987            cjne    r2,#0x0D,L015055?
+0286 8001       988            sjmp    L015046?
+0288            989   L015055?:
+0288            990   ;        Load_EFM8LB1.c:470: return 0;                        // Exit and indicate error
+0288 758200     991            mov     dpl,#0x00
+028B            992   ;        Load_EFM8LB1.c:473: for (i=0;i<NUM_BYTES;i++)
+028B 22         993            ret
+028C            994   L015046?:
+028C 7A00       995            mov     r2,#0x00
+028E            996   L015026?:
+028E C3         997            clr     c
+028F EA         998            mov     a,r2
+0290 9580       999            subb    a,_NUM_BYTES
+0292 5001      1000            jnc     L015029?
+0294           1001   ;        Load_EFM8LB1.c:475: Poll_OutReady;                   // Wait for data ready indicator
+0294           1002   L015023?:
+0294 C002      1003            push    ar2
+0296 120100    1004            lcall   _C2_ReadAR
+0299 E582      1005            mov     a,dpl
+029B D002      1006            pop     ar2
+029D 30E050    1007            jnb     acc.0,L015023?
+02A0           1008   ;        Load_EFM8LB1.c:476: *C2_PTR++ = C2_ReadDR();         // Read data from the FPDAT register
+02A0 A800      1009            mov     r0,_C2_PTR
+02A2 C002      1010            push    ar2
+02A4 C000      1011            push    ar0
+02A6 120100    1012            lcall   _C2_ReadDR
+02A9 E582      1013            mov     a,dpl
+02AB D000      1014            pop     ar0
+02AD D002      1015            pop     ar2
+02AF F6        1016            mov     @r0,a
+02B0 0500      1017            inc     _C2_PTR
+02B2           1018   ;        Load_EFM8LB1.c:473: for (i=0;i<NUM_BYTES;i++)
+02B2 0A        1019            inc     r2
+02B3 8001      1020            sjmp    L015026?
+02B5           1021   L015029?:
+02B5           1022   ;        Load_EFM8LB1.c:478: return 1;                           // Exit and indicate success
+02B5 758201    1023            mov     dpl,#0x01
+02B8 22        1024            ret
+02B9           1025   ;------------------------------------------------------------
+02B9           1026   ;Allocation info for local variables in function 'C2_BlockWrite'
+02B9           1027   ;------------------------------------------------------------
+02B9           1028   ;i                         Allocated to registers r2 
+02B9           1029   ;status                    Allocated to registers r2 
+02B9           1030   ;------------------------------------------------------------
+02B9           1031   ;        Load_EFM8LB1.c:488: char C2_BlockWrite(void)
+02B9           1032   ;        -----------------------------------------
+02B9           1033   ;         function C2_BlockWrite
+02B9           1034   ;        -----------------------------------------
+02B9           1035   _C2_BlockWrite:
+02B9           1036   ;        Load_EFM8LB1.c:493: C2_WriteAR(FPDAT);                  // Select the FLASH Programming Data register 
+02B9 7582B4    1037            mov     dpl,#0xB4
+02BC 120100    1038            lcall   _C2_WriteAR
+02BF           1039   ;        Load_EFM8LB1.c:495: C2_WriteDR(BLOCK_WRITE);            // Send FLASH block write command
+02BF 758207    1040            mov     dpl,#0x07
+02C2 120100    1041            lcall   _C2_WriteDR
+02C5           1042   ;        Load_EFM8LB1.c:496: Poll_InBusy;                        // Wait for input acknowledge
+02C5           1043   L016001?:
+02C5 120100    1044            lcall   _C2_ReadAR
+02C8 E582      1045            mov     a,dpl
+02CA 20E190    1046            jb      acc.1,L016001?
+02CD           1047   ;        Load_EFM8LB1.c:499: Poll_OutReady;                      // Wait for status information
+02CD           1048   L016004?:
+02CD 120100    1049            lcall   _C2_ReadAR
+02D0 E582      1050            mov     a,dpl
+02D2 30E0D0    1051            jnb     acc.0,L016004?
+02D5           1052   ;        Load_EFM8LB1.c:500: status = C2_ReadDR();               // Read FLASH programming interface status
+02D5 120100    1053            lcall   _C2_ReadDR
+02D8 AA82      1054            mov     r2,dpl
+02DA           1055   ;        Load_EFM8LB1.c:501: if (status != COMMAND_OK)
+02DA BA0D10    1056            cjne    r2,#0x0D,L016056?
+02DD 8001      1057            sjmp    L016008?
+02DF           1058   L016056?:
+02DF           1059   ;        Load_EFM8LB1.c:502: return 0;                        // Exit and indicate error
+02DF 758200    1060            mov     dpl,#0x00
+02E2 22        1061            ret
+02E3           1062   L016008?:
+02E3           1063   ;        Load_EFM8LB1.c:504: C2_WriteDR(FLASH_ADDR >> 8);        // Send address high byte to FPDAT
+02E3 854182    1064            mov     dpl,(_FLASH_ADDR + 1)
+02E6 120100    1065            lcall   _C2_WriteDR
+02E9           1066   ;        Load_EFM8LB1.c:505: Poll_InBusy;                        // Wait for input acknowledge
+02E9           1067   L016009?:
+02E9 120100    1068            lcall   _C2_ReadAR
+02EC E582      1069            mov     a,dpl
+02EE 20E190    1070            jb      acc.1,L016009?
+02F1           1071   ;        Load_EFM8LB1.c:506: C2_WriteDR(FLASH_ADDR & 0x00FF);    // Send address low byte to FPDAT
+02F1 AB40      1072            mov     r3,_FLASH_ADDR
+02F3 8B82      1073            mov     dpl,r3
+02F5 120100    1074            lcall   _C2_WriteDR
+02F8           1075   ;        Load_EFM8LB1.c:507: Poll_InBusy;                        // Wait for input acknowledge
+02F8           1076   L016012?:
+02F8 120100    1077            lcall   _C2_ReadAR
+02FB E582      1078            mov     a,dpl
+02FD 20E1D0    1079            jb      acc.1,L016012?
+0300           1080   ;        Load_EFM8LB1.c:508: C2_WriteDR(NUM_BYTES);              // Send block size
+0300 858082    1081            mov     dpl,_NUM_BYTES
+0303 120100    1082            lcall   _C2_WriteDR
+0306           1083   ;        Load_EFM8LB1.c:509: Poll_InBusy;                        // Wait for input acknolwedge
+0306           1084   L016015?:
+0306 120100    1085            lcall   _C2_ReadAR
+0309 E582      1086            mov     a,dpl
+030B 20E110    1087            jb      acc.1,L016015?
+030E           1088   ;        Load_EFM8LB1.c:512: Poll_OutReady;                      // Wait for status information
+030E           1089   L016018?:
+030E 120100    1090            lcall   _C2_ReadAR
+0311 E582      1091            mov     a,dpl
+0313 30E050    1092            jnb     acc.0,L016018?
+0316           1093   ;        Load_EFM8LB1.c:513: status = C2_ReadDR();               // Read FLASH programming interface status
+0316 120100    1094            lcall   _C2_ReadDR
+0319 AA82      1095            mov     r2,dpl
+031B           1096   ;        Load_EFM8LB1.c:514: if (status != COMMAND_OK)
+031B BA0D90    1097            cjne    r2,#0x0D,L016061?
+031E 8001      1098            sjmp    L016050?
+0320           1099   L016061?:
+0320           1100   ;        Load_EFM8LB1.c:515: return 0;                        // Exit and indicate error
+0320 758200    1101            mov     dpl,#0x00
+0323           1102   ;        Load_EFM8LB1.c:518: for (i=0;i<NUM_BYTES;i++)
+0323 22        1103            ret
+0324           1104   L016050?:
+0324 7A00      1105            mov     r2,#0x00
+0326           1106   L016029?:
+0326 C3        1107            clr     c
+0327 EA        1108            mov     a,r2
+0328 9580      1109            subb    a,_NUM_BYTES
+032A 5001      1110            jnc     L016026?
+032C           1111   ;        Load_EFM8LB1.c:520: C2_WriteDR(*C2_PTR++);           // Write data to the FPDAT register
+032C A800      1112            mov     r0,_C2_PTR
+032E 8603      1113            mov     ar3,@r0
+0330 0500      1114            inc     _C2_PTR
+0332 8B82      1115            mov     dpl,r3
+0334 C002      1116            push    ar2
+0336 120100    1117            lcall   _C2_WriteDR
+0339 D002      1118            pop     ar2
+033B           1119   ;        Load_EFM8LB1.c:521: Poll_InBusy;                     // Wait for input acknowledge
+033B           1120   L016023?:
+033B C002      1121            push    ar2
+033D 120100    1122            lcall   _C2_ReadAR
+0340 E582      1123            mov     a,dpl
+0342 D002      1124            pop     ar2
+0344 20E190    1125            jb      acc.1,L016023?
+0347           1126   ;        Load_EFM8LB1.c:518: for (i=0;i<NUM_BYTES;i++)
+0347 0A        1127            inc     r2
+0348           1128   ;        Load_EFM8LB1.c:524: Poll_OutReady;                      // Wait for last FLASH write to complete
+0348 8001      1129            sjmp    L016029?
+034A           1130   L016026?:
+034A 120100    1131            lcall   _C2_ReadAR
+034D E582      1132            mov     a,dpl
+034F 30E050    1133            jnb     acc.0,L016026?
+0352           1134   ;        Load_EFM8LB1.c:525: return 1;                           // Exit and indicate success
+0352 758201    1135            mov     dpl,#0x01
+0355 22        1136            ret
+0356           1137   ;------------------------------------------------------------
+0356           1138   ;Allocation info for local variables in function 'C2_PageErase'
+0356           1139   ;------------------------------------------------------------
+0356           1140   ;page                      Allocated to registers r2 
+0356           1141   ;status                    Allocated to registers r3 
+0356           1142   ;------------------------------------------------------------
+0356           1143   ;        Load_EFM8LB1.c:533: char C2_PageErase(void)
+0356           1144   ;        -----------------------------------------
+0356           1145   ;         function C2_PageErase
+0356           1146   ;        -----------------------------------------
+0356           1147   _C2_PageErase:
+0356           1148   ;        Load_EFM8LB1.c:538: page=(unsigned char)(FLASH_ADDR>>9);// <page> is the 512-byte sector containing the target <FLASH_ADDR>.
+0356 E541      1149            mov     a,(_FLASH_ADDR + 1)
+0358 C3        1150            clr     c
+0359 13        1151            rrc     a
+035A           1152   ;        Load_EFM8LB1.c:540: if (page >= (NUM_PAGES-2))          // Check that target page is within range (NUM_PAGES minus 2 for reserved area)
+035A FA        1153            mov     r2,a
+035B FB        1154            mov     r3,a
+035C 7C00      1155            mov     r4,#0x00
+035E 7D00      1156            mov     r5,#0x00
+0360 7E00      1157            mov     r6,#0x00
+0362 C3        1158            clr     c
+0363 EB        1159            mov     a,r3
+0364 947E      1160            subb    a,#0x7E
+0366 EC        1161            mov     a,r4
+0367 9400      1162            subb    a,#0x00
+0369 ED        1163            mov     a,r5
+036A 9400      1164            subb    a,#0x00
+036C EE        1165            mov     a,r6
+036D 6480      1166            xrl     a,#0x80
+036F 9480      1167            subb    a,#0x80
+0371 4001      1168            jc      L017002?
+0373           1169   ;        Load_EFM8LB1.c:541: return 0;                        // Indicate error if out of range
+0373 758200    1170            mov     dpl,#0x00
+0376 22        1171            ret
+0377           1172   L017002?:
+0377           1173   ;        Load_EFM8LB1.c:542: C2_WriteAR(FPDAT);                  // Select the FLASH Programming Data register for C2 Data register accesses
+0377 7582B4    1174            mov     dpl,#0xB4
+037A C002      1175            push    ar2
+037C 120100    1176            lcall   _C2_WriteAR
+037F           1177   ;        Load_EFM8LB1.c:543: C2_WriteDR(PAGE_ERASE);             // Send FLASH page erase command Wait for input acknowledge
+037F 758208    1178            mov     dpl,#0x08
+0382 120100    1179            lcall   _C2_WriteDR
+0385 D002      1180            pop     ar2
+0387           1181   ;        Load_EFM8LB1.c:546: Poll_OutReady;                      // Wait for status information
+0387           1182   L017003?:
+0387 C002      1183            push    ar2
+0389 120100    1184            lcall   _C2_ReadAR
+038C E582      1185            mov     a,dpl
+038E D002      1186            pop     ar2
+0390 30E010    1187            jnb     acc.0,L017003?
+0393           1188   ;        Load_EFM8LB1.c:547: status = C2_ReadDR();               // Read FLASH programming interface status
+0393 C002      1189            push    ar2
+0395 120100    1190            lcall   _C2_ReadDR
+0398 AB82      1191            mov     r3,dpl
+039A D002      1192            pop     ar2
+039C           1193   ;        Load_EFM8LB1.c:548: if (status != COMMAND_OK)
+039C BB0D50    1194            cjne    r3,#0x0D,L017037?
+039F 8001      1195            sjmp    L017007?
+03A1           1196   L017037?:
+03A1           1197   ;        Load_EFM8LB1.c:549: return 0;                        // Exit and indicate error
+03A1 758200    1198            mov     dpl,#0x00
+03A4 22        1199            ret
+03A5           1200   L017007?:
+03A5           1201   ;        Load_EFM8LB1.c:551: C2_WriteDR(page);                   // Send FLASH page number
+03A5 8A82      1202            mov     dpl,r2
+03A7 120100    1203            lcall   _C2_WriteDR
+03AA           1204   ;        Load_EFM8LB1.c:552: Poll_InBusy;                        // Wait for input acknowledge
+03AA           1205   L017008?:
+03AA 120100    1206            lcall   _C2_ReadAR
+03AD E582      1207            mov     a,dpl
+03AF 20E1D0    1208            jb      acc.1,L017008?
+03B2           1209   ;        Load_EFM8LB1.c:554: Poll_OutReady;                      // Wait for ready indicator
+03B2           1210   L017011?:
+03B2 120100    1211            lcall   _C2_ReadAR
+03B5 E582      1212            mov     a,dpl
+03B7 30E010    1213            jnb     acc.0,L017011?
+03BA           1214   ;        Load_EFM8LB1.c:555: status = C2_ReadDR();               // Read FLASH programming interface status
+03BA 120100    1215            lcall   _C2_ReadDR
+03BD AB82      1216            mov     r3,dpl
+03BF           1217   ;        Load_EFM8LB1.c:556: if (status != COMMAND_OK)
+03BF BB0D50    1218            cjne    r3,#0x0D,L017040?
+03C2 8001      1219            sjmp    L017015?
+03C4           1220   L017040?:
+03C4           1221   ;        Load_EFM8LB1.c:557: return 0;                        // Exit and indicate error
+03C4 758200    1222            mov     dpl,#0x00
+03C7 22        1223            ret
+03C8           1224   L017015?:
+03C8           1225   ;        Load_EFM8LB1.c:559: C2_WriteDR(0x00);                   // Dummy write to initiate erase
+03C8 758200    1226            mov     dpl,#0x00
+03CB 120100    1227            lcall   _C2_WriteDR
+03CE           1228   ;        Load_EFM8LB1.c:560: Poll_InBusy;                        // Wait for input acknowledge
+03CE           1229   L017016?:
+03CE 120100    1230            lcall   _C2_ReadAR
+03D1 E582      1231            mov     a,dpl
+03D3 20E1D0    1232            jb      acc.1,L017016?
+03D6           1233   ;        Load_EFM8LB1.c:562: Poll_OutReady;                      // Wait for erase operation to complete
+03D6           1234   L017019?:
+03D6 120100    1235            lcall   _C2_ReadAR
+03D9 E582      1236            mov     a,dpl
+03DB 30E010    1237            jnb     acc.0,L017019?
+03DE           1238   ;        Load_EFM8LB1.c:563: return 1;                           // Exit and indicate success
+03DE 758201    1239            mov     dpl,#0x01
+03E1 22        1240            ret
+03E2           1241   ;------------------------------------------------------------
+03E2           1242   ;Allocation info for local variables in function 'C2_DeviceErase'
+03E2           1243   ;------------------------------------------------------------
+03E2           1244   ;status                    Allocated to registers r2 
+03E2           1245   ;------------------------------------------------------------
+03E2           1246   ;        Load_EFM8LB1.c:570: char C2_DeviceErase(void)
+03E2           1247   ;        -----------------------------------------
+03E2           1248   ;         function C2_DeviceErase
+03E2           1249   ;        -----------------------------------------
+03E2           1250   _C2_DeviceErase:
+03E2           1251   ;        Load_EFM8LB1.c:574: C2_WriteAR(FPDAT);          // Select the FLASH Programming Data register for C2 Data register accesses
+03E2 7582B4    1252            mov     dpl,#0xB4
+03E5 120100    1253            lcall   _C2_WriteAR
+03E8           1254   ;        Load_EFM8LB1.c:575: C2_WriteDR(DEVICE_ERASE);   // Send Device Erase command
+03E8 758203    1255            mov     dpl,#0x03
+03EB 120100    1256            lcall   _C2_WriteDR
+03EE           1257   ;        Load_EFM8LB1.c:576: Poll_InBusy;                // Wait for input acknowledge
+03EE           1258   L018001?:
+03EE 120100    1259            lcall   _C2_ReadAR
+03F1 E582      1260            mov     a,dpl
+03F3 20E150    1261            jb      acc.1,L018001?
+03F6           1262   ;        Load_EFM8LB1.c:579: Poll_OutReady;               // Wait for status information
+03F6           1263   L018004?:
+03F6 120100    1264            lcall   _C2_ReadAR
+03F9 E582      1265            mov     a,dpl
+03FB 30E090    1266            jnb     acc.0,L018004?
+03FE           1267   ;        Load_EFM8LB1.c:580: status = C2_ReadDR();        // Read FLASH programming interface status
+03FE 120100    1268            lcall   _C2_ReadDR
+0401 AA82      1269            mov     r2,dpl
+0403           1270   ;        Load_EFM8LB1.c:581: if (status != COMMAND_OK)
+0403 BA0DD0    1271            cjne    r2,#0x0D,L018036?
+0406 8001      1272            sjmp    L018008?
+0408           1273   L018036?:
+0408           1274   ;        Load_EFM8LB1.c:582: return 0;                 // Exit and indicate error
+0408 758200    1275            mov     dpl,#0x00
+040B 22        1276            ret
+040C           1277   L018008?:
+040C           1278   ;        Load_EFM8LB1.c:587: C2_WriteDR(0xDE);  // Arming sequence command 1
+040C 7582DE    1279            mov     dpl,#0xDE
+040F 120100    1280            lcall   _C2_WriteDR
+0412           1281   ;        Load_EFM8LB1.c:588: Poll_InBusy;       // Wait for input acknowledge
+0412           1282   L018009?:
+0412 120100    1283            lcall   _C2_ReadAR
+0415 E582      1284            mov     a,dpl
+0417 20E150    1285            jb      acc.1,L018009?
+041A           1286   ;        Load_EFM8LB1.c:590: C2_WriteDR(0xAD);  // Arming sequence command 2
+041A 7582AD    1287            mov     dpl,#0xAD
+041D 120100    1288            lcall   _C2_WriteDR
+0420           1289   ;        Load_EFM8LB1.c:591: Poll_InBusy;       // Wait for input acknowledge
+0420           1290   L018012?:
+0420 120100    1291            lcall   _C2_ReadAR
+0423 E582      1292            mov     a,dpl
+0425 20E190    1293            jb      acc.1,L018012?
+0428           1294   ;        Load_EFM8LB1.c:593: C2_WriteDR(0xA5);  // Arming sequence command 3
+0428 7582A5    1295            mov     dpl,#0xA5
+042B 120100    1296            lcall   _C2_WriteDR
+042E           1297   ;        Load_EFM8LB1.c:594: Poll_InBusy;       // Wait for input acknowledge
+042E           1298   L018015?:
+042E 120100    1299            lcall   _C2_ReadAR
+0431 E582      1300            mov     a,dpl
+0433 20E1D0    1301            jb      acc.1,L018015?
+0436           1302   ;        Load_EFM8LB1.c:596: Poll_OutReady;     // Wait for erase operation to complete
+0436           1303   L018018?:
+0436 120100    1304            lcall   _C2_ReadAR
+0439 E582      1305            mov     a,dpl
+043B 30E010    1306            jnb     acc.0,L018018?
+043E           1307   ;        Load_EFM8LB1.c:598: return 1;          // Exit and indicate success
+043E 758201    1308            mov     dpl,#0x01
+0441 22        1309            ret
+0442           1310   ;------------------------------------------------------------
+0442           1311   ;Allocation info for local variables in function 'main'
+0442           1312   ;------------------------------------------------------------
+0442           1313   ;i                         Allocated with name '_main_i_1_106'
+0442           1314   ;j                         Allocated to registers r2 r3 
+0442           1315   ;k                         Allocated with name '_main_k_1_106'
+0442           1316   ;sloc0                     Allocated with name '_main_sloc0_1_0'
+0442           1317   ;------------------------------------------------------------
+0442           1318   ;        Load_EFM8LB1.c:601: void main (void)
+0442           1319   ;        -----------------------------------------
+0442           1320   ;         function main
+0442           1321   ;        -----------------------------------------
+0442           1322   _main:
+0442           1323   ;        Load_EFM8LB1.c:607: "By Jesus Calvino-Fraga (2008-2018)\n");
+0442 7450      1324            mov     a,#__str_0
+0444 C0E0      1325            push    acc
+0446 7498      1326            mov     a,#(__str_0 >> 8)
+0448 C0E0      1327            push    acc
+044A 7480      1328            mov     a,#0x80
+044C C0E0      1329            push    acc
+044E 120100    1330            lcall   _printf
+0451 1581      1331            dec     sp
+0453 1581      1332            dec     sp
+0455 1581      1333            dec     sp
+0457           1334   ;        Load_EFM8LB1.c:609: while(1)
+0457           1335   L019024?:
+0457           1336   ;        Load_EFM8LB1.c:611: printf("\nPress the 'BOOT' button (connected to P4.5) to start.\n\n");
+0457 7450      1337            mov     a,#__str_1
+0459 C0E0      1338            push    acc
+045B 7499      1339            mov     a,#(__str_1 >> 8)
+045D C0E0      1340            push    acc
+045F 7480      1341            mov     a,#0x80
+0461 C0E0      1342            push    acc
+0463 120100    1343            lcall   _printf
+0466 1581      1344            dec     sp
+0468 1581      1345            dec     sp
+046A 1581      1346            dec     sp
+046C           1347   ;        Load_EFM8LB1.c:612: RLED=LEDOFF;
+046C D2A4      1348            setb    _P2_4
+046E           1349   ;        Load_EFM8LB1.c:613: GLED=LEDOFF;
+046E D2B6      1350            setb    _P3_6
+0470           1351   ;        Load_EFM8LB1.c:614: YLED=LEDOFF;
+0470 D2B7      1352            setb    _P3_7
+0472           1353   ;        Load_EFM8LB1.c:615: C2D_DriverOn;
+0472 43CF02    1354            orl     _P2M1,#0x02
+0475           1355   ;        Load_EFM8LB1.c:616: C2CK=LOW;
+0475 C2A0      1356            clr     _P2_0
+0477           1357   ;        Load_EFM8LB1.c:617: C2D=LOW;
+0477 C2A1      1358            clr     _P2_1
+0479           1359   ;        Load_EFM8LB1.c:618: PWR=PWROFF; // Power-off device
+0479 D2A5      1360            setb    _P2_5
+047B           1361   ;        Load_EFM8LB1.c:620: while(FGO==1) // Blinking Green LED indicates new device can be inserted
+047B           1362   L019001?:
+047B 30C5D0    1363            jnb     _P4_5,L019003?
+047E           1364   ;        Load_EFM8LB1.c:622: GLED=(!GLED);
+047E B2B6      1365            cpl     _P3_6
+0480           1366   ;        Load_EFM8LB1.c:623: YLED=(!YLED);
+0480 B2B7      1367            cpl     _P3_7
+0482           1368   ;        Load_EFM8LB1.c:624: waitms(300);
+0482 90012C    1369            mov     dptr,#0x012C
+0485 120100    1370            lcall   _waitms
+0488 8001      1371            sjmp    L019001?
+048A           1372   L019003?:
+048A           1373   ;        Load_EFM8LB1.c:626: GLED=LEDON;
+048A C2B6      1374            clr     _P3_6
+048C           1375   ;        Load_EFM8LB1.c:627: YLED=LEDON;
+048C C2B7      1376            clr     _P3_7
+048E           1377   ;        Load_EFM8LB1.c:628: PWR=PWRON; // Power-on device
+048E C2A5      1378            clr     _P2_5
+0490           1379   ;        Load_EFM8LB1.c:629: waitms(300);
+0490 90012C    1380            mov     dptr,#0x012C
+0493 120100    1381            lcall   _waitms
+0496           1382   ;        Load_EFM8LB1.c:630: C2D_DriverOff;
+0496 53CFFD    1383            anl     _P2M1,#0xFD
+0499 43A002    1384            orl     _P2,#0x02
+049C           1385   ;        Load_EFM8LB1.c:631: C2CK=HIGH;
+049C D2A0      1386            setb    _P2_0
+049E           1387   ;        Load_EFM8LB1.c:632: while(FGO==0);
+049E           1388   L019004?:
+049E 30C510    1389            jnb     _P4_5,L019004?
+04A1           1390   ;        Load_EFM8LB1.c:633: GLED=LEDOFF;
+04A1 D2B6      1391            setb    _P3_6
+04A3           1392   ;        Load_EFM8LB1.c:634: YLED=LEDOFF;
+04A3 D2B7      1393            setb    _P3_7
+04A5           1394   ;        Load_EFM8LB1.c:637: C2_Reset();        // Reset target
+04A5 120100    1395            lcall   _C2_Reset
+04A8           1396   ;        Load_EFM8LB1.c:638: j = C2_GetDevID(); 
+04A8 120100    1397            lcall   _C2_GetDevID
+04AB AA82      1398            mov     r2,dpl
+04AD 7B00      1399            mov     r3,#0x00
+04AF           1400   ;        Load_EFM8LB1.c:640: printf("Checking for EFM8LB1 microcontroller...");
+04AF C002      1401            push    ar2
+04B1 C003      1402            push    ar3
+04B3 7450      1403            mov     a,#__str_2
+04B5 C0E0      1404            push    acc
+04B7 749A      1405            mov     a,#(__str_2 >> 8)
+04B9 C0E0      1406            push    acc
+04BB 7480      1407            mov     a,#0x80
+04BD C0E0      1408            push    acc
+04BF 120100    1409            lcall   _printf
+04C2 1581      1410            dec     sp
+04C4 1581      1411            dec     sp
+04C6 1581      1412            dec     sp
+04C8 D003      1413            pop     ar3
+04CA D002      1414            pop     ar2
+04CC           1415   ;        Load_EFM8LB1.c:641: if (j != id[1].device_id)
+04CC 9041E5    1416            mov     dptr,#(_id + 0x0005)
+04CF E4        1417            clr     a
+04D0 93        1418            movc    a,@a+dptr
+04D1 FC        1419            mov     r4,a
+04D2 7D00      1420            mov     r5,#0x00
+04D4 EA        1421            mov     a,r2
+04D5 B50490    1422            cjne    a,ar4,L019061?
+04D8 EB        1423            mov     a,r3
+04D9 B50590    1424            cjne    a,ar5,L019061?
+04DC 8001      1425            sjmp    L019008?
+04DE           1426   L019061?:
+04DE           1427   ;        Load_EFM8LB1.c:643: printf("\nERROR: EFM8LB1 device not present!\n");
+04DE 7410      1428            mov     a,#__str_3
+04E0 C0E0      1429            push    acc
+04E2 749B      1430            mov     a,#(__str_3 >> 8)
+04E4 C0E0      1431            push    acc
+04E6 7480      1432            mov     a,#0x80
+04E8 C0E0      1433            push    acc
+04EA 120100    1434            lcall   _printf
+04ED 1581      1435            dec     sp
+04EF 1581      1436            dec     sp
+04F1 1581      1437            dec     sp
+04F3           1438   ;        Load_EFM8LB1.c:644: RLED=LEDON;
+04F3 C2A4      1439            clr     _P2_4
+04F5           1440   ;        Load_EFM8LB1.c:645: goto the_end;
+04F5 020100    1441            ljmp    L019017?
+04F8           1442   L019008?:
+04F8           1443   ;        Load_EFM8LB1.c:647: printf(" Done.\n");
+04F8 7490      1444            mov     a,#__str_4
+04FA C0E0      1445            push    acc
+04FC 749B      1446            mov     a,#(__str_4 >> 8)
+04FE C0E0      1447            push    acc
+0500 7480      1448            mov     a,#0x80
+0502 C0E0      1449            push    acc
+0504 120100    1450            lcall   _printf
+0507 1581      1451            dec     sp
+0509 1581      1452            dec     sp
+050B 1581      1453            dec     sp
+050D           1454   ;        Load_EFM8LB1.c:649: j = C2_ReadSFR(0xAD);
+050D 7582AD    1455            mov     dpl,#0xAD
+0510 120100    1456            lcall   _C2_ReadSFR
+0513 AC82      1457            mov     r4,dpl
+0515 8C02      1458            mov     ar2,r4
+0517 7B00      1459            mov     r3,#0x00
+0519           1460   ;        Load_EFM8LB1.c:650: printf("Checking for %s microcontroller...", id[1].description);
+0519 9041E7    1461            mov     dptr,#(_id + 0x0007)
+051C E4        1462            clr     a
+051D 93        1463            movc    a,@a+dptr
+051E FC        1464            mov     r4,a
+051F A3        1465            inc     dptr
+0520 E4        1466            clr     a
+0521 93        1467            movc    a,@a+dptr
+0522 FD        1468            mov     r5,a
+0523 A3        1469            inc     dptr
+0524 E4        1470            clr     a
+0525 93        1471            movc    a,@a+dptr
+0526 FE        1472            mov     r6,a
+0527 C002      1473            push    ar2
+0529 C003      1474            push    ar3
+052B C004      1475            push    ar4
+052D C005      1476            push    ar5
+052F C006      1477            push    ar6
+0531 74D0      1478            mov     a,#__str_5
+0533 C0E0      1479            push    acc
+0535 749B      1480            mov     a,#(__str_5 >> 8)
+0537 C0E0      1481            push    acc
+0539 7480      1482            mov     a,#0x80
+053B C0E0      1483            push    acc
+053D 120100    1484            lcall   _printf
+0540 E581      1485            mov     a,sp
+0542 24FA      1486            add     a,#0xfa
+0544 F581      1487            mov     sp,a
+0546 D003      1488            pop     ar3
+0548 D002      1489            pop     ar2
+054A           1490   ;        Load_EFM8LB1.c:651: if (j != id[1].derivative_id)
+054A 9041E6    1491            mov     dptr,#(_id + 0x0006)
+054D E4        1492            clr     a
+054E 93        1493            movc    a,@a+dptr
+054F FC        1494            mov     r4,a
+0550 7D00      1495            mov     r5,#0x00
+0552 EA        1496            mov     a,r2
+0553 B50410    1497            cjne    a,ar4,L019062?
+0556 EB        1498            mov     a,r3
+0557 B50510    1499            cjne    a,ar5,L019062?
+055A 8001      1500            sjmp    L019010?
+055C           1501   L019062?:
+055C           1502   ;        Load_EFM8LB1.c:653: printf("\nERROR: %s device not present! (%02x)\n", id[1].description, j);
+055C 9041E7    1503            mov     dptr,#(_id + 0x0007)
+055F E4        1504            clr     a
+0560 93        1505            movc    a,@a+dptr
+0561 FC        1506            mov     r4,a
+0562 A3        1507            inc     dptr
+0563 E4        1508            clr     a
+0564 93        1509            movc    a,@a+dptr
+0565 FD        1510            mov     r5,a
+0566 A3        1511            inc     dptr
+0567 E4        1512            clr     a
+0568 93        1513            movc    a,@a+dptr
+0569 FE        1514            mov     r6,a
+056A C002      1515            push    ar2
+056C C003      1516            push    ar3
+056E C004      1517            push    ar4
+0570 C005      1518            push    ar5
+0572 C006      1519            push    ar6
+0574 7490      1520            mov     a,#__str_6
+0576 C0E0      1521            push    acc
+0578 749C      1522            mov     a,#(__str_6 >> 8)
+057A C0E0      1523            push    acc
+057C 7480      1524            mov     a,#0x80
+057E C0E0      1525            push    acc
+0580 120100    1526            lcall   _printf
+0583 E581      1527            mov     a,sp
+0585 24F8      1528            add     a,#0xf8
+0587 F581      1529            mov     sp,a
+0589           1530   ;        Load_EFM8LB1.c:654: RLED=LEDON;
+0589 C2A4      1531            clr     _P2_4
+058B           1532   ;        Load_EFM8LB1.c:655: goto the_end;
+058B 020100    1533            ljmp    L019017?
+058E           1534   L019010?:
+058E           1535   ;        Load_EFM8LB1.c:657: printf(" Done.\n");
+058E 7490      1536            mov     a,#__str_4
+0590 C0E0      1537            push    acc
+0592 749B      1538            mov     a,#(__str_4 >> 8)
+0594 C0E0      1539            push    acc
+0596 7480      1540            mov     a,#0x80
+0598 C0E0      1541            push    acc
+059A 120100    1542            lcall   _printf
+059D 1581      1543            dec     sp
+059F 1581      1544            dec     sp
+05A1 1581      1545            dec     sp
+05A3           1546   ;        Load_EFM8LB1.c:660: C2_Reset();  // Start with a target device reset
+05A3 120100    1547            lcall   _C2_Reset
+05A6           1548   ;        Load_EFM8LB1.c:661: C2_Init();   // Enable FLASH programming via C2
+05A6 120100    1549            lcall   _C2_Init
+05A9           1550   ;        Load_EFM8LB1.c:663: printf("Erasing the flash memory...");
+05A9 74D0      1551            mov     a,#__str_7
+05AB C0E0      1552            push    acc
+05AD 749C      1553            mov     a,#(__str_7 >> 8)
+05AF C0E0      1554            push    acc
+05B1 7480      1555            mov     a,#0x80
+05B3 C0E0      1556            push    acc
+05B5 120100    1557            lcall   _printf
+05B8 1581      1558            dec     sp
+05BA 1581      1559            dec     sp
+05BC 1581      1560            dec     sp
+05BE           1561   ;        Load_EFM8LB1.c:664: C2_DeviceErase(); // Erase entire code space
+05BE 120100    1562            lcall   _C2_DeviceErase
+05C1           1563   ;        Load_EFM8LB1.c:665: printf(" Done.\n");
+05C1 7490      1564            mov     a,#__str_4
+05C3 C0E0      1565            push    acc
+05C5 749B      1566            mov     a,#(__str_4 >> 8)
+05C7 C0E0      1567            push    acc
+05C9 7480      1568            mov     a,#0x80
+05CB C0E0      1569            push    acc
+05CD 120100    1570            lcall   _printf
+05D0 1581      1571            dec     sp
+05D2 1581      1572            dec     sp
+05D4 1581      1573            dec     sp
+05D6           1574   ;        Load_EFM8LB1.c:667: printf("Verifying that the flash memory is blank...");
+05D6 7410      1575            mov     a,#__str_8
+05D8 C0E0      1576            push    acc
+05DA 749D      1577            mov     a,#(__str_8 >> 8)
+05DC C0E0      1578            push    acc
+05DE 7480      1579            mov     a,#0x80
+05E0 C0E0      1580            push    acc
+05E2 120100    1581            lcall   _printf
+05E5 1581      1582            dec     sp
+05E7 1581      1583            dec     sp
+05E9 1581      1584            dec     sp
+05EB           1585   ;        Load_EFM8LB1.c:669: for (i=NUM_BLOCKS-(PAGE_SIZE/BLOCK_SIZE); i<NUM_BLOCKS; i++) // Perform block reads (0x0000 to 0xFBFF)
+05EB 7540E8    1586            mov     _main_i_1_106,#0xE8
+05EE 754103    1587            mov     (_main_i_1_106 + 1),#0x03
+05F1           1588   L019030?:
+05F1 AE40      1589            mov     r6,_main_i_1_106
+05F3 AF41      1590            mov     r7,(_main_i_1_106 + 1)
+05F5 7C00      1591            mov     r4,#0x00
+05F7 7D00      1592            mov     r5,#0x00
+05F9 C3        1593            clr     c
+05FA EE        1594            mov     a,r6
+05FB 94F0      1595            subb    a,#0xF0
+05FD EF        1596            mov     a,r7
+05FE 9403      1597            subb    a,#0x03
+0600 EC        1598            mov     a,r4
+0601 9400      1599            subb    a,#0x00
+0603 ED        1600            mov     a,r5
+0604 6480      1601            xrl     a,#0x80
+0606 9480      1602            subb    a,#0x80
+0608 4001      1603            jc      L019063?
+060A 020100    1604            ljmp    L019033?
+060D           1605   L019063?:
+060D           1606   ;        Load_EFM8LB1.c:671: FLASH_ADDR = i*BLOCK_SIZE;    // Set target addresss
+060D 854040    1607            mov     _FLASH_ADDR,_main_i_1_106
+0610 E541      1608            mov     a,(_main_i_1_106 + 1)
+0612 5403      1609            anl     a,#0x03
+0614 A2E0      1610            mov     c,acc.0
+0616 C540      1611            xch     a,_FLASH_ADDR
+0618 13        1612            rrc     a
+0619 C540      1613            xch     a,_FLASH_ADDR
+061B 13        1614            rrc     a
+061C A2E0      1615            mov     c,acc.0
+061E C540      1616            xch     a,_FLASH_ADDR
+0620 13        1617            rrc     a
+0621 C540      1618            xch     a,_FLASH_ADDR
+0623 13        1619            rrc     a
+0624 C540      1620            xch     a,_FLASH_ADDR
+0626 F541      1621            mov     (_FLASH_ADDR + 1),a
+0628           1622   ;        Load_EFM8LB1.c:672: NUM_BYTES = BLOCK_SIZE;       // Set number of bytes to read
+0628 758040    1623            mov     _NUM_BYTES,#0x40
+062B           1624   ;        Load_EFM8LB1.c:673: C2_PTR = R_BUF;               // Initialize C2 pointer to the read buffer
+062B 750070    1625            mov     _C2_PTR,#_R_BUF
+062E           1626   ;        Load_EFM8LB1.c:674: C2_BlockRead();               // Initiate FLASH read            
+062E 120100    1627            lcall   _C2_BlockRead
+0631           1628   ;        Load_EFM8LB1.c:675: for (j=0; j<BLOCK_SIZE; j++)  // Check read data
+0631 7A00      1629            mov     r2,#0x00
+0633 7B00      1630            mov     r3,#0x00
+0635 7C00      1631            mov     r4,#0x00
+0637 7D00      1632            mov     r5,#0x00
+0639           1633   L019026?:
+0639 C3        1634            clr     c
+063A EC        1635            mov     a,r4
+063B 9440      1636            subb    a,#0x40
+063D ED        1637            mov     a,r5
+063E 9400      1638            subb    a,#0x00
+0640 5001      1639            jnc     L019032?
+0642           1640   ;        Load_EFM8LB1.c:677: if (R_BUF[j] != 0xFF)
+0642 EC        1641            mov     a,r4
+0643 2470      1642            add     a,#_R_BUF
+0645 F8        1643            mov     r0,a
+0646 8606      1644            mov     ar6,@r0
+0648 BEFF90    1645            cjne    r6,#0xFF,L019065?
+064B 8001      1646            sjmp    L019028?
+064D           1647   L019065?:
+064D           1648   ;        Load_EFM8LB1.c:679: printf("\nERROR: flash memory is not blank. @%04x=%02x\n", FLASH_ADDR+j, R_BUF[j]);
+064D 8EC0      1649            mov     _main_sloc0_1_0,r6
+064F 75C100    1650            mov     (_main_sloc0_1_0 + 1),#0x00
+0652 EA        1651            mov     a,r2
+0653 2540      1652            add     a,_FLASH_ADDR
+0655 FE        1653            mov     r6,a
+0656 EB        1654            mov     a,r3
+0657 3541      1655            addc    a,(_FLASH_ADDR + 1)
+0659 FF        1656            mov     r7,a
+065A C0C0      1657            push    _main_sloc0_1_0
+065C C0C1      1658            push    (_main_sloc0_1_0 + 1)
+065E C006      1659            push    ar6
+0660 C007      1660            push    ar7
+0662 7410      1661            mov     a,#__str_9
+0664 C0E0      1662            push    acc
+0666 749F      1663            mov     a,#(__str_9 >> 8)
+0668 C0E0      1664            push    acc
+066A 7480      1665            mov     a,#0x80
+066C C0E0      1666            push    acc
+066E 120100    1667            lcall   _printf
+0671 E581      1668            mov     a,sp
+0673 24F9      1669            add     a,#0xf9
+0675 F581      1670            mov     sp,a
+0677           1671   ;        Load_EFM8LB1.c:680: RLED=LEDON;
+0677 C2A4      1672            clr     _P2_4
+0679           1673   ;        Load_EFM8LB1.c:681: goto the_end;
+0679 020100    1674            ljmp    L019017?
+067C           1675   L019028?:
+067C           1676   ;        Load_EFM8LB1.c:675: for (j=0; j<BLOCK_SIZE; j++)  // Check read data
+067C 0C        1677            inc     r4
+067D BC0050    1678            cjne    r4,#0x00,L019066?
+0680 0D        1679            inc     r5
+0681           1680   L019066?:
+0681 8C02      1681            mov     ar2,r4
+0683 8D03      1682            mov     ar3,r5
+0685 8001      1683            sjmp    L019026?
+0687           1684   L019032?:
+0687           1685   ;        Load_EFM8LB1.c:669: for (i=NUM_BLOCKS-(PAGE_SIZE/BLOCK_SIZE); i<NUM_BLOCKS; i++) // Perform block reads (0x0000 to 0xFBFF)
+0687 0540      1686            inc     _main_i_1_106
+0689 E4        1687            clr     a
+068A B54090    1688            cjne    a,_main_i_1_106,L019067?
+068D 0541      1689            inc     (_main_i_1_106 + 1)
+068F           1690   L019067?:
+068F 020100    1691            ljmp    L019030?
+0692           1692   L019033?:
+0692           1693   ;        Load_EFM8LB1.c:685: printf(" Done.\n");
+0692 7490      1694            mov     a,#__str_4
+0694 C0E0      1695            push    acc
+0696 749B      1696            mov     a,#(__str_4 >> 8)
+0698 C0E0      1697            push    acc
+069A 7480      1698            mov     a,#0x80
+069C C0E0      1699            push    acc
+069E 120100    1700            lcall   _printf
+06A1 1581      1701            dec     sp
+06A3 1581      1702            dec     sp
+06A5 1581      1703            dec     sp
+06A7           1704   ;        Load_EFM8LB1.c:687: printf("Copying bootloader to target");
+06A7 74D0      1705            mov     a,#__str_10
+06A9 C0E0      1706            push    acc
+06AB 749F      1707            mov     a,#(__str_10 >> 8)
+06AD C0E0      1708            push    acc
+06AF 7480      1709            mov     a,#0x80
+06B1 C0E0      1710            push    acc
+06B3 120100    1711            lcall   _printf
+06B6 1581      1712            dec     sp
+06B8 1581      1713            dec     sp
+06BA 1581      1714            dec     sp
+06BC           1715   ;        Load_EFM8LB1.c:688: for (i=NUM_BLOCKS-(PAGE_SIZE/BLOCK_SIZE), k=0; i<NUM_BLOCKS; i++, k++) // Perform block write/reads
+06BC 7AE8      1716            mov     r2,#0xE8
+06BE 7B03      1717            mov     r3,#0x03
+06C0 E4        1718            clr     a
+06C1 F580      1719            mov     _main_k_1_106,a
+06C3 F581      1720            mov     (_main_k_1_106 + 1),a
+06C5           1721   L019034?:
+06C5 8A06      1722            mov     ar6,r2
+06C7 8B07      1723            mov     ar7,r3
+06C9 7C00      1724            mov     r4,#0x00
+06CB 7D00      1725            mov     r5,#0x00
+06CD C3        1726            clr     c
+06CE EE        1727            mov     a,r6
+06CF 94F0      1728            subb    a,#0xF0
+06D1 EF        1729            mov     a,r7
+06D2 9403      1730            subb    a,#0x03
+06D4 EC        1731            mov     a,r4
+06D5 9400      1732            subb    a,#0x00
+06D7 ED        1733            mov     a,r5
+06D8 6480      1734            xrl     a,#0x80
+06DA 9480      1735            subb    a,#0x80
+06DC 4001      1736            jc      L019068?
+06DE 020100    1737            ljmp    L019037?
+06E1           1738   L019068?:
+06E1           1739   ;        Load_EFM8LB1.c:691: FLASH_ADDR = i*BLOCK_SIZE;
+06E1 8A04      1740            mov     ar4,r2
+06E3 EB        1741            mov     a,r3
+06E4 5403      1742            anl     a,#0x03
+06E6 A2E0      1743            mov     c,acc.0
+06E8 CC        1744            xch     a,r4
+06E9 13        1745            rrc     a
+06EA CC        1746            xch     a,r4
+06EB 13        1747            rrc     a
+06EC A2E0      1748            mov     c,acc.0
+06EE CC        1749            xch     a,r4
+06EF 13        1750            rrc     a
+06F0 CC        1751            xch     a,r4
+06F1 13        1752            rrc     a
+06F2 CC        1753            xch     a,r4
+06F3 FD        1754            mov     r5,a
+06F4 8C40      1755            mov     _FLASH_ADDR,r4
+06F6 8D41      1756            mov     (_FLASH_ADDR + 1),r5
+06F8           1757   ;        Load_EFM8LB1.c:692: NUM_BYTES = BLOCK_SIZE;
+06F8 758040    1758            mov     _NUM_BYTES,#0x40
+06FB           1759   ;        Load_EFM8LB1.c:693: memcpy(W_BUF, &Bootloader[k*BLOCK_SIZE], BLOCK_SIZE);
+06FB AE80      1760            mov     r6,_main_k_1_106
+06FD E581      1761            mov     a,(_main_k_1_106 + 1)
+06FF 5403      1762            anl     a,#0x03
+0701 A2E0      1763            mov     c,acc.0
+0703 CE        1764            xch     a,r6
+0704 13        1765            rrc     a
+0705 CE        1766            xch     a,r6
+0706 13        1767            rrc     a
+0707 A2E0      1768            mov     c,acc.0
+0709 CE        1769            xch     a,r6
+070A 13        1770            rrc     a
+070B CE        1771            xch     a,r6
+070C 13        1772            rrc     a
+070D CE        1773            xch     a,r6
+070E FF        1774            mov     r7,a
+070F EE        1775            mov     a,r6
+0710 24A0      1776            add     a,#_Bootloader
+0712 FE        1777            mov     r6,a
+0713 EF        1778            mov     a,r7
+0714 3441      1779            addc    a,#(_Bootloader >> 8)
+0716 FF        1780            mov     r7,a
+0717 8E00      1781            mov     _memcpy_PARM_2,r6
+0719 8F01      1782            mov     (_memcpy_PARM_2 + 1),r7
+071B 750280    1783            mov     (_memcpy_PARM_2 + 2),#0x80
+071E 750040    1784            mov     _memcpy_PARM_3,#0x40
+0721 E4        1785            clr     a
+0722 F501      1786            mov     (_memcpy_PARM_3 + 1),a
+0724 904630    1787            mov     dptr,#_W_BUF
+0727 75F040    1788            mov     b,#0x40
+072A C002      1789            push    ar2
+072C C003      1790            push    ar3
+072E C004      1791            push    ar4
+0730 C005      1792            push    ar5
+0732 120100    1793            lcall   _memcpy
+0735           1794   ;        Load_EFM8LB1.c:695: C2_PTR = W_BUF;
+0735 750030    1795            mov     _C2_PTR,#_W_BUF
+0738           1796   ;        Load_EFM8LB1.c:696: C2_BlockWrite();
+0738 120100    1797            lcall   _C2_BlockWrite
+073B D005      1798            pop     ar5
+073D D004      1799            pop     ar4
+073F           1800   ;        Load_EFM8LB1.c:699: FLASH_ADDR = i*BLOCK_SIZE;
+073F 8C40      1801            mov     _FLASH_ADDR,r4
+0741 8D41      1802            mov     (_FLASH_ADDR + 1),r5
+0743           1803   ;        Load_EFM8LB1.c:700: NUM_BYTES = BLOCK_SIZE;
+0743 758040    1804            mov     _NUM_BYTES,#0x40
+0746           1805   ;        Load_EFM8LB1.c:701: C2_PTR = R_BUF;
+0746 750070    1806            mov     _C2_PTR,#_R_BUF
+0749           1807   ;        Load_EFM8LB1.c:702: C2_BlockRead();
+0749 120100    1808            lcall   _C2_BlockRead
+074C           1809   ;        Load_EFM8LB1.c:704: if (memcmp(R_BUF, W_BUF, BLOCK_SIZE) != 0) // Verify written bytes
+074C 750030    1810            mov     _memcmp_PARM_2,#_W_BUF
+074F 750100    1811            mov     (_memcmp_PARM_2 + 1),#0x00
+0752 750240    1812            mov     (_memcmp_PARM_2 + 2),#0x40
+0755 750040    1813            mov     _memcmp_PARM_3,#0x40
+0758 E4        1814            clr     a
+0759 F501      1815            mov     (_memcmp_PARM_3 + 1),a
+075B 904670    1816            mov     dptr,#_R_BUF
+075E 75F040    1817            mov     b,#0x40
+0761 120100    1818            lcall   _memcmp
+0764 E582      1819            mov     a,dpl
+0766 8583F0    1820            mov     b,dph
+0769 D003      1821            pop     ar3
+076B D002      1822            pop     ar2
+076D 45F0      1823            orl     a,b
+076F 6001      1824            jz      L019014?
+0771           1825   ;        Load_EFM8LB1.c:706: printf("\nERROR: Memory flash failed.\n");
+0771 7490      1826            mov     a,#__str_11
+0773 C0E0      1827            push    acc
+0775 74A2      1828            mov     a,#(__str_11 >> 8)
+0777 C0E0      1829            push    acc
+0779 7480      1830            mov     a,#0x80
+077B C0E0      1831            push    acc
+077D 120100    1832            lcall   _printf
+0780 1581      1833            dec     sp
+0782 1581      1834            dec     sp
+0784 1581      1835            dec     sp
+0786           1836   ;        Load_EFM8LB1.c:707: RLED=LEDON;
+0786 C2A4      1837            clr     _P2_4
+0788           1838   ;        Load_EFM8LB1.c:708: goto the_end;
+0788 8001      1839            sjmp    L019017?
+078A           1840   L019014?:
+078A           1841   ;        Load_EFM8LB1.c:712: putchar('.');
+078A 75822E    1842            mov     dpl,#0x2E
+078D C002      1843            push    ar2
+078F C003      1844            push    ar3
+0791 120100    1845            lcall   _putchar
+0794 D003      1846            pop     ar3
+0796 D002      1847            pop     ar2
+0798           1848   ;        Load_EFM8LB1.c:688: for (i=NUM_BLOCKS-(PAGE_SIZE/BLOCK_SIZE), k=0; i<NUM_BLOCKS; i++, k++) // Perform block write/reads
+0798 0A        1849            inc     r2
+0799 BA0010    1850            cjne    r2,#0x00,L019070?
+079C 0B        1851            inc     r3
+079D           1852   L019070?:
+079D 0580      1853            inc     _main_k_1_106
+079F E4        1854            clr     a
+07A0 B58050    1855            cjne    a,_main_k_1_106,L019071?
+07A3 0581      1856            inc     (_main_k_1_106 + 1)
+07A5           1857   L019071?:
+07A5 020100    1858            ljmp    L019034?
+07A8           1859   L019037?:
+07A8           1860   ;        Load_EFM8LB1.c:716: printf(" Done.\n");
+07A8 7490      1861            mov     a,#__str_4
+07AA C0E0      1862            push    acc
+07AC 749B      1863            mov     a,#(__str_4 >> 8)
+07AE C0E0      1864            push    acc
+07B0 7480      1865            mov     a,#0x80
+07B2 C0E0      1866            push    acc
+07B4 120100    1867            lcall   _printf
+07B7 1581      1868            dec     sp
+07B9 1581      1869            dec     sp
+07BB 1581      1870            dec     sp
+07BD           1871   ;        Load_EFM8LB1.c:717: printf("\n\nPress the 'BOOT' button to finish.\n");
+07BD 7490      1872            mov     a,#__str_12
+07BF C0E0      1873            push    acc
+07C1 74A3      1874            mov     a,#(__str_12 >> 8)
+07C3 C0E0      1875            push    acc
+07C5 7480      1876            mov     a,#0x80
+07C7 C0E0      1877            push    acc
+07C9 120100    1878            lcall   _printf
+07CC 1581      1879            dec     sp
+07CE 1581      1880            dec     sp
+07D0 1581      1881            dec     sp
+07D2           1882   ;        Load_EFM8LB1.c:718: GLED=LEDON;
+07D2 C2B6      1883            clr     _P3_6
+07D4           1884   ;        Load_EFM8LB1.c:719: YLED=LEDON;
+07D4 C2B7      1885            clr     _P3_7
+07D6           1886   ;        Load_EFM8LB1.c:720: C2_Reset();
+07D6 120100    1887            lcall   _C2_Reset
+07D9           1888   ;        Load_EFM8LB1.c:725: while(FGO==1);
+07D9           1889   L019017?:
+07D9 20C550    1890            jb      _P4_5,L019017?
+07DC           1891   ;        Load_EFM8LB1.c:726: waitms(100); //Debounce...
+07DC 900064    1892            mov     dptr,#0x0064
+07DF 120100    1893            lcall   _waitms
+07E2           1894   ;        Load_EFM8LB1.c:727: while(FGO==0);
+07E2           1895   L019020?:
+07E2 30C5D0    1896            jnb     _P4_5,L019020?
+07E5           1897   ;        Load_EFM8LB1.c:728: waitms(100); //Debounce...
+07E5 900064    1898            mov     dptr,#0x0064
+07E8 120100    1899            lcall   _waitms
+07EB 020100    1900            ljmp    L019024?
+07EE           1901            rseg R_CSEG
+07EE           1902   
+0000           1903            rseg R_XINIT
+0000           1904   
+0000           1905            rseg R_CONST
+0000           1906   _id:
+0000 34        1907            db 0x34         ; 52
+0001 41        1908            db 0x41         ; 65
+0002 10A480    1909            db _str_13,(_str_13 >> 8),0x80
+0005 34        1910            db 0x34         ; 52
+0006 42        1911            db 0x42         ; 66
+0007 50A480    1912            db _str_14,(_str_14 >> 8),0x80
+000A 34        1913            db 0x34         ; 52
+000B 43        1914            db 0x43         ; 67
+000C 90A480    1915            db _str_15,(_str_15 >> 8),0x80
+000F 34        1916            db 0x34         ; 52
+0010 44        1917            db 0x44         ; 68
+0011 D0A480    1918            db _str_16,(_str_16 >> 8),0x80
+0014 34        1919            db 0x34         ; 52
+0015 45        1920            db 0x45         ; 69
+0016 10A580    1921            db _str_17,(_str_17 >> 8),0x80
+0019 34        1922            db 0x34         ; 52
+001A 46        1923            db 0x46         ; 70
+001B 50A580    1924            db _str_18,(_str_18 >> 8),0x80
+001E 34        1925            db 0x34         ; 52
+001F 47        1926            db 0x47         ; 71
+0020 90A580    1927            db _str_19,(_str_19 >> 8),0x80
+0023 34        1928            db 0x34         ; 52
+0024 48        1929            db 0x48         ; 72
+0025 D0A580    1930            db _str_20,(_str_20 >> 8),0x80
+0028 34        1931            db 0x34         ; 52
+0029 49        1932            db 0x49         ; 73
+002A 10A680    1933            db _str_21,(_str_21 >> 8),0x80
+002D 34        1934            db 0x34         ; 52
+002E 4A        1935            db 0x4a         ; 74
+002F 50A680    1936            db _str_22,(_str_22 >> 8),0x80
+0032 34        1937            db 0x34         ; 52
+0033 4B        1938            db 0x4b         ; 75
+0034 90A680    1939            db _str_23,(_str_23 >> 8),0x80
+0037 34        1940            db 0x34         ; 52
+0038 4C        1941            db 0x4c         ; 76
+0039 D0A680    1942            db _str_24,(_str_24 >> 8),0x80
+003C 34        1943            db 0x34         ; 52
+003D 4D        1944            db 0x4d         ; 77
+003E 10A780    1945            db _str_25,(_str_25 >> 8),0x80
+0041 34        1946            db 0x34         ; 52
+0042 4E        1947            db 0x4e         ; 78
+0043 50A780    1948            db _str_26,(_str_26 >> 8),0x80
+0046 34        1949            db 0x34         ; 52
+0047 4F        1950            db 0x4f         ; 79
+0048 90A780    1951            db _str_27,(_str_27 >> 8),0x80
+004B 34        1952            db 0x34         ; 52
+004C 50        1953            db 0x50         ; 80
+004D D0A780    1954            db _str_28,(_str_28 >> 8),0x80
+0050 34        1955            db 0x34         ; 52
+0051 51        1956            db 0x51         ; 81
+0052 10A880    1957            db _str_29,(_str_29 >> 8),0x80
+0055 34        1958            db 0x34         ; 52
+0056 52        1959            db 0x52         ; 82
+0057 50A880    1960            db _str_30,(_str_30 >> 8),0x80
+005A 34        1961            db 0x34         ; 52
+005B 53        1962            db 0x53         ; 83
+005C 90A880    1963            db _str_31,(_str_31 >> 8),0x80
+005F 34        1964            db 0x34         ; 52
+0060 54        1965            db 0x54         ; 84
+0061 D0A880    1966            db _str_32,(_str_32 >> 8),0x80
+0064 34        1967            db 0x34         ; 52
+0065 61        1968            db 0x61         ; 97
+0066 10A980    1969            db _str_33,(_str_33 >> 8),0x80
+0069 34        1970            db 0x34         ; 52
+006A 64        1971            db 0x64         ; 100
+006B 50A980    1972            db _str_34,(_str_34 >> 8),0x80
+006E 34        1973            db 0x34         ; 52
+006F 65        1974            db 0x65         ; 101
+0070 90A980    1975            db _str_35,(_str_35 >> 8),0x80
+0073 34        1976            db 0x34         ; 52
+0074 68        1977            db 0x68         ; 104
+0075 D0A980    1978            db _str_36,(_str_36 >> 8),0x80
+0078 34        1979            db 0x34         ; 52
+0079 69        1980            db 0x69         ; 105
+007A 10AA80    1981            db _str_37,(_str_37 >> 8),0x80
+007D 34        1982            db 0x34         ; 52
+007E 6C        1983            db 0x6c         ; 108
+007F 50AA80    1984            db _str_38,(_str_38 >> 8),0x80
+0082 34        1985            db 0x34         ; 52
+0083 6D        1986            db 0x6d         ; 109
+0084 90AA80    1987            db _str_39,(_str_39 >> 8),0x80
+0087 34        1988            db 0x34         ; 52
+0088 70        1989            db 0x70         ; 112
+0089 D0AA80    1990            db _str_40,(_str_40 >> 8),0x80
+008C 34        1991            db 0x34         ; 52
+008D 71        1992            db 0x71         ; 113
+008E 10AB80    1993            db _str_41,(_str_41 >> 8),0x80
+0091 34        1994            db 0x34         ; 52
+0092 74        1995            db 0x74         ; 116
+0093 50AB80    1996            db _str_42,(_str_42 >> 8),0x80
+0096 00        1997            db 0x00         ; 0
+0097 00        1998            db 0x00         ; 0
+0098 90AB80    1999            db _str_43,(_str_43 >> 8),0x80
+009B           2000   _Bootloader:
+009B 90        2001            db 0x90         ; 144
+009C 00        2002            db 0x00         ; 0
+009D 00        2003            db 0x00         ; 0
+009E E4        2004            db 0xe4         ; 228
+009F 93        2005            db 0x93         ; 147
+00A0 F4        2006            db 0xf4         ; 244
+00A1 60        2007            db 0x60         ; 96
+00A2 18        2008            db 0x18         ; 24
+00A3 E5        2009            db 0xe5         ; 229
+00A4 EF        2010            db 0xef         ; 239
+00A5 B4        2011            db 0xb4         ; 180
+00A6 10        2012            db 0x10         ; 16
+00A7 08        2013            db 0x08         ; 8
+00A8 E8        2014            db 0xe8         ; 232
+00A9 64        2015            db 0x64         ; 100
+00AA A5        2016            db 0xa5         ; 165
+00AB 60        2017            db 0x60         ; 96
+00AC 0E        2018            db 0x0e         ; 14
+00AD 02        2019            db 0x02         ; 2
+00AE 00        2020            db 0x00         ; 0
+00AF 00        2021            db 0x00         ; 0
+00B0 54        2022            db 0x54         ; 84
+00B1 03        2023            db 0x03         ; 3
+00B2 60        2024            db 0x60         ; 96
+00B3 F9        2025            db 0xf9         ; 249
+00B4 78        2026            db 0x78         ; 120
+00B5 16        2027            db 0x16         ; 22
+00B6 20        2028            db 0x20         ; 32
+00B7 B7        2029            db 0xb7         ; 183
+00B8 F4        2030            db 0xf4         ; 244
+00B9 D8        2031            db 0xd8         ; 216
+00BA FB        2032            db 0xfb         ; 251
+00BB 75        2033            db 0x75         ; 117
+00BC 81        2034            db 0x81         ; 129
+00BD 10        2035            db 0x10         ; 16
+00BE 02        2036            db 0x02         ; 2
+00BF FA        2037            db 0xfa         ; 250
+00C0 9C        2038            db 0x9c         ; 156
+00C1 71        2039            db 0x71         ; 113
+00C2 D1        2040            db 0xd1         ; 209
+00C3 8E        2041            db 0x8e         ; 142
+00C4 08        2042            db 0x08         ; 8
+00C5 8F        2043            db 0x8f         ; 143
+00C6 09        2044            db 0x09         ; 9
+00C7 AD        2045            db 0xad         ; 173
+00C8 10        2046            db 0x10         ; 16
+00C9 71        2047            db 0x71         ; 113
+00CA 38        2048            db 0x38         ; 56
+00CB 50        2049            db 0x50         ; 80
+00CC 23        2050            db 0x23         ; 35
+00CD E5        2051            db 0xe5         ; 229
+00CE 0D        2052            db 0x0d         ; 13
+00CF B4        2053            db 0xb4         ; 180
+00D0 02        2054            db 0x02         ; 2
+00D1 06        2055            db 0x06         ; 6
+00D2 AF        2056            db 0xaf         ; 175
+00D3 09        2057            db 0x09         ; 9
+00D4 AE        2058            db 0xae         ; 174
+00D5 08        2059            db 0x08         ; 8
+00D6 71        2060            db 0x71         ; 113
+00D7 2A        2061            db 0x2a         ; 42
+00D8 E5        2062            db 0xe5         ; 229
+00D9 10        2063            db 0x10         ; 16
+00DA 60        2064            db 0x60         ; 96
+00DB 17        2065            db 0x17         ; 23
+00DC 71        2066            db 0x71         ; 113
+00DD C6        2067            db 0xc6         ; 198
+00DE AD        2068            db 0xad         ; 173
+00DF 07        2069            db 0x07         ; 7
+00E0 AF        2070            db 0xaf         ; 175
+00E1 09        2071            db 0x09         ; 9
+00E2 AE        2072            db 0xae         ; 174
+00E3 08        2073            db 0x08         ; 8
+00E4 71        2074            db 0x71         ; 113
+00E5 31        2075            db 0x31         ; 49
+00E6 05        2076            db 0x05         ; 5
+00E7 09        2077            db 0x09         ; 9
+00E8 E5        2078            db 0xe5         ; 229
+00E9 09        2079            db 0x09         ; 9
+00EA 70        2080            db 0x70         ; 112
+00EB EC        2081            db 0xec         ; 236
+00EC 05        2082            db 0x05         ; 5
+00ED 08        2083            db 0x08         ; 8
+00EE 80        2084            db 0x80         ; 128
+00EF E8        2085            db 0xe8         ; 232
+00F0 75        2086            db 0x75         ; 117
+00F1 0C        2087            db 0x0c         ; 12
+00F2 41        2088            db 0x41         ; 65
+00F3 22        2089            db 0x22         ; 34
+00F4 71        2090            db 0x71         ; 113
+00F5 D1        2091            db 0xd1         ; 209
+00F6 8E        2092            db 0x8e         ; 142
+00F7 08        2093            db 0x08         ; 8
+00F8 8F        2094            db 0x8f         ; 143
+00F9 09        2095            db 0x09         ; 9
+00FA 71        2096            db 0x71         ; 113
+00FB D1        2097            db 0xd1         ; 209
+00FC 75        2098            db 0x75         ; 117
+00FD A7        2099            db 0xa7         ; 167
+00FE 20        2100            db 0x20         ; 32
+00FF 43        2101            db 0x43         ; 67
+0100 CE        2102            db 0xce         ; 206
+0101 08        2103            db 0x08         ; 8
+0102 D3        2104            db 0xd3         ; 211
+0103 E5        2105            db 0xe5         ; 229
+0104 09        2106            db 0x09         ; 9
+0105 9F        2107            db 0x9f         ; 159
+0106 E5        2108            db 0xe5         ; 229
+0107 08        2109            db 0x08         ; 8
+0108 9E        2110            db 0x9e         ; 158
+0109 50        2111            db 0x50         ; 80
+010A 14        2112            db 0x14         ; 20
+010B 85        2113            db 0x85         ; 133
+010C 09        2114            db 0x09         ; 9
+010D 82        2115            db 0x82         ; 130
+010E 85        2116            db 0x85         ; 133
+010F 08        2117            db 0x08         ; 8
+0110 83        2118            db 0x83         ; 131
+0111 E4        2119            db 0xe4         ; 228
+0112 93        2120            db 0x93         ; 147
+0113 F5        2121            db 0xf5         ; 245
+0114 CA        2122            db 0xca         ; 202
+0115 05        2123            db 0x05         ; 5
+0116 09        2124            db 0x09         ; 9
+0117 E5        2125            db 0xe5         ; 229
+0118 09        2126            db 0x09         ; 9
+0119 70        2127            db 0x70         ; 112
+011A E7        2128            db 0xe7         ; 231
+011B 05        2129            db 0x05         ; 5
+011C 08        2130            db 0x08         ; 8
+011D 80        2131            db 0x80         ; 128
+011E E3        2132            db 0xe3         ; 227
+011F 71        2133            db 0x71         ; 113
+0120 D1        2134            db 0xd1         ; 209
+0121 C0        2135            db 0xc0         ; 192
+0122 06        2136            db 0x06         ; 6
+0123 C0        2137            db 0xc0         ; 192
+0124 07        2138            db 0x07         ; 7
+0125 71        2139            db 0x71         ; 113
+0126 50        2140            db 0x50         ; 80
+0127 D0        2141            db 0xd0         ; 208
+0128 05        2142            db 0x05         ; 5
+0129 D0        2143            db 0xd0         ; 208
+012A 04        2144            db 0x04         ; 4
+012B EF        2145            db 0xef         ; 239
+012C 6D        2146            db 0x6d         ; 109
+012D 70        2147            db 0x70         ; 112
+012E 02        2148            db 0x02         ; 2
+012F EE        2149            db 0xee         ; 238
+0130 6C        2150            db 0x6c         ; 108
+0131 60        2151            db 0x60         ; 96
+0132 03        2152            db 0x03         ; 3
+0133 75        2153            db 0x75         ; 117
+0134 0C        2154            db 0x0c         ; 12
+0135 43        2155            db 0x43         ; 67
+0136 22        2156            db 0x22         ; 34
+0137 71        2157            db 0x71         ; 113
+0138 5F        2158            db 0x5f         ; 95
+0139 E4        2159            db 0xe4         ; 228
+013A F5        2160            db 0xf5         ; 245
+013B 0E        2161            db 0x0e         ; 14
+013C F5        2162            db 0xf5         ; 245
+013D 0F        2163            db 0x0f         ; 15
+013E 71        2164            db 0x71         ; 113
+013F AB        2165            db 0xab         ; 171
+0140 71        2166            db 0x71         ; 113
+0141 C6        2167            db 0xc6         ; 198
+0142 EF        2168            db 0xef         ; 239
+0143 24        2169            db 0x24         ; 36
+0144 D0        2170            db 0xd0         ; 208
+0145 F5        2171            db 0xf5         ; 245
+0146 0D        2172            db 0x0d         ; 13
+0147 75        2173            db 0x75         ; 117
+0148 0C        2174            db 0x0c         ; 12
+0149 40        2175            db 0x40         ; 64
+014A B4        2176            db 0xb4         ; 180
+014B 07        2177            db 0x07         ; 7
+014C 00        2178            db 0x00         ; 0
+014D 50        2179            db 0x50         ; 80
+014E 5A        2180            db 0x5a         ; 90
+014F 90        2181            db 0x90         ; 144
+0150 FA        2182            db 0xfa         ; 250
+0151 BA        2183            db 0xba         ; 186
+0152 25        2184            db 0x25         ; 37
+0153 E0        2185            db 0xe0         ; 224
+0154 73        2186            db 0x73         ; 115
+0155 41        2187            db 0x41         ; 65
+0156 C8        2188            db 0xc8         ; 200
+0157 41        2189            db 0x41         ; 65
+0158 D9        2190            db 0xd9         ; 217
+0159 41        2191            db 0x41         ; 65
+015A E3        2192            db 0xe3         ; 227
+015B 41        2193            db 0x41         ; 65
+015C E3        2194            db 0xe3         ; 227
+015D 41        2195            db 0x41         ; 65
+015E E7        2196            db 0xe7         ; 231
+015F 41        2197            db 0x41         ; 65
+0160 EB        2198            db 0xeb         ; 235
+0161 61        2199            db 0x61         ; 97
+0162 01        2200            db 0x01         ; 1
+0163 71        2201            db 0x71         ; 113
+0164 D1        2202            db 0xd1         ; 209
+0165 EF        2203            db 0xef         ; 239
+0166 64        2204            db 0x64         ; 100
+0167 42        2205            db 0x42         ; 66
+0168 70        2206            db 0x70         ; 112
+0169 03        2207            db 0x03         ; 3
+016A EE        2208            db 0xee         ; 238
+016B 64        2209            db 0x64         ; 100
+016C 34        2210            db 0x34         ; 52
+016D 60        2211            db 0x60         ; 96
+016E 3D        2212            db 0x3d         ; 61
+016F 75        2213            db 0x75         ; 117
+0170 0C        2214            db 0x0c         ; 12
+0171 42        2215            db 0x42         ; 66
+0172 80        2216            db 0x80         ; 128
+0173 38        2217            db 0x38         ; 56
+0174 71        2218            db 0x71         ; 113
+0175 C6        2219            db 0xc6         ; 198
+0176 8F        2220            db 0x8f         ; 143
+0177 0E        2221            db 0x0e         ; 14
+0178 71        2222            db 0x71         ; 113
+0179 C6        2223            db 0xc6         ; 198
+017A 8F        2224            db 0x8f         ; 143
+017B 0F        2225            db 0x0f         ; 15
+017C 80        2226            db 0x80         ; 128
+017D 2E        2227            db 0x2e         ; 46
+017E 51        2228            db 0x51         ; 81
+017F 26        2229            db 0x26         ; 38
+0180 80        2230            db 0x80         ; 128
+0181 2A        2231            db 0x2a         ; 42
+0182 51        2232            db 0x51         ; 81
+0183 59        2233            db 0x59         ; 89
+0184 80        2234            db 0x80         ; 128
+0185 26        2235            db 0x26         ; 38
+0186 71        2236            db 0x71         ; 113
+0187 C6        2237            db 0xc6         ; 198
+0188 AD        2238            db 0xad         ; 173
+0189 07        2239            db 0x07         ; 7
+018A 7E        2240            db 0x7e         ; 126
+018B FB        2241            db 0xfb         ; 251
+018C 7F        2242            db 0x7f         ; 127
+018D FE        2243            db 0xfe         ; 254
+018E 71        2244            db 0x71         ; 113
+018F 31        2245            db 0x31         ; 49
+0190 71        2246            db 0x71         ; 113
+0191 C6        2247            db 0xc6         ; 198
+0192 AD        2248            db 0xad         ; 173
+0193 07        2249            db 0x07         ; 7
+0194 7E        2250            db 0x7e         ; 126
+0195 FB        2251            db 0xfb         ; 251
+0196 7F        2252            db 0x7f         ; 127
+0197 FF        2253            db 0xff         ; 255
+0198 71        2254            db 0x71         ; 113
+0199 31        2255            db 0x31         ; 49
+019A 80        2256            db 0x80         ; 128
+019B 10        2257            db 0x10         ; 16
+019C 7F        2258            db 0x7f         ; 127
+019D 40        2259            db 0x40         ; 64
+019E 71        2260            db 0x71         ; 113
+019F DE        2261            db 0xde         ; 222
+01A0 78        2262            db 0x78         ; 120
+01A1 00        2263            db 0x00         ; 0
+01A2 E4        2264            db 0xe4         ; 228
+01A3 F6        2265            db 0xf6         ; 246
+01A4 75        2266            db 0x75         ; 117
+01A5 EF        2267            db 0xef         ; 239
+01A6 12        2268            db 0x12         ; 18
+01A7 80        2269            db 0x80         ; 128
+01A8 03        2270            db 0x03         ; 3
+01A9 75        2271            db 0x75         ; 117
+01AA 0C        2272            db 0x0c         ; 12
+01AB 90        2273            db 0x90         ; 144
+01AC AF        2274            db 0xaf         ; 175
+01AD 0C        2275            db 0x0c         ; 12
+01AE 71        2276            db 0x71         ; 113
+01AF DE        2277            db 0xde         ; 222
+01B0 80        2278            db 0x80         ; 128
+01B1 8C        2279            db 0x8c         ; 140
+01B2 8F        2280            db 0x8f         ; 143
+01B3 82        2281            db 0x82         ; 130
+01B4 8E        2282            db 0x8e         ; 142
+01B5 83        2283            db 0x83         ; 131
+01B6 85        2284            db 0x85         ; 133
+01B7 0E        2285            db 0x0e         ; 14
+01B8 B7        2286            db 0xb7         ; 183
+01B9 85        2287            db 0x85         ; 133
+01BA 0F        2288            db 0x0f         ; 15
+01BB B7        2289            db 0xb7         ; 183
+01BC 43        2290            db 0x43         ; 67
+01BD 8F        2291            db 0x8f         ; 143
+01BE 01        2292            db 0x01         ; 1
+01BF ED        2293            db 0xed         ; 237
+01C0 F0        2294            db 0xf0         ; 240
+01C1 53        2295            db 0x53         ; 83
+01C2 8F        2296            db 0x8f         ; 143
+01C3 FC        2297            db 0xfc         ; 252
+01C4 22        2298            db 0x22         ; 34
+01C5 43        2299            db 0x43         ; 67
+01C6 8F        2300            db 0x8f         ; 143
+01C7 02        2301            db 0x02         ; 2
+01C8 E4        2302            db 0xe4         ; 228
+01C9 FD        2303            db 0xfd         ; 253
+01CA 61        2304            db 0x61         ; 97
+01CB 17        2305            db 0x17         ; 23
+01CC ED        2306            db 0xed         ; 237
+01CD F4        2307            db 0xf4         ; 244
+01CE 60        2308            db 0x60         ; 96
+01CF 02        2309            db 0x02         ; 2
+01D0 71        2310            db 0x71         ; 113
+01D1 17        2311            db 0x17         ; 23
+01D2 22        2312            db 0x22         ; 34
+01D3 C3        2313            db 0xc3         ; 195
+01D4 EE        2314            db 0xee         ; 238
+01D5 94        2315            db 0x94         ; 148
+01D6 FA        2316            db 0xfa         ; 250
+01D7 50        2317            db 0x50         ; 80
+01D8 10        2318            db 0x10         ; 16
+01D9 ED        2319            db 0xed         ; 237
+01DA 2F        2320            db 0x2f         ; 47
+01DB FF        2321            db 0xff         ; 255
+01DC E4        2322            db 0xe4         ; 228
+01DD 3E        2323            db 0x3e         ; 62
+01DE FE        2324            db 0xfe         ; 254
+01DF D3        2325            db 0xd3         ; 211
+01E0 EF        2326            db 0xef         ; 239
+01E1 94        2327            db 0x94         ; 148
+01E2 00        2328            db 0x00         ; 0
+01E3 EE        2329            db 0xee         ; 238
+01E4 94        2330            db 0x94         ; 148
+01E5 FA        2331            db 0xfa         ; 250
+01E6 50        2332            db 0x50         ; 80
+01E7 01        2333            db 0x01         ; 1
+01E8 22        2334            db 0x22         ; 34
+01E9 C3        2335            db 0xc3         ; 195
+01EA 22        2336            db 0x22         ; 34
+01EB 43        2337            db 0x43         ; 67
+01EC CE        2338            db 0xce         ; 206
+01ED 01        2339            db 0x01         ; 1
+01EE AF        2340            db 0xaf         ; 175
+01EF CB        2341            db 0xcb         ; 203
+01F0 EF        2342            db 0xef         ; 239
+01F1 FE        2343            db 0xfe         ; 254
+01F2 AD        2344            db 0xad         ; 173
+01F3 CB        2345            db 0xcb         ; 203
+01F4 ED        2346            db 0xed         ; 237
+01F5 FF        2347            db 0xff         ; 255
+01F6 E4        2348            db 0xe4         ; 228
+01F7 F5        2349            db 0xf5         ; 245
+01F8 A7        2350            db 0xa7         ; 167
+01F9 22        2351            db 0x22         ; 34
+01FA 75        2352            db 0x75         ; 117
+01FB 97        2353            db 0x97         ; 151
+01FC DE        2354            db 0xde         ; 222
+01FD 75        2355            db 0x75         ; 117
+01FE 97        2356            db 0x97         ; 151
+01FF AD        2357            db 0xad         ; 173
+0200 43        2358            db 0x43         ; 67
+0201 FF        2359            db 0xff         ; 255
+0202 80        2360            db 0x80         ; 128
+0203 75        2361            db 0x75         ; 117
+0204 EF        2362            db 0xef         ; 239
+0205 02        2363            db 0x02         ; 2
+0206 E4        2364            db 0xe4         ; 228
+0207 F5        2365            db 0xf5         ; 245
+0208 A9        2366            db 0xa9         ; 169
+0209 75        2367            db 0x75         ; 117
+020A A4        2368            db 0xa4         ; 164
+020B 10        2369            db 0x10         ; 16
+020C 75        2370            db 0x75         ; 117
+020D E1        2371            db 0xe1         ; 225
+020E 01        2372            db 0x01         ; 1
+020F 75        2373            db 0x75         ; 117
+0210 E3        2374            db 0xe3         ; 227
+0211 40        2375            db 0x40         ; 64
+0212 75        2376            db 0x75         ; 117
+0213 E4        2377            db 0xe4         ; 228
+0214 D0        2378            db 0xd0         ; 208
+0215 75        2379            db 0x75         ; 117
+0216 8E        2380            db 0x8e         ; 142
+0217 08        2381            db 0x08         ; 8
+0218 75        2382            db 0x75         ; 117
+0219 89        2383            db 0x89         ; 137
+021A 90        2384            db 0x90         ; 144
+021B D2        2385            db 0xd2         ; 210
+021C 8E        2386            db 0x8e         ; 142
+021D 20        2387            db 0x20         ; 32
+021E 85        2388            db 0x85         ; 133
+021F FD        2389            db 0xfd         ; 253
+0220 30        2390            db 0x30         ; 48
+0221 85        2391            db 0x85         ; 133
+0222 FD        2392            db 0xfd         ; 253
+0223 C2        2393            db 0xc2         ; 194
+0224 8E        2394            db 0x8e         ; 142
+0225 AF        2395            db 0xaf         ; 175
+0226 8D        2396            db 0x8d         ; 141
+0227 EF        2397            db 0xef         ; 239
+0228 FE        2398            db 0xfe         ; 254
+0229 AD        2399            db 0xad         ; 173
+022A 8B        2400            db 0x8b         ; 139
+022B ED        2401            db 0xed         ; 237
+022C FF        2402            db 0xff         ; 255
+022D EE        2403            db 0xee         ; 238
+022E C3        2404            db 0xc3         ; 195
+022F 13        2405            db 0x13         ; 19
+0230 EF        2406            db 0xef         ; 239
+0231 13        2407            db 0x13         ; 19
+0232 F4        2408            db 0xf4         ; 244
+0233 04        2409            db 0x04         ; 4
+0234 F5        2410            db 0xf5         ; 245
+0235 8D        2411            db 0x8d         ; 141
+0236 75        2412            db 0x75         ; 117
+0237 89        2413            db 0x89         ; 137
+0238 20        2414            db 0x20         ; 32
+0239 D2        2415            db 0xd2         ; 210
+023A 8E        2416            db 0x8e         ; 142
+023B D2        2417            db 0xd2         ; 210
+023C 9C        2418            db 0x9c         ; 156
+023D 22        2419            db 0x22         ; 34
+023E 30        2420            db 0x30         ; 48
+023F 98        2421            db 0x98         ; 152
+0240 FD        2422            db 0xfd         ; 253
+0241 C2        2423            db 0xc2         ; 194
+0242 98        2424            db 0x98         ; 152
+0243 AF        2425            db 0xaf         ; 175
+0244 99        2426            db 0x99         ; 153
+0245 22        2427            db 0x22         ; 34
+0246 71        2428            db 0x71         ; 113
+0247 A3        2429            db 0xa3         ; 163
+0248 BF        2430            db 0xbf         ; 191
+0249 24        2431            db 0x24         ; 36
+024A FB        2432            db 0xfb         ; 251
+024B 71        2433            db 0x71         ; 113
+024C A3        2434            db 0xa3         ; 163
+024D AE        2435            db 0xae         ; 174
+024E 07        2436            db 0x07         ; 7
+024F 8E        2437            db 0x8e         ; 142
+0250 10        2438            db 0x10         ; 16
+0251 EE        2439            db 0xee         ; 238
+0252 60        2440            db 0x60         ; 96
+0253 0C        2441            db 0x0c         ; 12
+0254 71        2442            db 0x71         ; 113
+0255 A3        2443            db 0xa3         ; 163
+0256 F5        2444            db 0xf5         ; 245
+0257 82        2445            db 0x82         ; 130
+0258 75        2446            db 0x75         ; 117
+0259 83        2447            db 0x83         ; 131
+025A 00        2448            db 0x00         ; 0
+025B EF        2449            db 0xef         ; 239
+025C F0        2450            db 0xf0         ; 240
+025D 1E        2451            db 0x1e         ; 30
+025E 80        2452            db 0x80         ; 128
+025F F1        2453            db 0xf1         ; 241
+0260 22        2454            db 0x22         ; 34
+0261 85        2455            db 0x85         ; 133
+0262 10        2456            db 0x10         ; 16
+0263 82        2457            db 0x82         ; 130
+0264 75        2458            db 0x75         ; 117
+0265 83        2459            db 0x83         ; 131
+0266 00        2460            db 0x00         ; 0
+0267 E0        2461            db 0xe0         ; 224
+0268 FF        2462            db 0xff         ; 255
+0269 15        2463            db 0x15         ; 21
+026A 10        2464            db 0x10         ; 16
+026B 22        2465            db 0x22         ; 34
+026C 71        2466            db 0x71         ; 113
+026D C6        2467            db 0xc6         ; 198
+026E 8F        2468            db 0x8f         ; 143
+026F 0A        2469            db 0x0a         ; 10
+0270 71        2470            db 0x71         ; 113
+0271 C6        2471            db 0xc6         ; 198
+0272 8F        2472            db 0x8f         ; 143
+0273 0B        2473            db 0x0b         ; 11
+0274 AE        2474            db 0xae         ; 174
+0275 0A        2475            db 0x0a         ; 10
+0276 AF        2476            db 0xaf         ; 175
+0277 0B        2477            db 0x0b         ; 11
+0278 22        2478            db 0x22         ; 34
+0279 C2        2479            db 0xc2         ; 194
+027A 99        2480            db 0x99         ; 153
+027B 8F        2481            db 0x8f         ; 143
+027C 99        2482            db 0x99         ; 153
+027D 30        2483            db 0x30         ; 48
+027E 99        2484            db 0x99         ; 153
+027F FD        2485            db 0xfd         ; 253
+0280 22        2486            db 0x22         ; 34
+0281 FF        2487            db 0xff         ; 255
+0282 FF        2488            db 0xff         ; 255
+0283 FF        2489            db 0xff         ; 255
+0284 FF        2490            db 0xff         ; 255
+0285 FF        2491            db 0xff         ; 255
+0286 FF        2492            db 0xff         ; 255
+0287 FF        2493            db 0xff         ; 255
+0288 FF        2494            db 0xff         ; 255
+0289 FF        2495            db 0xff         ; 255
+028A FF        2496            db 0xff         ; 255
+028B FF        2497            db 0xff         ; 255
+028C FF        2498            db 0xff         ; 255
+028D FF        2499            db 0xff         ; 255
+028E FF        2500            db 0xff         ; 255
+028F FF        2501            db 0xff         ; 255
+0290 FF        2502            db 0xff         ; 255
+0291 FF        2503            db 0xff         ; 255
+0292 FF        2504            db 0xff         ; 255
+0293 FF        2505            db 0xff         ; 255
+0294 FF        2506            db 0xff         ; 255
+0295 FF        2507            db 0xff         ; 255
+0296 FF        2508            db 0xff         ; 255
+0297 FF        2509            db 0xff         ; 255
+0298 90        2510            db 0x90         ; 144
+0299 A5        2511            db 0xa5         ; 165
+029A FF        2512            db 0xff         ; 255
+029B           2513   __str_0:
+029B 1B        2514            db 0x1B
+029C 5B324A54  2515            db '[2JThis program loads the bootloader into a EFM8LB1 using a'
+     68697320
+     70726F67
+     72616D20
+     6C6F6164
+     73207468
+     6520626F
+     6F746C6F
+     61646572
+     20696E74
+     6F206120
+     45464D38
+     4C423120
+     7573696E
+     672061
+02D7 6E204154  2516            db 'n AT89LP51RC2.'
+     38394C50
+     35315243
+     322E
+02E5 0A        2517            db 0x0A
+02E6 42617365  2518            db 'Based on Cygnal application note AN027 and Si'
+     64206F6E
+     20437967
+     6E616C20
+     6170706C
+     69636174
+     696F6E20
+     6E6F7465
+     20414E30
+     32372061
+     6E642053
+     69
+0313 6C69636F  2519            db 'licon Labs application note AN127'
+     6E204C61
+     62732061
+     70706C69
+     63617469
+     6F6E206E
+     6F746520
+     414E3132
+     37
+0334 0A        2520            db 0x0A
+0335 4279204A  2521            db 'By Jesus Calvino-Fraga (20'
+     65737573
+     2043616C
+     76696E6F
+     2D467261
+     67612028
+     3230
+034F 30382D32  2522            db '08-2018)'
+     30313829
+0357 0A        2523            db 0x0A
+0358 00        2524            db 0x00
+0359           2525   __str_1:
+0359 0A        2526            db 0x0A
+035A 50726573  2527            db 'Press the '
+     73207468
+     6520
+0364 27        2528            db 0x27
+0365 424F4F54  2529            db 'BOOT'
+0369 27        2530            db 0x27
+036A 20627574  2531            db ' button (connected to P4.5) to start.'
+     746F6E20
+     28636F6E
+     6E656374
+     65642074
+     6F205034
+     2E352920
+     746F2073
+     74617274
+     2E
+038F 0A        2532            db 0x0A
+0390 0A        2533            db 0x0A
+0391 00        2534            db 0x00
+0392           2535   __str_2:
+0392 43686563  2536            db 'Checking for EFM8LB1 microcontroller...'
+     6B696E67
+     20666F72
+     2045464D
+     384C4231
+     206D6963
+     726F636F
+     6E74726F
+     6C6C6572
+     2E2E2E
+03B9 00        2537            db 0x00
+03BA           2538   __str_3:
+03BA 0A        2539            db 0x0A
+03BB 4552524F  2540            db 'ERROR: EFM8LB1 device not present!'
+     523A2045
+     464D384C
+     42312064
+     65766963
+     65206E6F
+     74207072
+     6573656E
+     7421
+03DD 0A        2541            db 0x0A
+03DE 00        2542            db 0x00
+03DF           2543   __str_4:
+03DF 20446F6E  2544            db ' Done.'
+     652E
+03E5 0A        2545            db 0x0A
+03E6 00        2546            db 0x00
+03E7           2547   __str_5:
+03E7 43686563  2548            db 'Checking for %s microcontroller...'
+     6B696E67
+     20666F72
+     20257320
+     6D696372
+     6F636F6E
+     74726F6C
+     6C65722E
+     2E2E
+0409 00        2549            db 0x00
+040A           2550   __str_6:
+040A 0A        2551            db 0x0A
+040B 4552524F  2552            db 'ERROR: %s device not present! (%02x)'
+     523A2025
+     73206465
+     76696365
+     206E6F74
+     20707265
+     73656E74
+     21202825
+     30327829
+042F 0A        2553            db 0x0A
+0430 00        2554            db 0x00
+0431           2555   __str_7:
+0431 45726173  2556            db 'Erasing the flash memory...'
+     696E6720
+     74686520
+     666C6173
+     68206D65
+     6D6F7279
+     2E2E2E
+044C 00        2557            db 0x00
+044D           2558   __str_8:
+044D 56657269  2559            db 'Verifying that the flash memory is blank...'
+     6679696E
+     67207468
+     61742074
+     68652066
+     6C617368
+     206D656D
+     6F727920
+     69732062
+     6C616E6B
+     2E2E2E
+0478 00        2560            db 0x00
+0479           2561   __str_9:
+0479 0A        2562            db 0x0A
+047A 4552524F  2563            db 'ERROR: flash memory is not blank. @%04x=%02x'
+     523A2066
+     6C617368
+     206D656D
+     6F727920
+     6973206E
+     6F742062
+     6C616E6B
+     2E204025
+     3034783D
+     25303278
+04A6 0A        2564            db 0x0A
+04A7 00        2565            db 0x00
+04A8           2566   __str_10:
+04A8 436F7079  2567            db 'Copying bootloader to target'
+     696E6720
+     626F6F74
+     6C6F6164
+     65722074
+     6F207461
+     72676574
+04C4 00        2568            db 0x00
+04C5           2569   __str_11:
+04C5 0A        2570            db 0x0A
+04C6 4552524F  2571            db 'ERROR: Memory flash failed.'
+     523A204D
+     656D6F72
+     7920666C
+     61736820
+     6661696C
+     65642E
+04E1 0A        2572            db 0x0A
+04E2 00        2573            db 0x00
+04E3           2574   __str_12:
+04E3 0A        2575            db 0x0A
+04E4 0A        2576            db 0x0A
+04E5 50726573  2577            db 'Press the '
+     73207468
+     6520
+04EF 27        2578            db 0x27
+04F0 424F4F54  2579            db 'BOOT'
+04F4 27        2580            db 0x27
+04F5 20627574  2581            db ' button to finish.'
+     746F6E20
+     746F2066
+     696E6973
+     682E
+0507 0A        2582            db 0x0A
+0508 00        2583            db 0x00
+0509           2584   _str_13:
+0509 45464D38  2585            db 'EFM8LB12F64E_QFN32'
+     4C423132
+     46363445
+     5F51464E
+     3332
+051B 00        2586            db 0x00
+051C           2587   _str_14:
+051C 45464D38  2588            db 'EFM8LB12F64E_QFP32'
+     4C423132
+     46363445
+     5F514650
+     3332
+052E 00        2589            db 0x00
+052F           2590   _str_15:
+052F 45464D38  2591            db 'EFM8LB12F64E_QSOP24'
+     4C423132
+     46363445
+     5F51534F
+     503234
+0542 00        2592            db 0x00
+0543           2593   _str_16:
+0543 45464D38  2594            db 'EFM8LB12F64E_QFN24'
+     4C423132
+     46363445
+     5F51464E
+     3234
+0555 00        2595            db 0x00
+0556           2596   _str_17:
+0556 45464D38  2597            db 'EFM8LB12F32E_QFN32'
+     4C423132
+     46333245
+     5F51464E
+     3332
+0568 00        2598            db 0x00
+0569           2599   _str_18:
+0569 45464D38  2600            db 'EFM8LB12F32E_QFP32'
+     4C423132
+     46333245
+     5F514650
+     3332
+057B 00        2601            db 0x00
+057C           2602   _str_19:
+057C 45464D38  2603            db 'EFM8LB12F32E_QSOP24'
+     4C423132
+     46333245
+     5F51534F
+     503234
+058F 00        2604            db 0x00
+0590           2605   _str_20:
+0590 45464D38  2606            db 'EFM8LB12F32E_QFN24'
+     4C423132
+     46333245
+     5F51464E
+     3234
+05A2 00        2607            db 0x00
+05A3           2608   _str_21:
+05A3 45464D38  2609            db 'EFM8LB11F32E_QFN32'
+     4C423131
+     46333245
+     5F51464E
+     3332
+05B5 00        2610            db 0x00
+05B6           2611   _str_22:
+05B6 45464D38  2612            db 'EFM8LB11F32E_QFP32'
+     4C423131
+     46333245
+     5F514650
+     3332
+05C8 00        2613            db 0x00
+05C9           2614   _str_23:
+05C9 45464D38  2615            db 'EFM8LB11F32E_QSOP24'
+     4C423131
+     46333245
+     5F51534F
+     503234
+05DC 00        2616            db 0x00
+05DD           2617   _str_24:
+05DD 45464D38  2618            db 'EFM8LB11F32E_QFN24'
+     4C423131
+     46333245
+     5F51464E
+     3234
+05EF 00        2619            db 0x00
+05F0           2620   _str_25:
+05F0 45464D38  2621            db 'EFM8LB11F16E_QFN32'
+     4C423131
+     46313645
+     5F51464E
+     3332
+0602 00        2622            db 0x00
+0603           2623   _str_26:
+0603 45464D38  2624            db 'EFM8LB11F16E_QFP32'
+     4C423131
+     46313645
+     5F514650
+     3332
+0615 00        2625            db 0x00
+0616           2626   _str_27:
+0616 45464D38  2627            db 'EFM8LB11F16E_QSOP24'
+     4C423131
+     46313645
+     5F51534F
+     503234
+0629 00        2628            db 0x00
+062A           2629   _str_28:
+062A 45464D38  2630            db 'EFM8LB11F16E_QFN24'
+     4C423131
+     46313645
+     5F51464E
+     3234
+063C 00        2631            db 0x00
+063D           2632   _str_29:
+063D 45464D38  2633            db 'EFM8LB10F16E_QFN32'
+     4C423130
+     46313645
+     5F51464E
+     3332
+064F 00        2634            db 0x00
+0650           2635   _str_30:
+0650 45464D38  2636            db 'EFM8LB10F16E_QFP32'
+     4C423130
+     46313645
+     5F514650
+     3332
+0662 00        2637            db 0x00
+0663           2638   _str_31:
+0663 45464D38  2639            db 'EFM8LB10F16E_QSOP24'
+     4C423130
+     46313645
+     5F51534F
+     503234
+0676 00        2640            db 0x00
+0677           2641   _str_32:
+0677 45464D38  2642            db 'EFM8LB10F16E_QFN24'
+     4C423130
+     46313645
+     5F51464E
+     3234
+0689 00        2643            db 0x00
+068A           2644   _str_33:
+068A 45464D38  2645            db 'EFM8LB12F64ES0_QFN32'
+     4C423132
+     46363445
+     53305F51
+     464E3332
+069E 00        2646            db 0x00
+069F           2647   _str_34:
+069F 45464D38  2648            db 'EFM8LB12F64ES0_QFN24'
+     4C423132
+     46363445
+     53305F51
+     464E3234
+06B3 00        2649            db 0x00
+06B4           2650   _str_35:
+06B4 45464D38  2651            db 'EFM8LB12F32ES0_QFN32'
+     4C423132
+     46333245
+     53305F51
+     464E3332
+06C8 00        2652            db 0x00
+06C9           2653   _str_36:
+06C9 45464D38  2654            db 'EFM8LB12F32ES0_QFN24'
+     4C423132
+     46333245
+     53305F51
+     464E3234
+06DD 00        2655            db 0x00
+06DE           2656   _str_37:
+06DE 45464D38  2657            db 'EFM8LB11F32ES0_QFN32'
+     4C423131
+     46333245
+     53305F51
+     464E3332
+06F2 00        2658            db 0x00
+06F3           2659   _str_38:
+06F3 45464D38  2660            db 'EFM8LB11F32ES0_QFN24'
+     4C423131
+     46333245
+     53305F51
+     464E3234
+0707 00        2661            db 0x00
+0708           2662   _str_39:
+0708 45464D38  2663            db 'EFM8LB11F16ES0_QFN32'
+     4C423131
+     46313645
+     53305F51
+     464E3332
+071C 00        2664            db 0x00
+071D           2665   _str_40:
+071D 45464D38  2666            db 'EFM8LB11F16ES0_QFN24'
+     4C423131
+     46313645
+     53305F51
+     464E3234
+0731 00        2667            db 0x00
+0732           2668   _str_41:
+0732 45464D38  2669            db 'EFM8LB10F16ES0_QFN32'
+     4C423130
+     46313645
+     53305F51
+     464E3332
+0746 00        2670            db 0x00
+0747           2671   _str_42:
+0747 45464D38  2672            db 'EFM8LB10F16ES0_QFN24'
+     4C423130
+     46313645
+     53305F51
+     464E3234
+075B 00        2673            db 0x00
+075C           2674   _str_43:
+075C 00        2675            db 0x00
+075D           2676   
+0003           2677            CSEG
+0003           2678   
+0003           2679   end

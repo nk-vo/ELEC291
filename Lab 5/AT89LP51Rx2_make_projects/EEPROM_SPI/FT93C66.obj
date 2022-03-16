@@ -1,0 +1,270 @@
+<MODULE>
+FT93C66
+</MODULE>
+
+<OPTC51>
+--model-small
+</OPTC51>
+
+<SEGMENTS>
+R_GSINIT,code,0000,NO
+R_BSEG,bit,0000,NO
+R_XSEG,xdata,0000,NO
+BIT_BANK,data,0000,OV
+R_CONST,code,0000,NO
+rbank0,data,0000,OV
+R_PSEG,xdata,0000,NO
+R_DINIT,code,0000,NO
+R_DSEG,data,0003,NO
+R_OSEG,data,0000,OV
+R_IXSEG,xdata,0000,NO
+R_ISEG,idata,0000,NO
+R_HOME,code,0000,NO
+R_XINIT,code,0000,NO
+R_CSEG,code,0179,NO
+</SEGMENTS>
+
+<LOCALS>
+L003003?,R_CSEG,0025,0000
+L003002?,R_CSEG,0058,0000
+L004008?,R_CSEG,0074,0000
+L004005?,R_CSEG,0085,0000
+L004003?,R_CSEG,006F,0000
+L003016?,R_CSEG,0058,0000
+L003014?,R_CSEG,0022,0000
+L003013?,R_CSEG,001C,0000
+L003012?,R_CSEG,0012,0000
+</LOCALS>
+
+<PUBLICS>
+_SmallDelay,R_CSEG,0000,0000
+_FT93C66_Write_Disable,R_CSEG,009E,0000
+_FT93C66_Read,R_CSEG,00B4,0000
+_FT93C66_Poll,R_CSEG,0065,0000
+_spi_io,R_CSEG,0007,0000
+_FT93C66_Write_Enable,R_CSEG,0088,0000
+_FT93C66_Write_All,R_CSEG,0149,0000
+_FT93C66_Erase_All,R_CSEG,0104,0000
+_FT93C66_Write_PARM_2,R_DSEG,0002,0001
+_FT93C66_Write,R_CSEG,011A,0000
+_FT93C66_Init,R_CSEG,0170,0000
+_spi_io_PARM_2,R_DSEG,0000,0002
+_FT93C66_Erase,R_CSEG,00E1,0000
+</PUBLICS>
+
+<EXTERNALS>
+</EXTERNALS>
+
+<CODE AT 0000>
+</CODE>
+
+<CODE R_HOME>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_CSEG>
+</CODE>
+
+<CODE R_HOME>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_GSINIT>
+</CODE>
+
+<CODE R_DINIT>
+</CODE>
+
+<CODE R_CSEG>
+00
+00
+00
+00
+00
+00
+22
+AA 82
+8A 03
+7C 00
+1B
+BB FF rel3(L003012?;)
+1C
+8B F0
+05 F0
+7B 01
+7C 00
+80 rel2(L003014?;)
+EB
+2B
+FB
+EC
+33
+FC
+D5 F0 rel3(L003013?;)
+EB
+55 data8(_spi_io_PARM_2;)
+FD
+EC
+55 data8(_spi_io_PARM_2;0x0001;+;)
+4D
+24 FF
+92 A1
+E5 data8(_spi_io_PARM_2;0x0001;+;)
+C5 data8(_spi_io_PARM_2;)
+25 E0
+C5 data8(_spi_io_PARM_2;)
+33
+F5 data8(_spi_io_PARM_2;0x0001;+;)
+D2 A3
+C0 02
+C0 03
+C0 04
+12 addr16(_SmallDelay;)  
+D0 04
+D0 03
+D0 02
+30 A2 rel3(L003002?;)
+05 data8(_spi_io_PARM_2;)
+E4
+B5 data8(_spi_io_PARM_2;) rel3(L003016?;)
+05 data8(_spi_io_PARM_2;0x0001;+;)
+C2 A3
+DA rel2(L003003?;)
+C2 A1
+85 data8(_spi_io_PARM_2;) 82
+85 data8(_spi_io_PARM_2;0x0001;+;) 83
+22
+12 addr16(_SmallDelay;)  
+D2 A0
+12 addr16(_SmallDelay;)  
+7A 00
+20 A2 rel3(L004005?;)
+7B FA
+C0 02
+C0 03
+12 addr16(_SmallDelay;)  
+D0 03
+D0 02
+DB rel2(L004008?;)
+0A
+BA C8 rel3(L004003?;)
+C2 A0
+22
+D2 A0
+12 addr16(_SmallDelay;)  
+75 data8(_spi_io_PARM_2;) 80
+75 data8(_spi_io_PARM_2;0x0001;+;) 09
+75 82 0C
+12 addr16(_spi_io;)  
+C2 A0
+02 addr16(_FT93C66_Poll;)  
+D2 A0
+12 addr16(_SmallDelay;)  
+75 data8(_spi_io_PARM_2;) 00
+75 data8(_spi_io_PARM_2;0x0001;+;) 08
+75 82 0C
+12 addr16(_spi_io;)  
+C2 A0
+02 addr16(_FT93C66_Poll;)  
+AA 82
+AB 83
+D2 A0
+C0 02
+C0 03
+12 addr16(_SmallDelay;)  
+D0 03
+D0 02
+8A data8(_spi_io_PARM_2;)
+74 0C
+4B
+F5 data8(_spi_io_PARM_2;0x0001;+;)
+75 82 0C
+12 addr16(_spi_io;)  
+75 data8(_spi_io_PARM_2;) FF
+E4
+F5 data8(_spi_io_PARM_2;0x0001;+;)
+75 82 08
+12 addr16(_spi_io;)  
+C2 A0
+22
+AA 82
+AB 83
+D2 A0
+C0 02
+C0 03
+12 addr16(_SmallDelay;)  
+D0 03
+D0 02
+8A data8(_spi_io_PARM_2;)
+74 0E
+4B
+F5 data8(_spi_io_PARM_2;0x0001;+;)
+75 82 0C
+12 addr16(_spi_io;)  
+C2 A0
+02 addr16(_FT93C66_Poll;)  
+D2 A0
+12 addr16(_SmallDelay;)  
+75 data8(_spi_io_PARM_2;) 00
+75 data8(_spi_io_PARM_2;0x0001;+;) 09
+75 82 0C
+12 addr16(_spi_io;)  
+C2 A0
+02 addr16(_FT93C66_Poll;)  
+AA 82
+AB 83
+D2 A0
+C0 02
+C0 03
+12 addr16(_SmallDelay;)  
+D0 03
+D0 02
+8A data8(_spi_io_PARM_2;)
+74 0A
+4B
+F5 data8(_spi_io_PARM_2;0x0001;+;)
+75 82 0C
+12 addr16(_spi_io;)  
+85 data8(_FT93C66_Write_PARM_2;) data8(_spi_io_PARM_2;)
+75 data8(_spi_io_PARM_2;0x0001;+;) 00
+75 82 08
+12 addr16(_spi_io;)  
+C2 A0
+02 addr16(_FT93C66_Poll;)  
+AA 82
+D2 A0
+C0 02
+12 addr16(_SmallDelay;)  
+75 data8(_spi_io_PARM_2;) 80
+75 data8(_spi_io_PARM_2;0x0001;+;) 08
+75 82 0C
+12 addr16(_spi_io;)  
+D0 02
+8A data8(_spi_io_PARM_2;)
+75 data8(_spi_io_PARM_2;0x0001;+;) 00
+75 82 08
+12 addr16(_spi_io;)  
+C2 A0
+02 addr16(_FT93C66_Poll;)  
+C2 A0
+C2 A3
+C2 A1
+D2 A2
+22
+</CODE>
+
+<CODE R_CSEG>
+</CODE>
+
+<CODE R_XINIT>
+</CODE>
+
+<CODE R_CONST>
+</CODE>
+
+<CODE AT 0000>
+</CODE>

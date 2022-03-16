@@ -1,0 +1,1590 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Fri Mar 11 18:37:38 2022
+0000              5   ;--------------------------------------------------------
+                  5   $name eeprom_spi
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _main_pattern_1_61
+0000             27            public _main
+0000             28            public _Test
+0000             29            public _waitms
+0000             30            public _wait_us
+0000             31            public __c51_external_startup
+0000             32            public _SeedCnt
+0000             33            public _ErrCnt
+0000             34   ;--------------------------------------------------------
+0000             35   ; Special Function Registers
+0000             36   ;--------------------------------------------------------
+0000             37   _ACC            DATA 0xe0
+0000             38   _B              DATA 0xf0
+0000             39   _PSW            DATA 0xd0
+0000             40   _SP             DATA 0x81
+0000             41   _SPX            DATA 0xef
+0000             42   _DPL            DATA 0x82
+0000             43   _DPH            DATA 0x83
+0000             44   _DPLB           DATA 0xd4
+0000             45   _DPHB           DATA 0xd5
+0000             46   _PAGE           DATA 0xf6
+0000             47   _AX             DATA 0xe1
+0000             48   _BX             DATA 0xf7
+0000             49   _DSPR           DATA 0xe2
+0000             50   _FIRD           DATA 0xe3
+0000             51   _MACL           DATA 0xe4
+0000             52   _MACH           DATA 0xe5
+0000             53   _PCON           DATA 0x87
+0000             54   _AUXR           DATA 0x8e
+0000             55   _AUXR1          DATA 0xa2
+0000             56   _DPCF           DATA 0xa1
+0000             57   _CKRL           DATA 0x97
+0000             58   _CKCKON0        DATA 0x8f
+0000             59   _CKCKON1        DATA 0xaf
+0000             60   _CKSEL          DATA 0x85
+0000             61   _CLKREG         DATA 0xae
+0000             62   _OSCCON         DATA 0x85
+0000             63   _IE             DATA 0xa8
+0000             64   _IEN0           DATA 0xa8
+0000             65   _IEN1           DATA 0xb1
+0000             66   _IPH0           DATA 0xb7
+0000             67   _IP             DATA 0xb8
+0000             68   _IPL0           DATA 0xb8
+0000             69   _IPH1           DATA 0xb3
+0000             70   _IPL1           DATA 0xb2
+0000             71   _P0             DATA 0x80
+0000             72   _P1             DATA 0x90
+0000             73   _P2             DATA 0xa0
+0000             74   _P3             DATA 0xb0
+0000             75   _P4             DATA 0xc0
+0000             76   _P0M0           DATA 0xe6
+0000             77   _P0M1           DATA 0xe7
+0000             78   _P1M0           DATA 0xd6
+0000             79   _P1M1           DATA 0xd7
+0000             80   _P2M0           DATA 0xce
+0000             81   _P2M1           DATA 0xcf
+0000             82   _P3M0           DATA 0xc6
+0000             83   _P3M1           DATA 0xc7
+0000             84   _P4M0           DATA 0xbe
+0000             85   _P4M1           DATA 0xbf
+0000             86   _SCON           DATA 0x98
+0000             87   _SBUF           DATA 0x99
+0000             88   _SADEN          DATA 0xb9
+0000             89   _SADDR          DATA 0xa9
+0000             90   _BDRCON         DATA 0x9b
+0000             91   _BRL            DATA 0x9a
+0000             92   _TCON           DATA 0x88
+0000             93   _TMOD           DATA 0x89
+0000             94   _TCONB          DATA 0x91
+0000             95   _TL0            DATA 0x8a
+0000             96   _TH0            DATA 0x8c
+0000             97   _TL1            DATA 0x8b
+0000             98   _TH1            DATA 0x8d
+0000             99   _RL0            DATA 0xf2
+0000            100   _RH0            DATA 0xf4
+0000            101   _RL1            DATA 0xf3
+0000            102   _RH1            DATA 0xf5
+0000            103   _WDTRST         DATA 0xa6
+0000            104   _WDTPRG         DATA 0xa7
+0000            105   _T2CON          DATA 0xc8
+0000            106   _T2MOD          DATA 0xc9
+0000            107   _RCAP2H         DATA 0xcb
+0000            108   _RCAP2L         DATA 0xca
+0000            109   _TH2            DATA 0xcd
+0000            110   _TL2            DATA 0xcc
+0000            111   _SPCON          DATA 0xc3
+0000            112   _SPSTA          DATA 0xc4
+0000            113   _SPDAT          DATA 0xc5
+0000            114   _SSCON          DATA 0x93
+0000            115   _SSCS           DATA 0x94
+0000            116   _SSDAT          DATA 0x95
+0000            117   _SSADR          DATA 0x96
+0000            118   _KBLS           DATA 0x9c
+0000            119   _KBE            DATA 0x9d
+0000            120   _KBF            DATA 0x9e
+0000            121   _KBMOD          DATA 0x9f
+0000            122   _BMSEL          DATA 0x92
+0000            123   _FCON           DATA 0xd2
+0000            124   _EECON          DATA 0xd2
+0000            125   _ACSRA          DATA 0xa3
+0000            126   _ACSRB          DATA 0xab
+0000            127   _AREF           DATA 0xbd
+0000            128   _DADC           DATA 0xa4
+0000            129   _DADI           DATA 0xa5
+0000            130   _DADL           DATA 0xac
+0000            131   _DADH           DATA 0xad
+0000            132   _CCON           DATA 0xd8
+0000            133   _CMOD           DATA 0xd9
+0000            134   _CL             DATA 0xe9
+0000            135   _CH             DATA 0xf9
+0000            136   _CCAPM0         DATA 0xda
+0000            137   _CCAPM1         DATA 0xdb
+0000            138   _CCAPM2         DATA 0xdc
+0000            139   _CCAPM3         DATA 0xdd
+0000            140   _CCAPM4         DATA 0xde
+0000            141   _CCAP0H         DATA 0xfa
+0000            142   _CCAP1H         DATA 0xfb
+0000            143   _CCAP2H         DATA 0xfc
+0000            144   _CCAP3H         DATA 0xfd
+0000            145   _CCAP4H         DATA 0xfe
+0000            146   _CCAP0L         DATA 0xea
+0000            147   _CCAP1L         DATA 0xeb
+0000            148   _CCAP2L         DATA 0xec
+0000            149   _CCAP3L         DATA 0xed
+0000            150   _CCAP4L         DATA 0xee
+0000            151   ;--------------------------------------------------------
+0000            152   ; special function bits
+0000            153   ;--------------------------------------------------------
+0000            154   _ACC_0          BIT 0xe0
+0000            155   _ACC_1          BIT 0xe1
+0000            156   _ACC_2          BIT 0xe2
+0000            157   _ACC_3          BIT 0xe3
+0000            158   _ACC_4          BIT 0xe4
+0000            159   _ACC_5          BIT 0xe5
+0000            160   _ACC_6          BIT 0xe6
+0000            161   _ACC_7          BIT 0xe7
+0000            162   _B_0            BIT 0xf0
+0000            163   _B_1            BIT 0xf1
+0000            164   _B_2            BIT 0xf2
+0000            165   _B_3            BIT 0xf3
+0000            166   _B_4            BIT 0xf4
+0000            167   _B_5            BIT 0xf5
+0000            168   _B_6            BIT 0xf6
+0000            169   _B_7            BIT 0xf7
+0000            170   _P              BIT 0xd0
+0000            171   _F1             BIT 0xd1
+0000            172   _OV             BIT 0xd2
+0000            173   _RS0            BIT 0xd3
+0000            174   _RS1            BIT 0xd4
+0000            175   _F0             BIT 0xd5
+0000            176   _AC             BIT 0xd6
+0000            177   _CY             BIT 0xd7
+0000            178   _EX0            BIT 0xa8
+0000            179   _ET0            BIT 0xa9
+0000            180   _EX1            BIT 0xaa
+0000            181   _ET1            BIT 0xab
+0000            182   _ES             BIT 0xac
+0000            183   _ET2            BIT 0xad
+0000            184   _EC             BIT 0xae
+0000            185   _EA             BIT 0xaf
+0000            186   _PX0            BIT 0xb8
+0000            187   _PT0            BIT 0xb9
+0000            188   _PX1            BIT 0xba
+0000            189   _PT1            BIT 0xbb
+0000            190   _PS             BIT 0xbc
+0000            191   _PT2            BIT 0xbd
+0000            192   _IP0D           BIT 0xbf
+0000            193   _PPCL           BIT 0xbe
+0000            194   _PT2L           BIT 0xbd
+0000            195   _PLS            BIT 0xbc
+0000            196   _PT1L           BIT 0xbb
+0000            197   _PX1L           BIT 0xba
+0000            198   _PT0L           BIT 0xb9
+0000            199   _PX0L           BIT 0xb8
+0000            200   _P0_0           BIT 0x80
+0000            201   _P0_1           BIT 0x81
+0000            202   _P0_2           BIT 0x82
+0000            203   _P0_3           BIT 0x83
+0000            204   _P0_4           BIT 0x84
+0000            205   _P0_5           BIT 0x85
+0000            206   _P0_6           BIT 0x86
+0000            207   _P0_7           BIT 0x87
+0000            208   _P1_0           BIT 0x90
+0000            209   _P1_1           BIT 0x91
+0000            210   _P1_2           BIT 0x92
+0000            211   _P1_3           BIT 0x93
+0000            212   _P1_4           BIT 0x94
+0000            213   _P1_5           BIT 0x95
+0000            214   _P1_6           BIT 0x96
+0000            215   _P1_7           BIT 0x97
+0000            216   _P2_0           BIT 0xa0
+0000            217   _P2_1           BIT 0xa1
+0000            218   _P2_2           BIT 0xa2
+0000            219   _P2_3           BIT 0xa3
+0000            220   _P2_4           BIT 0xa4
+0000            221   _P2_5           BIT 0xa5
+0000            222   _P2_6           BIT 0xa6
+0000            223   _P2_7           BIT 0xa7
+0000            224   _P3_0           BIT 0xb0
+0000            225   _P3_1           BIT 0xb1
+0000            226   _P3_2           BIT 0xb2
+0000            227   _P3_3           BIT 0xb3
+0000            228   _P3_4           BIT 0xb4
+0000            229   _P3_5           BIT 0xb5
+0000            230   _P3_6           BIT 0xb6
+0000            231   _P3_7           BIT 0xb7
+0000            232   _RXD            BIT 0xb0
+0000            233   _TXD            BIT 0xb1
+0000            234   _INT0           BIT 0xb2
+0000            235   _INT1           BIT 0xb3
+0000            236   _T0             BIT 0xb4
+0000            237   _T1             BIT 0xb5
+0000            238   _WR             BIT 0xb6
+0000            239   _RD             BIT 0xb7
+0000            240   _P4_0           BIT 0xc0
+0000            241   _P4_1           BIT 0xc1
+0000            242   _P4_2           BIT 0xc2
+0000            243   _P4_3           BIT 0xc3
+0000            244   _P4_4           BIT 0xc4
+0000            245   _P4_5           BIT 0xc5
+0000            246   _P4_6           BIT 0xc6
+0000            247   _P4_7           BIT 0xc7
+0000            248   _RI             BIT 0x98
+0000            249   _TI             BIT 0x99
+0000            250   _RB8            BIT 0x9a
+0000            251   _TB8            BIT 0x9b
+0000            252   _REN            BIT 0x9c
+0000            253   _SM2            BIT 0x9d
+0000            254   _SM1            BIT 0x9e
+0000            255   _SM0            BIT 0x9f
+0000            256   _IT0            BIT 0x88
+0000            257   _IE0            BIT 0x89
+0000            258   _IT1            BIT 0x8a
+0000            259   _IE1            BIT 0x8b
+0000            260   _TR0            BIT 0x8c
+0000            261   _TF0            BIT 0x8d
+0000            262   _TR1            BIT 0x8e
+0000            263   _TF1            BIT 0x8f
+0000            264   _CP_RL2         BIT 0xc8
+0000            265   _C_T2           BIT 0xc9
+0000            266   _TR2            BIT 0xca
+0000            267   _EXEN2          BIT 0xcb
+0000            268   _TCLK           BIT 0xcc
+0000            269   _RCLK           BIT 0xcd
+0000            270   _EXF2           BIT 0xce
+0000            271   _TF2            BIT 0xcf
+0000            272   _CF             BIT 0xdf
+0000            273   _CR             BIT 0xde
+0000            274   _CCF4           BIT 0xdc
+0000            275   _CCF3           BIT 0xdb
+0000            276   _CCF2           BIT 0xda
+0000            277   _CCF1           BIT 0xd9
+0000            278   _CCF0           BIT 0xd8
+0000            279   ;--------------------------------------------------------
+0000            280   ; overlayable register banks
+0000            281   ;--------------------------------------------------------
+0000            282            rbank0 segment data overlay
+0000            283   ;--------------------------------------------------------
+0000            284   ; internal ram data
+0000            285   ;--------------------------------------------------------
+0000            286            rseg R_DSEG
+0000            287   _ErrCnt:
+0000            288            ds 2
+0002            289   _SeedCnt:
+0002            290            ds 2
+0004            291   _main_i_1_61:
+0004            292            ds 1
+0005            293   _main_j_1_61:
+0005            294            ds 1
+0006            295   _main_k_1_61:
+0006            296            ds 2
+0008            297   _main_m_1_61:
+0008            298            ds 2
+000A            299   ;--------------------------------------------------------
+000A            300   ; overlayable items in internal ram 
+000A            301   ;--------------------------------------------------------
+0000            302            rseg R_OSEG
+0000            303   ;--------------------------------------------------------
+0000            304   ; indirectly addressable internal ram data
+0000            305   ;--------------------------------------------------------
+0000            306            rseg R_ISEG
+0000            307   ;--------------------------------------------------------
+0000            308   ; absolute internal ram data
+0000            309   ;--------------------------------------------------------
+0000            310            DSEG
+0000            311   ;--------------------------------------------------------
+0000            312   ; bit data
+0000            313   ;--------------------------------------------------------
+0000            314            rseg R_BSEG
+0000            315   ;--------------------------------------------------------
+0000            316   ; paged external ram data
+0000            317   ;--------------------------------------------------------
+0000            318            rseg R_PSEG
+0000            319   ;--------------------------------------------------------
+0000            320   ; external ram data
+0000            321   ;--------------------------------------------------------
+0000            322            rseg R_XSEG
+0000            323   ;--------------------------------------------------------
+0000            324   ; absolute external ram data
+0000            325   ;--------------------------------------------------------
+0000            326            XSEG
+0000            327   ;--------------------------------------------------------
+0000            328   ; external initialized ram data
+0000            329   ;--------------------------------------------------------
+0000            330            rseg R_IXSEG
+0000            331            rseg R_HOME
+0000            332            rseg R_GSINIT
+0000            333            rseg R_CSEG
+0000            334   ;--------------------------------------------------------
+0000            335   ; Reset entry point and interrupt vectors
+0000            336   ;--------------------------------------------------------
+0000            337            CSEG at 0x0000
+0000 020100     338            ljmp    _crt0
+0003            339   ;--------------------------------------------------------
+0003            340   ; global & static initialisations
+0003            341   ;--------------------------------------------------------
+0000            342            rseg R_HOME
+0000            343            rseg R_GSINIT
+0000            344            rseg R_GSINIT
+0000            345   ;--------------------------------------------------------
+0000            346   ; data variables initialization
+0000            347   ;--------------------------------------------------------
+0000            348            rseg R_DINIT
+0000            349            ; The linker places a 'ret' at the end of segment R_DINIT.
+0000            350   ;--------------------------------------------------------
+0000            351   ; code
+0000            352   ;--------------------------------------------------------
+0000            353            rseg R_CSEG
+0000            354   ;------------------------------------------------------------
+0000            355   ;Allocation info for local variables in function '_c51_external_startup'
+0000            356   ;------------------------------------------------------------
+0000            357   ;------------------------------------------------------------
+0000            358   ;        eeprom_spi.c:19: unsigned char _c51_external_startup(void)
+0000            359   ;        -----------------------------------------
+0000            360   ;         function _c51_external_startup
+0000            361   ;        -----------------------------------------
+0000            362   __c51_external_startup:
+0000            363            using   0
+0000            364   ;        eeprom_spi.c:21: AUXR=0B_0001_0001; // 1152 bytes of internal XDATA, P4.4 is a general purpose I/O
+0000 758E11     365            mov     _AUXR,#0x11
+0003            366   ;        eeprom_spi.c:23: P0M0=0x00; P0M1=0x00;    
+0003 75E600     367            mov     _P0M0,#0x00
+0006 75E700     368            mov     _P0M1,#0x00
+0009            369   ;        eeprom_spi.c:24: P1M0=0x00; P1M1=0x00;    
+0009 75D600     370            mov     _P1M0,#0x00
+000C 75D700     371            mov     _P1M1,#0x00
+000F            372   ;        eeprom_spi.c:25: P2M0=0x00; P2M1=0x00;//P2M1=0b_0000_1011;    
+000F 75CE00     373            mov     _P2M0,#0x00
+0012 75CF00     374            mov     _P2M1,#0x00
+0015            375   ;        eeprom_spi.c:26: P3M0=0x00; P3M1=0x00;    
+0015 75C600     376            mov     _P3M0,#0x00
+0018 75C700     377            mov     _P3M1,#0x00
+001B            378   ;        eeprom_spi.c:27: PCON|=0x80;
+001B 438780     379            orl     _PCON,#0x80
+001E            380   ;        eeprom_spi.c:28: SCON = 0x52;
+001E 759852     381            mov     _SCON,#0x52
+0021            382   ;        eeprom_spi.c:29: BDRCON=0;
+0021 759B00     383            mov     _BDRCON,#0x00
+0024            384   ;        eeprom_spi.c:30: BRL=BRG_VAL;
+0024 759AF4     385            mov     _BRL,#0xF4
+0027            386   ;        eeprom_spi.c:31: BDRCON=BRR|TBCK|RBCK|SPD;
+0027 759B1E     387            mov     _BDRCON,#0x1E
+002A            388   ;        eeprom_spi.c:33: CLKREG=0x00; // TPS=0000B
+002A 75AE00     389            mov     _CLKREG,#0x00
+002D            390   ;        eeprom_spi.c:35: return 0;
+002D 758200     391            mov     dpl,#0x00
+0030 22         392            ret
+0031            393   ;------------------------------------------------------------
+0031            394   ;Allocation info for local variables in function 'wait_us'
+0031            395   ;------------------------------------------------------------
+0031            396   ;x                         Allocated to registers r2 
+0031            397   ;j                         Allocated to registers r2 r3 
+0031            398   ;------------------------------------------------------------
+0031            399   ;        eeprom_spi.c:38: void wait_us (unsigned char x)
+0031            400   ;        -----------------------------------------
+0031            401   ;         function wait_us
+0031            402   ;        -----------------------------------------
+0031            403   _wait_us:
+0031 AA82       404            mov     r2,dpl
+0033            405   ;        eeprom_spi.c:42: TR0=0; // Stop timer 0
+0033 C28C       406            clr     _TR0
+0035            407   ;        eeprom_spi.c:43: TMOD&=0xf0; // Clear the configuration bits for timer 0
+0035 5389F0     408            anl     _TMOD,#0xF0
+0038            409   ;        eeprom_spi.c:44: TMOD|=0x01; // Mode 1: 16-bit timer
+0038 438901     410            orl     _TMOD,#0x01
+003B            411   ;        eeprom_spi.c:46: if(x>5) x-=5; // Subtract the overhead
+003B EA         412            mov     a,r2
+003C 24FA       413            add     a,#0xff - 0x05
+003E 5001       414            jnc     L003002?
+0040 EA         415            mov     a,r2
+0041 24FB       416            add     a,#0xfb
+0043 FA         417            mov     r2,a
+0044 8001       418            sjmp    L003003?
+0046            419   L003002?:
+0046            420   ;        eeprom_spi.c:47: else x=1;
+0046 7A01       421            mov     r2,#0x01
+0048            422   L003003?:
+0048            423   ;        eeprom_spi.c:49: j=-ONE_USEC*x;
+0048 8A00       424            mov     __mullong_PARM_2,r2
+004A 750100     425            mov     (__mullong_PARM_2 + 1),#0x00
+004D 750200     426            mov     (__mullong_PARM_2 + 2),#0x00
+0050 750300     427            mov     (__mullong_PARM_2 + 3),#0x00
+0053 90FFEA     428            mov     dptr,#0xFFEA
+0056 74FF       429            mov     a,#0xFF
+0058 F5F0       430            mov     b,a
+005A 120100     431            lcall   __mullong
+005D AA82       432            mov     r2,dpl
+005F AB83       433            mov     r3,dph
+0061            434   ;        eeprom_spi.c:50: TF0=0;
+0061 C28D       435            clr     _TF0
+0063            436   ;        eeprom_spi.c:51: TH0=j/0x100;
+0063 8B04       437            mov     ar4,r3
+0065 7D00       438            mov     r5,#0x00
+0067 8C8C       439            mov     _TH0,r4
+0069            440   ;        eeprom_spi.c:52: TL0=j%0x100;
+0069 7B00       441            mov     r3,#0x00
+006B 8A8A       442            mov     _TL0,r2
+006D            443   ;        eeprom_spi.c:53: TR0=1; // Start timer 0
+006D D28C       444            setb    _TR0
+006F            445   ;        eeprom_spi.c:54: while(TF0==0); //Wait for overflow
+006F            446   L003004?:
+006F 308DD0     447            jnb     _TF0,L003004?
+0072 22         448            ret
+0073            449   ;------------------------------------------------------------
+0073            450   ;Allocation info for local variables in function 'waitms'
+0073            451   ;------------------------------------------------------------
+0073            452   ;ms                        Allocated to registers r2 r3 
+0073            453   ;j                         Allocated to registers r4 r5 
+0073            454   ;k                         Allocated to registers r6 
+0073            455   ;------------------------------------------------------------
+0073            456   ;        eeprom_spi.c:57: void waitms (unsigned int ms)
+0073            457   ;        -----------------------------------------
+0073            458   ;         function waitms
+0073            459   ;        -----------------------------------------
+0073            460   _waitms:
+0073 AA82       461            mov     r2,dpl
+0075 AB83       462            mov     r3,dph
+0077            463   ;        eeprom_spi.c:61: for(j=0; j<ms; j++)
+0077 7C00       464            mov     r4,#0x00
+0079 7D00       465            mov     r5,#0x00
+007B            466   L004005?:
+007B C3         467            clr     c
+007C EC         468            mov     a,r4
+007D 9A         469            subb    a,r2
+007E ED         470            mov     a,r5
+007F 9B         471            subb    a,r3
+0080 5001       472            jnc     L004009?
+0082            473   ;        eeprom_spi.c:62: for (k=0; k<4; k++) wait_us(250);
+0082 7E00       474            mov     r6,#0x00
+0084            475   L004001?:
+0084 BE04D0     476            cjne    r6,#0x04,L004018?
+0087            477   L004018?:
+0087 5001       478            jnc     L004007?
+0089 7582FA     479            mov     dpl,#0xFA
+008C C002       480            push    ar2
+008E C003       481            push    ar3
+0090 C004       482            push    ar4
+0092 C005       483            push    ar5
+0094 C006       484            push    ar6
+0096 120100     485            lcall   _wait_us
+0099 D006       486            pop     ar6
+009B D005       487            pop     ar5
+009D D004       488            pop     ar4
+009F D003       489            pop     ar3
+00A1 D002       490            pop     ar2
+00A3 0E         491            inc     r6
+00A4 8001       492            sjmp    L004001?
+00A6            493   L004007?:
+00A6            494   ;        eeprom_spi.c:61: for(j=0; j<ms; j++)
+00A6 0C         495            inc     r4
+00A7 BC0010     496            cjne    r4,#0x00,L004005?
+00AA 0D         497            inc     r5
+00AB 8001       498            sjmp    L004005?
+00AD            499   L004009?:
+00AD 22         500            ret
+00AE            501   ;------------------------------------------------------------
+00AE            502   ;Allocation info for local variables in function 'Test'
+00AE            503   ;------------------------------------------------------------
+00AE            504   ;testval                   Allocated to registers r2 
+00AE            505   ;j                         Allocated to registers r7 
+00AE            506   ;k                         Allocated to registers r5 r6 
+00AE            507   ;cnt                       Allocated to registers r3 r4 
+00AE            508   ;------------------------------------------------------------
+00AE            509   ;        eeprom_spi.c:65: void Test (unsigned char testval)
+00AE            510   ;        -----------------------------------------
+00AE            511   ;         function Test
+00AE            512   ;        -----------------------------------------
+00AE            513   _Test:
+00AE            514   ;        eeprom_spi.c:71: FT93C66_Write_All(testval);
+00AE AA82       515            mov  r2,dpl
+00B0 C002       516            push    ar2
+00B2 120100     517            lcall   _FT93C66_Write_All
+00B5 D002       518            pop     ar2
+00B7            519   ;        eeprom_spi.c:73: for(k=0; k<0x200; k++)
+00B7 7B00       520            mov     r3,#0x00
+00B9 7C00       521            mov     r4,#0x00
+00BB 7D00       522            mov     r5,#0x00
+00BD 7E00       523            mov     r6,#0x00
+00BF            524   L005008?:
+00BF 74FE       525            mov     a,#0x100 - 0x02
+00C1 2E         526            add     a,r6
+00C2 5001       527            jnc     L005021?
+00C4 22         528            ret
+00C5            529   L005021?:
+00C5            530   ;        eeprom_spi.c:75: j=FT93C66_Read(k);
+00C5 8D82       531            mov     dpl,r5
+00C7 8E83       532            mov     dph,r6
+00C9 C002       533            push    ar2
+00CB C003       534            push    ar3
+00CD C004       535            push    ar4
+00CF C005       536            push    ar5
+00D1 C006       537            push    ar6
+00D3 120100     538            lcall   _FT93C66_Read
+00D6 AF82       539            mov     r7,dpl
+00D8 D006       540            pop     ar6
+00DA D005       541            pop     ar5
+00DC D004       542            pop     ar4
+00DE D003       543            pop     ar3
+00E0 D002       544            pop     ar2
+00E2            545   ;        eeprom_spi.c:76: if(j!=testval)
+00E2 EF         546            mov     a,r7
+00E3 B50260     547            cjne    a,ar2,L005022?
+00E6 020100     548            ljmp    L005010?
+00E9            549   L005022?:
+00E9            550   ;        eeprom_spi.c:78: if(cnt==0) printf("\n0x%02x failed at:", testval);
+00E9 EB         551            mov     a,r3
+00EA 4C         552            orl     a,r4
+00EB 7001       553            jnz     L005002?
+00ED 8A07       554            mov     ar7,r2
+00EF F8         555            mov     r0,a
+00F0 C002       556            push    ar2
+00F2 C003       557            push    ar3
+00F4 C004       558            push    ar4
+00F6 C005       559            push    ar5
+00F8 C006       560            push    ar6
+00FA C007       561            push    ar7
+00FC C000       562            push    ar0
+00FE 7420       563            mov     a,#__str_0
+0100 C0E0       564            push    acc
+0102 7486       565            mov     a,#(__str_0 >> 8)
+0104 C0E0       566            push    acc
+0106 7480       567            mov     a,#0x80
+0108 C0E0       568            push    acc
+010A 120100     569            lcall   _printf
+010D E581       570            mov     a,sp
+010F 24FB       571            add     a,#0xfb
+0111 F581       572            mov     sp,a
+0113 D006       573            pop     ar6
+0115 D005       574            pop     ar5
+0117 D004       575            pop     ar4
+0119 D003       576            pop     ar3
+011B D002       577            pop     ar2
+011D            578   L005002?:
+011D            579   ;        eeprom_spi.c:79: ErrCnt++;
+011D 0580       580            inc     _ErrCnt
+011F E4         581            clr     a
+0120 B58020     582            cjne    a,_ErrCnt,L005024?
+0123 0581       583            inc     (_ErrCnt + 1)
+0125            584   L005024?:
+0125            585   ;        eeprom_spi.c:80: if( ((cnt&0x0f)==0) && (cnt>0) ) printf("\n               ");
+0125 EB         586            mov     a,r3
+0126 540F       587            anl     a,#0x0F
+0128 6001       588            jz      L005026?
+012A 8001       589            sjmp    L005004?
+012C            590   L005026?:
+012C EB         591            mov     a,r3
+012D 4C         592            orl     a,r4
+012E 6001       593            jz      L005004?
+0130 C002       594            push    ar2
+0132 C003       595            push    ar3
+0134 C004       596            push    ar4
+0136 C005       597            push    ar5
+0138 C006       598            push    ar6
+013A 74E0       599            mov     a,#__str_1
+013C C0E0       600            push    acc
+013E 7487       601            mov     a,#(__str_1 >> 8)
+0140 C0E0       602            push    acc
+0142 7480       603            mov     a,#0x80
+0144 C0E0       604            push    acc
+0146 120100     605            lcall   _printf
+0149 1581       606            dec     sp
+014B 1581       607            dec     sp
+014D 1581       608            dec     sp
+014F D006       609            pop     ar6
+0151 D005       610            pop     ar5
+0153 D004       611            pop     ar4
+0155 D003       612            pop     ar3
+0157 D002       613            pop     ar2
+0159            614   L005004?:
+0159            615   ;        eeprom_spi.c:81: cnt++;
+0159 0B         616            inc     r3
+015A BB0020     617            cjne    r3,#0x00,L005028?
+015D 0C         618            inc     r4
+015E            619   L005028?:
+015E            620   ;        eeprom_spi.c:82: printf(" %03x", k);
+015E C002       621            push    ar2
+0160 C003       622            push    ar3
+0162 C004       623            push    ar4
+0164 C005       624            push    ar5
+0166 C006       625            push    ar6
+0168 C005       626            push    ar5
+016A C006       627            push    ar6
+016C 7460       628            mov     a,#__str_2
+016E C0E0       629            push    acc
+0170 7488       630            mov     a,#(__str_2 >> 8)
+0172 C0E0       631            push    acc
+0174 7480       632            mov     a,#0x80
+0176 C0E0       633            push    acc
+0178 120100     634            lcall   _printf
+017B E581       635            mov     a,sp
+017D 24FB       636            add     a,#0xfb
+017F F581       637            mov     sp,a
+0181 D006       638            pop     ar6
+0183 D005       639            pop     ar5
+0185 D004       640            pop     ar4
+0187 D003       641            pop     ar3
+0189 D002       642            pop     ar2
+018B            643   L005010?:
+018B            644   ;        eeprom_spi.c:73: for(k=0; k<0x200; k++)
+018B 0D         645            inc     r5
+018C BD00A0     646            cjne    r5,#0x00,L005029?
+018F 0E         647            inc     r6
+0190            648   L005029?:
+0190 020100     649            ljmp    L005008?
+0193            650   ;------------------------------------------------------------
+0193            651   ;Allocation info for local variables in function 'main'
+0193            652   ;------------------------------------------------------------
+0193            653   ;i                         Allocated with name '_main_i_1_61'
+0193            654   ;j                         Allocated with name '_main_j_1_61'
+0193            655   ;k                         Allocated with name '_main_k_1_61'
+0193            656   ;m                         Allocated with name '_main_m_1_61'
+0193            657   ;------------------------------------------------------------
+0193            658   ;        eeprom_spi.c:88: void main (void)
+0193            659   ;        -----------------------------------------
+0193            660   ;         function main
+0193            661   ;        -----------------------------------------
+0193            662   _main:
+0193            663   ;        eeprom_spi.c:90: volatile unsigned char i=0, j=0;
+0193 75C000     664            mov     _main_i_1_61,#0x00
+0196 750000     665            mov     _main_j_1_61,#0x00
+0199            666   ;        eeprom_spi.c:98: waitms(500);
+0199 9001F4     667            mov     dptr,#0x01F4
+019C 120100     668            lcall   _waitms
+019F            669   ;        eeprom_spi.c:100: while(1)
+019F            670   L006038?:
+019F            671   ;        eeprom_spi.c:102: FT93C66_Init();
+019F 120100     672            lcall   _FT93C66_Init
+01A2            673   ;        eeprom_spi.c:115: "Option: ");
+01A2 7460       674            mov     a,#__str_3
+01A4 C0E0       675            push    acc
+01A6 7489       676            mov     a,#(__str_3 >> 8)
+01A8 C0E0       677            push    acc
+01AA 7480       678            mov     a,#0x80
+01AC C0E0       679            push    acc
+01AE 120100     680            lcall   _printf
+01B1 1581       681            dec     sp
+01B3 1581       682            dec     sp
+01B5 1581       683            dec     sp
+01B7            684   ;        eeprom_spi.c:117: while(RI==0)
+01B7            685   L006001?:
+01B7 2098E0     686            jb      _RI,L006003?
+01BA            687   ;        eeprom_spi.c:119: SeedCnt++;
+01BA 0540       688            inc     _SeedCnt
+01BC E4         689            clr     a
+01BD B540A0     690            cjne    a,_SeedCnt,L006001?
+01C0 0541       691            inc     (_SeedCnt + 1)
+01C2 8001       692            sjmp    L006001?
+01C4            693   L006003?:
+01C4            694   ;        eeprom_spi.c:122: switch(getchar())
+01C4 120100     695            lcall   _getchar
+01C7 AA82       696            mov     r2,dpl
+01C9 C3         697            clr     c
+01CA EA         698            mov     a,r2
+01CB 6480       699            xrl     a,#0x80
+01CD 94B1       700            subb    a,#0xb1
+01CF 4001       701            jc      L006038?
+01D1 74B8       702            mov     a,#(0x38 ^ 0x80)
+01D3 8AF0       703            mov     b,r2
+01D5 63F080     704            xrl     b,#0x80
+01D8 95F0       705            subb    a,b
+01DA 4001       706            jc      L006038?
+01DC EA         707            mov     a,r2
+01DD 24CF       708            add     a,#0xcf
+01DF FA         709            mov     r2,a
+01E0 25E0       710            add     a,acc
+01E2 2A         711            add     a,r2
+01E3 908A60     712            mov     dptr,#L006073?
+01E6 73         713            jmp     @a+dptr
+01E7            714   L006073?:
+01E7 020100     715            ljmp    L006004?
+01EA 020100     716            ljmp    L006008?
+01ED 020100     717            ljmp    L006020?
+01F0 020100     718            ljmp    L006021?
+01F3 020100     719            ljmp    L006022?
+01F6 020100     720            ljmp    L006030?
+01F9 020100     721            ljmp    L006033?
+01FC 020100     722            ljmp    L006034?
+01FF            723   ;        eeprom_spi.c:124: case '1':
+01FF            724   L006004?:
+01FF            725   ;        eeprom_spi.c:125: FT93C66_Write_Enable();
+01FF 120100     726            lcall   _FT93C66_Write_Enable
+0202            727   ;        eeprom_spi.c:127: ErrCnt=0;             
+0202 E4         728            clr     a
+0203 F580       729            mov     _ErrCnt,a
+0205 F581       730            mov     (_ErrCnt + 1),a
+0207            731   ;        eeprom_spi.c:128: printf("\nPattern testing all memory locations.\n");
+0207 74F0       732            mov     a,#__str_4
+0209 C0E0       733            push    acc
+020B 748C       734            mov     a,#(__str_4 >> 8)
+020D C0E0       735            push    acc
+020F 7480       736            mov     a,#0x80
+0211 C0E0       737            push    acc
+0213 120100     738            lcall   _printf
+0216 1581       739            dec     sp
+0218 1581       740            dec     sp
+021A 1581       741            dec     sp
+021C            742   ;        eeprom_spi.c:130: for(i=0; i<sizeof(pattern); i++) Test(pattern[i]);
+021C 75C000     743            mov     _main_i_1_61,#0x00
+021F            744   L006040?:
+021F 74E8       745            mov     a,#0x100 - 0x18
+0221 25C0       746            add     a,_main_i_1_61
+0223 4001       747            jc      L006043?
+0225 E5C0       748            mov     a,_main_i_1_61
+0227 9041B0     749            mov     dptr,#_main_pattern_1_61
+022A 93         750            movc    a,@a+dptr
+022B F582       751            mov     dpl,a
+022D 120100     752            lcall   _Test
+0230 05C0       753            inc     _main_i_1_61
+0232 8001       754            sjmp    L006040?
+0234            755   L006043?:
+0234            756   ;        eeprom_spi.c:131: if(ErrCnt>0)
+0234 E580       757            mov     a,_ErrCnt
+0236 4581       758            orl     a,(_ErrCnt + 1)
+0238 6001       759            jz      L006006?
+023A            760   ;        eeprom_spi.c:133: printf("\nThere were %d ERROR(s).\n", ErrCnt);
+023A C080       761            push    _ErrCnt
+023C C081       762            push    (_ErrCnt + 1)
+023E 74F0       763            mov     a,#__str_5
+0240 C0E0       764            push    acc
+0242 748D       765            mov     a,#(__str_5 >> 8)
+0244 C0E0       766            push    acc
+0246 7480       767            mov     a,#0x80
+0248 C0E0       768            push    acc
+024A 120100     769            lcall   _printf
+024D E581       770            mov     a,sp
+024F 24FB       771            add     a,#0xfb
+0251 F581       772            mov     sp,a
+0253 8001       773            sjmp    L006007?
+0255            774   L006006?:
+0255            775   ;        eeprom_spi.c:137: printf("\nNo errors.  Memory works fine!\n");
+0255 7470       776            mov     a,#__str_6
+0257 C0E0       777            push    acc
+0259 748E       778            mov     a,#(__str_6 >> 8)
+025B C0E0       779            push    acc
+025D 7480       780            mov     a,#0x80
+025F C0E0       781            push    acc
+0261 120100     782            lcall   _printf
+0264 1581       783            dec     sp
+0266 1581       784            dec     sp
+0268 1581       785            dec     sp
+026A            786   L006007?:
+026A            787   ;        eeprom_spi.c:140: FT93C66_Write_Disable();
+026A 120100     788            lcall   _FT93C66_Write_Disable
+026D            789   ;        eeprom_spi.c:141: break;
+026D 020100     790            ljmp    L006038?
+0270            791   ;        eeprom_spi.c:143: case '2':
+0270            792   L006008?:
+0270            793   ;        eeprom_spi.c:144: FT93C66_Write_Enable();
+0270 120100     794            lcall   _FT93C66_Write_Enable
+0273            795   ;        eeprom_spi.c:145: printf("\nRandom testing all memory locations.\n");
+0273 7400       796            mov     a,#__str_7
+0275 C0E0       797            push    acc
+0277 748F       798            mov     a,#(__str_7 >> 8)
+0279 C0E0       799            push    acc
+027B 7480       800            mov     a,#0x80
+027D C0E0       801            push    acc
+027F 120100     802            lcall   _printf
+0282 1581       803            dec     sp
+0284 1581       804            dec     sp
+0286 1581       805            dec     sp
+0288            806   ;        eeprom_spi.c:146: srand(SeedCnt);
+0288 854082     807            mov     dpl,_SeedCnt
+028B 854183     808            mov     dph,(_SeedCnt + 1)
+028E 120100     809            lcall   _srand
+0291            810   ;        eeprom_spi.c:147: for(k=0; k<0x200; k++)
+0291 E4         811            clr     a
+0292 F540       812            mov     _main_k_1_61,a
+0294 F541       813            mov     (_main_k_1_61 + 1),a
+0296            814   L006013?:
+0296 74FE       815            mov     a,#0x100 - 0x02
+0298 2541       816            add     a,(_main_k_1_61 + 1)
+029A 5001       817            jnc     L006076?
+029C 020100     818            ljmp    L006016?
+029F            819   L006076?:
+029F            820   ;        eeprom_spi.c:149: i=rand()&0xff;
+029F 120100     821            lcall   _rand
+02A2 E582       822            mov     a,dpl
+02A4 8583F0     823            mov     b,dph
+02A7 FA         824            mov     r2,a
+02A8 8AC0       825            mov     _main_i_1_61,r2
+02AA            826   ;        eeprom_spi.c:150: FT93C66_Write(k, i);
+02AA 85C000     827            mov     _FT93C66_Write_PARM_2,_main_i_1_61
+02AD 854082     828            mov     dpl,_main_k_1_61
+02B0 854183     829            mov     dph,(_main_k_1_61 + 1)
+02B3 120100     830            lcall   _FT93C66_Write
+02B6            831   ;        eeprom_spi.c:151: j=FT93C66_Read(k);
+02B6 854082     832            mov     dpl,_main_k_1_61
+02B9 854183     833            mov     dph,(_main_k_1_61 + 1)
+02BC 120100     834            lcall   _FT93C66_Read
+02BF 858200     835            mov     _main_j_1_61,dpl
+02C2            836   ;        eeprom_spi.c:152: if((k&0xf)==0)
+02C2 E540       837            mov     a,_main_k_1_61
+02C4 540F       838            anl     a,#0x0F
+02C6 6001       839            jz      L006078?
+02C8 8001       840            sjmp    L006010?
+02CA            841   L006078?:
+02CA            842   ;        eeprom_spi.c:154: printf("\n%03x: ", k);
+02CA C040       843            push    _main_k_1_61
+02CC C041       844            push    (_main_k_1_61 + 1)
+02CE 7490       845            mov     a,#__str_8
+02D0 C0E0       846            push    acc
+02D2 7491       847            mov     a,#(__str_8 >> 8)
+02D4 C0E0       848            push    acc
+02D6 7480       849            mov     a,#0x80
+02D8 C0E0       850            push    acc
+02DA 120100     851            lcall   _printf
+02DD E581       852            mov     a,sp
+02DF 24FB       853            add     a,#0xfb
+02E1 F581       854            mov     sp,a
+02E3            855   L006010?:
+02E3            856   ;        eeprom_spi.c:156: printf(" %02x", j);                   
+02E3 AA00       857            mov     r2,_main_j_1_61
+02E5 7B00       858            mov     r3,#0x00
+02E7 C002       859            push    ar2
+02E9 C003       860            push    ar3
+02EB 74D0       861            mov     a,#__str_9
+02ED C0E0       862            push    acc
+02EF 7491       863            mov     a,#(__str_9 >> 8)
+02F1 C0E0       864            push    acc
+02F3 7480       865            mov     a,#0x80
+02F5 C0E0       866            push    acc
+02F7 120100     867            lcall   _printf
+02FA E581       868            mov     a,sp
+02FC 24FB       869            add     a,#0xfb
+02FE F581       870            mov     sp,a
+0300            871   ;        eeprom_spi.c:157: if(j!=i) break;
+0300 E5C0       872            mov     a,_main_i_1_61
+0302 B50000     873            cjne    a,_main_j_1_61,L006016?
+0305            874   ;        eeprom_spi.c:147: for(k=0; k<0x200; k++)
+0305 7401       875            mov     a,#0x01
+0307 2540       876            add     a,_main_k_1_61
+0309 F540       877            mov     _main_k_1_61,a
+030B E4         878            clr     a
+030C 3541       879            addc    a,(_main_k_1_61 + 1)
+030E F541       880            mov     (_main_k_1_61 + 1),a
+0310 020100     881            ljmp    L006013?
+0313            882   L006016?:
+0313            883   ;        eeprom_spi.c:159: if(j!=i)
+0313 E5C0       884            mov     a,_main_i_1_61
+0315 B50010     885            cjne    a,_main_j_1_61,L006081?
+0318 8001       886            sjmp    L006018?
+031A            887   L006081?:
+031A            888   ;        eeprom_spi.c:161: printf("\nERROR at location %03x.  Wrote %02x but read %02x\n", k, i, j);
+031A AA00       889            mov     r2,_main_j_1_61
+031C 7B00       890            mov     r3,#0x00
+031E ACC0       891            mov     r4,_main_i_1_61
+0320 7D00       892            mov     r5,#0x00
+0322 C002       893            push    ar2
+0324 C003       894            push    ar3
+0326 C004       895            push    ar4
+0328 C005       896            push    ar5
+032A C040       897            push    _main_k_1_61
+032C C041       898            push    (_main_k_1_61 + 1)
+032E 7490       899            mov     a,#__str_10
+0330 C0E0       900            push    acc
+0332 7492       901            mov     a,#(__str_10 >> 8)
+0334 C0E0       902            push    acc
+0336 7480       903            mov     a,#0x80
+0338 C0E0       904            push    acc
+033A 120100     905            lcall   _printf
+033D E581       906            mov     a,sp
+033F 24F7       907            add     a,#0xf7
+0341 F581       908            mov     sp,a
+0343 8001       909            sjmp    L006019?
+0345            910   L006018?:
+0345            911   ;        eeprom_spi.c:165: printf("\nTest pass\n");
+0345 7410       912            mov     a,#__str_11
+0347 C0E0       913            push    acc
+0349 7493       914            mov     a,#(__str_11 >> 8)
+034B C0E0       915            push    acc
+034D 7480       916            mov     a,#0x80
+034F C0E0       917            push    acc
+0351 120100     918            lcall   _printf
+0354 1581       919            dec     sp
+0356 1581       920            dec     sp
+0358 1581       921            dec     sp
+035A            922   L006019?:
+035A            923   ;        eeprom_spi.c:167: FT93C66_Write_Disable();
+035A 120100     924            lcall   _FT93C66_Write_Disable
+035D            925   ;        eeprom_spi.c:168: break;
+035D 020100     926            ljmp    L006038?
+0360            927   ;        eeprom_spi.c:170: case '3':
+0360            928   L006020?:
+0360            929   ;        eeprom_spi.c:171: printf("\nAddress: ");
+0360 7450       930            mov     a,#__str_12
+0362 C0E0       931            push    acc
+0364 7493       932            mov     a,#(__str_12 >> 8)
+0366 C0E0       933            push    acc
+0368 7480       934            mov     a,#0x80
+036A C0E0       935            push    acc
+036C 120100     936            lcall   _printf
+036F 1581       937            dec     sp
+0371 1581       938            dec     sp
+0373 1581       939            dec     sp
+0375            940   ;        eeprom_spi.c:172: scanf("%x", &k);
+0375 7440       941            mov     a,#_main_k_1_61
+0377 C0E0       942            push    acc
+0379 7480       943            mov     a,#(_main_k_1_61 >> 8)
+037B C0E0       944            push    acc
+037D 7440       945            mov     a,#0x40
+037F C0E0       946            push    acc
+0381 7490       947            mov     a,#__str_13
+0383 C0E0       948            push    acc
+0385 7493       949            mov     a,#(__str_13 >> 8)
+0387 C0E0       950            push    acc
+0389 7480       951            mov     a,#0x80
+038B C0E0       952            push    acc
+038D 120100     953            lcall   _scanf
+0390 E581       954            mov     a,sp
+0392 24FA       955            add     a,#0xfa
+0394 F581       956            mov     sp,a
+0396            957   ;        eeprom_spi.c:173: waitms(10);
+0396 90000A     958            mov     dptr,#0x000A
+0399 120100     959            lcall   _waitms
+039C            960   ;        eeprom_spi.c:174: printf("\nValue: ");
+039C 7410       961            mov     a,#__str_14
+039E C0E0       962            push    acc
+03A0 7494       963            mov     a,#(__str_14 >> 8)
+03A2 C0E0       964            push    acc
+03A4 7480       965            mov     a,#0x80
+03A6 C0E0       966            push    acc
+03A8 120100     967            lcall   _printf
+03AB 1581       968            dec     sp
+03AD 1581       969            dec     sp
+03AF 1581       970            dec     sp
+03B1            971   ;        eeprom_spi.c:175: scanf("%x", &m);
+03B1 7480       972            mov     a,#_main_m_1_61
+03B3 C0E0       973            push    acc
+03B5 7480       974            mov     a,#(_main_m_1_61 >> 8)
+03B7 C0E0       975            push    acc
+03B9 7440       976            mov     a,#0x40
+03BB C0E0       977            push    acc
+03BD 7490       978            mov     a,#__str_13
+03BF C0E0       979            push    acc
+03C1 7493       980            mov     a,#(__str_13 >> 8)
+03C3 C0E0       981            push    acc
+03C5 7480       982            mov     a,#0x80
+03C7 C0E0       983            push    acc
+03C9 120100     984            lcall   _scanf
+03CC E581       985            mov     a,sp
+03CE 24FA       986            add     a,#0xfa
+03D0 F581       987            mov     sp,a
+03D2            988   ;        eeprom_spi.c:177: FT93C66_Write_Enable();
+03D2 120100     989            lcall   _FT93C66_Write_Enable
+03D5            990   ;        eeprom_spi.c:178: FT93C66_Write(k, m);
+03D5 858000     991            mov     _FT93C66_Write_PARM_2,_main_m_1_61
+03D8 854082     992            mov     dpl,_main_k_1_61
+03DB 854183     993            mov     dph,(_main_k_1_61 + 1)
+03DE 120100     994            lcall   _FT93C66_Write
+03E1            995   ;        eeprom_spi.c:179: j=FT93C66_Read(k);
+03E1 854082     996            mov     dpl,_main_k_1_61
+03E4 854183     997            mov     dph,(_main_k_1_61 + 1)
+03E7 120100     998            lcall   _FT93C66_Read
+03EA 858200     999            mov     _main_j_1_61,dpl
+03ED           1000   ;        eeprom_spi.c:180: FT93C66_Write_Disable();
+03ED 120100    1001            lcall   _FT93C66_Write_Disable
+03F0           1002   ;        eeprom_spi.c:182: printf("\n[%03x]: %02x\n", k, j);                     
+03F0 AA00      1003            mov     r2,_main_j_1_61
+03F2 7B00      1004            mov     r3,#0x00
+03F4 C002      1005            push    ar2
+03F6 C003      1006            push    ar3
+03F8 C040      1007            push    _main_k_1_61
+03FA C041      1008            push    (_main_k_1_61 + 1)
+03FC 7450      1009            mov     a,#__str_15
+03FE C0E0      1010            push    acc
+0400 7494      1011            mov     a,#(__str_15 >> 8)
+0402 C0E0      1012            push    acc
+0404 7480      1013            mov     a,#0x80
+0406 C0E0      1014            push    acc
+0408 120100    1015            lcall   _printf
+040B E581      1016            mov     a,sp
+040D 24F9      1017            add     a,#0xf9
+040F F581      1018            mov     sp,a
+0411           1019   ;        eeprom_spi.c:184: break;
+0411 020100    1020            ljmp    L006038?
+0414           1021   ;        eeprom_spi.c:186: case '4':
+0414           1022   L006021?:
+0414           1023   ;        eeprom_spi.c:187: printf("\nAddress: ");
+0414 7450      1024            mov     a,#__str_12
+0416 C0E0      1025            push    acc
+0418 7493      1026            mov     a,#(__str_12 >> 8)
+041A C0E0      1027            push    acc
+041C 7480      1028            mov     a,#0x80
+041E C0E0      1029            push    acc
+0420 120100    1030            lcall   _printf
+0423 1581      1031            dec     sp
+0425 1581      1032            dec     sp
+0427 1581      1033            dec     sp
+0429           1034   ;        eeprom_spi.c:188: scanf("%x", &k);
+0429 7440      1035            mov     a,#_main_k_1_61
+042B C0E0      1036            push    acc
+042D 7480      1037            mov     a,#(_main_k_1_61 >> 8)
+042F C0E0      1038            push    acc
+0431 7440      1039            mov     a,#0x40
+0433 C0E0      1040            push    acc
+0435 7490      1041            mov     a,#__str_13
+0437 C0E0      1042            push    acc
+0439 7493      1043            mov     a,#(__str_13 >> 8)
+043B C0E0      1044            push    acc
+043D 7480      1045            mov     a,#0x80
+043F C0E0      1046            push    acc
+0441 120100    1047            lcall   _scanf
+0444 E581      1048            mov     a,sp
+0446 24FA      1049            add     a,#0xfa
+0448 F581      1050            mov     sp,a
+044A           1051   ;        eeprom_spi.c:189: j=FT93C66_Read(k);
+044A 854082    1052            mov     dpl,_main_k_1_61
+044D 854183    1053            mov     dph,(_main_k_1_61 + 1)
+0450 120100    1054            lcall   _FT93C66_Read
+0453 858200    1055            mov     _main_j_1_61,dpl
+0456           1056   ;        eeprom_spi.c:190: printf("\n[%03x]: %02x\n", k, j);                     
+0456 AA00      1057            mov     r2,_main_j_1_61
+0458 7B00      1058            mov     r3,#0x00
+045A C002      1059            push    ar2
+045C C003      1060            push    ar3
+045E C040      1061            push    _main_k_1_61
+0460 C041      1062            push    (_main_k_1_61 + 1)
+0462 7450      1063            mov     a,#__str_15
+0464 C0E0      1064            push    acc
+0466 7494      1065            mov     a,#(__str_15 >> 8)
+0468 C0E0      1066            push    acc
+046A 7480      1067            mov     a,#0x80
+046C C0E0      1068            push    acc
+046E 120100    1069            lcall   _printf
+0471 E581      1070            mov     a,sp
+0473 24F9      1071            add     a,#0xf9
+0475 F581      1072            mov     sp,a
+0477           1073   ;        eeprom_spi.c:191: break;
+0477 020100    1074            ljmp    L006038?
+047A           1075   ;        eeprom_spi.c:193: case '5':
+047A           1076   L006022?:
+047A           1077   ;        eeprom_spi.c:194: FT93C66_Write_Enable();
+047A 120100    1078            lcall   _FT93C66_Write_Enable
+047D           1079   ;        eeprom_spi.c:195: printf("\nLocation to test: ");
+047D 7490      1080            mov     a,#__str_16
+047F C0E0      1081            push    acc
+0481 7494      1082            mov     a,#(__str_16 >> 8)
+0483 C0E0      1083            push    acc
+0485 7480      1084            mov     a,#0x80
+0487 C0E0      1085            push    acc
+0489 120100    1086            lcall   _printf
+048C 1581      1087            dec     sp
+048E 1581      1088            dec     sp
+0490 1581      1089            dec     sp
+0492           1090   ;        eeprom_spi.c:196: scanf("%x", &k);
+0492 7440      1091            mov     a,#_main_k_1_61
+0494 C0E0      1092            push    acc
+0496 7480      1093            mov     a,#(_main_k_1_61 >> 8)
+0498 C0E0      1094            push    acc
+049A 7440      1095            mov     a,#0x40
+049C C0E0      1096            push    acc
+049E 7490      1097            mov     a,#__str_13
+04A0 C0E0      1098            push    acc
+04A2 7493      1099            mov     a,#(__str_13 >> 8)
+04A4 C0E0      1100            push    acc
+04A6 7480      1101            mov     a,#0x80
+04A8 C0E0      1102            push    acc
+04AA 120100    1103            lcall   _scanf
+04AD E581      1104            mov     a,sp
+04AF 24FA      1105            add     a,#0xfa
+04B1 F581      1106            mov     sp,a
+04B3           1107   ;        eeprom_spi.c:198: i=0;
+04B3           1108   ;        eeprom_spi.c:199: ErrCnt=0;
+04B3 E4        1109            clr     a
+04B4 F5C0      1110            mov     _main_i_1_61,a
+04B6 F580      1111            mov     _ErrCnt,a
+04B8 F581      1112            mov     (_ErrCnt + 1),a
+04BA           1113   ;        eeprom_spi.c:200: do
+04BA           1114   L006027?:
+04BA           1115   ;        eeprom_spi.c:202: FT93C66_Write(k, i);
+04BA 85C000    1116            mov     _FT93C66_Write_PARM_2,_main_i_1_61
+04BD 854082    1117            mov     dpl,_main_k_1_61
+04C0 854183    1118            mov     dph,(_main_k_1_61 + 1)
+04C3 120100    1119            lcall   _FT93C66_Write
+04C6           1120   ;        eeprom_spi.c:203: j=FT93C66_Read(k);
+04C6 854082    1121            mov     dpl,_main_k_1_61
+04C9 854183    1122            mov     dph,(_main_k_1_61 + 1)
+04CC 120100    1123            lcall   _FT93C66_Read
+04CF 858200    1124            mov     _main_j_1_61,dpl
+04D2           1125   ;        eeprom_spi.c:204: if((i&0xf)==0)
+04D2 E5C0      1126            mov     a,_main_i_1_61
+04D4 540F      1127            anl     a,#0x0F
+04D6 6001      1128            jz      L006083?
+04D8 8001      1129            sjmp    L006024?
+04DA           1130   L006083?:
+04DA           1131   ;        eeprom_spi.c:206: printf("\n%03x: ", i);
+04DA AAC0      1132            mov     r2,_main_i_1_61
+04DC 7B00      1133            mov     r3,#0x00
+04DE C002      1134            push    ar2
+04E0 C003      1135            push    ar3
+04E2 7490      1136            mov     a,#__str_8
+04E4 C0E0      1137            push    acc
+04E6 7491      1138            mov     a,#(__str_8 >> 8)
+04E8 C0E0      1139            push    acc
+04EA 7480      1140            mov     a,#0x80
+04EC C0E0      1141            push    acc
+04EE 120100    1142            lcall   _printf
+04F1 E581      1143            mov     a,sp
+04F3 24FB      1144            add     a,#0xfb
+04F5 F581      1145            mov     sp,a
+04F7           1146   L006024?:
+04F7           1147   ;        eeprom_spi.c:208: printf(" %02x", j);                   
+04F7 AA00      1148            mov     r2,_main_j_1_61
+04F9 7B00      1149            mov     r3,#0x00
+04FB C002      1150            push    ar2
+04FD C003      1151            push    ar3
+04FF 74D0      1152            mov     a,#__str_9
+0501 C0E0      1153            push    acc
+0503 7491      1154            mov     a,#(__str_9 >> 8)
+0505 C0E0      1155            push    acc
+0507 7480      1156            mov     a,#0x80
+0509 C0E0      1157            push    acc
+050B 120100    1158            lcall   _printf
+050E E581      1159            mov     a,sp
+0510 24FB      1160            add     a,#0xfb
+0512 F581      1161            mov     sp,a
+0514           1162   ;        eeprom_spi.c:209: if(j!=i) ErrCnt++;
+0514 E5C0      1163            mov     a,_main_i_1_61
+0516 B50090    1164            cjne    a,_main_j_1_61,L006084?
+0519 8001      1165            sjmp    L006026?
+051B           1166   L006084?:
+051B 0580      1167            inc     _ErrCnt
+051D E4        1168            clr     a
+051E B58010    1169            cjne    a,_ErrCnt,L006085?
+0521 0581      1170            inc     (_ErrCnt + 1)
+0523           1171   L006085?:
+0523           1172   L006026?:
+0523           1173   ;        eeprom_spi.c:210: i++;
+0523 05C0      1174            inc     _main_i_1_61
+0525           1175   ;        eeprom_spi.c:211: } while (i!=0);
+0525 E5C0      1176            mov     a,_main_i_1_61
+0527 7001      1177            jnz     L006027?
+0529           1178   ;        eeprom_spi.c:212: printf("\nThere were %d error(s).\n", ErrCnt);
+0529 C080      1179            push    _ErrCnt
+052B C081      1180            push    (_ErrCnt + 1)
+052D 7450      1181            mov     a,#__str_17
+052F C0E0      1182            push    acc
+0531 7496      1183            mov     a,#(__str_17 >> 8)
+0533 C0E0      1184            push    acc
+0535 7480      1185            mov     a,#0x80
+0537 C0E0      1186            push    acc
+0539 120100    1187            lcall   _printf
+053C E581      1188            mov     a,sp
+053E 24FB      1189            add     a,#0xfb
+0540 F581      1190            mov     sp,a
+0542           1191   ;        eeprom_spi.c:214: FT93C66_Write_Disable();
+0542 120100    1192            lcall   _FT93C66_Write_Disable
+0545           1193   ;        eeprom_spi.c:215: break;
+0545 020100    1194            ljmp    L006038?
+0548           1195   ;        eeprom_spi.c:217: case '6':
+0548           1196   L006030?:
+0548           1197   ;        eeprom_spi.c:218: printf("\nMemory contains:\n");
+0548 7490      1198            mov     a,#__str_18
+054A C0E0      1199            push    acc
+054C 7496      1200            mov     a,#(__str_18 >> 8)
+054E C0E0      1201            push    acc
+0550 7480      1202            mov     a,#0x80
+0552 C0E0      1203            push    acc
+0554 120100    1204            lcall   _printf
+0557 1581      1205            dec     sp
+0559 1581      1206            dec     sp
+055B 1581      1207            dec     sp
+055D           1208   ;        eeprom_spi.c:219: for(k=0; k<0x200; k++)
+055D E4        1209            clr     a
+055E F540      1210            mov     _main_k_1_61,a
+0560 F541      1211            mov     (_main_k_1_61 + 1),a
+0562           1212   L006044?:
+0562 74FE      1213            mov     a,#0x100 - 0x02
+0564 2541      1214            add     a,(_main_k_1_61 + 1)
+0566 4001      1215            jc      L006047?
+0568           1216   ;        eeprom_spi.c:221: j=FT93C66_Read(k);
+0568 854082    1217            mov     dpl,_main_k_1_61
+056B 854183    1218            mov     dph,(_main_k_1_61 + 1)
+056E 120100    1219            lcall   _FT93C66_Read
+0571 858200    1220            mov     _main_j_1_61,dpl
+0574           1221   ;        eeprom_spi.c:222: if((k&0xf)==0)
+0574 E540      1222            mov     a,_main_k_1_61
+0576 540F      1223            anl     a,#0x0F
+0578 6001      1224            jz      L006089?
+057A 8001      1225            sjmp    L006032?
+057C           1226   L006089?:
+057C           1227   ;        eeprom_spi.c:224: printf("\n%03x: ", k);
+057C C040      1228            push    _main_k_1_61
+057E C041      1229            push    (_main_k_1_61 + 1)
+0580 7490      1230            mov     a,#__str_8
+0582 C0E0      1231            push    acc
+0584 7491      1232            mov     a,#(__str_8 >> 8)
+0586 C0E0      1233            push    acc
+0588 7480      1234            mov     a,#0x80
+058A C0E0      1235            push    acc
+058C 120100    1236            lcall   _printf
+058F E581      1237            mov     a,sp
+0591 24FB      1238            add     a,#0xfb
+0593 F581      1239            mov     sp,a
+0595           1240   L006032?:
+0595           1241   ;        eeprom_spi.c:226: printf(" %02x", j);                   
+0595 AA00      1242            mov     r2,_main_j_1_61
+0597 7B00      1243            mov     r3,#0x00
+0599 C002      1244            push    ar2
+059B C003      1245            push    ar3
+059D 74D0      1246            mov     a,#__str_9
+059F C0E0      1247            push    acc
+05A1 7491      1248            mov     a,#(__str_9 >> 8)
+05A3 C0E0      1249            push    acc
+05A5 7480      1250            mov     a,#0x80
+05A7 C0E0      1251            push    acc
+05A9 120100    1252            lcall   _printf
+05AC E581      1253            mov     a,sp
+05AE 24FB      1254            add     a,#0xfb
+05B0 F581      1255            mov     sp,a
+05B2           1256   ;        eeprom_spi.c:219: for(k=0; k<0x200; k++)
+05B2 7401      1257            mov     a,#0x01
+05B4 2540      1258            add     a,_main_k_1_61
+05B6 F540      1259            mov     _main_k_1_61,a
+05B8 E4        1260            clr     a
+05B9 3541      1261            addc    a,(_main_k_1_61 + 1)
+05BB F541      1262            mov     (_main_k_1_61 + 1),a
+05BD 8001      1263            sjmp    L006044?
+05BF           1264   L006047?:
+05BF           1265   ;        eeprom_spi.c:228: printf("\n");
+05BF 74D0      1266            mov     a,#__str_19
+05C1 C0E0      1267            push    acc
+05C3 7497      1268            mov     a,#(__str_19 >> 8)
+05C5 C0E0      1269            push    acc
+05C7 7480      1270            mov     a,#0x80
+05C9 C0E0      1271            push    acc
+05CB 120100    1272            lcall   _printf
+05CE 1581      1273            dec     sp
+05D0 1581      1274            dec     sp
+05D2 1581      1275            dec     sp
+05D4           1276   ;        eeprom_spi.c:229: break;
+05D4 020100    1277            ljmp    L006038?
+05D7           1278   ;        eeprom_spi.c:231: case '7':
+05D7           1279   L006033?:
+05D7           1280   ;        eeprom_spi.c:232: FT93C66_Write_Enable();
+05D7 120100    1281            lcall   _FT93C66_Write_Enable
+05DA           1282   ;        eeprom_spi.c:233: printf("\nValue: ");
+05DA 7410      1283            mov     a,#__str_14
+05DC C0E0      1284            push    acc
+05DE 7494      1285            mov     a,#(__str_14 >> 8)
+05E0 C0E0      1286            push    acc
+05E2 7480      1287            mov     a,#0x80
+05E4 C0E0      1288            push    acc
+05E6 120100    1289            lcall   _printf
+05E9 1581      1290            dec     sp
+05EB 1581      1291            dec     sp
+05ED 1581      1292            dec     sp
+05EF           1293   ;        eeprom_spi.c:234: scanf("%x", &m);
+05EF 7480      1294            mov     a,#_main_m_1_61
+05F1 C0E0      1295            push    acc
+05F3 7480      1296            mov     a,#(_main_m_1_61 >> 8)
+05F5 C0E0      1297            push    acc
+05F7 7440      1298            mov     a,#0x40
+05F9 C0E0      1299            push    acc
+05FB 7490      1300            mov     a,#__str_13
+05FD C0E0      1301            push    acc
+05FF 7493      1302            mov     a,#(__str_13 >> 8)
+0601 C0E0      1303            push    acc
+0603 7480      1304            mov     a,#0x80
+0605 C0E0      1305            push    acc
+0607 120100    1306            lcall   _scanf
+060A E581      1307            mov     a,sp
+060C 24FA      1308            add     a,#0xfa
+060E F581      1309            mov     sp,a
+0610           1310   ;        eeprom_spi.c:235: FT93C66_Write_All(m);
+0610 858082    1311            mov     dpl,_main_m_1_61
+0613 120100    1312            lcall   _FT93C66_Write_All
+0616           1313   ;        eeprom_spi.c:236: FT93C66_Write_Disable();
+0616 120100    1314            lcall   _FT93C66_Write_Disable
+0619           1315   ;        eeprom_spi.c:237: break;
+0619 020100    1316            ljmp    L006038?
+061C           1317   ;        eeprom_spi.c:239: case '8':
+061C           1318   L006034?:
+061C           1319   ;        eeprom_spi.c:240: FT93C66_Write_Enable();
+061C 120100    1320            lcall   _FT93C66_Write_Enable
+061F           1321   ;        eeprom_spi.c:241: FT93C66_Erase_All();
+061F 120100    1322            lcall   _FT93C66_Erase_All
+0622           1323   ;        eeprom_spi.c:242: FT93C66_Write_Disable();
+0622 120100    1324            lcall   _FT93C66_Write_Disable
+0625           1325   ;        eeprom_spi.c:243: break;
+0625           1326   ;        eeprom_spi.c:247: }
+0625 020100    1327            ljmp    L006038?
+0628           1328            rseg R_CSEG
+0628           1329   
+0000           1330            rseg R_XINIT
+0000           1331   
+0000           1332            rseg R_CONST
+0000           1333   __str_0:
+0000 0A        1334            db 0x0A
+0001 30782530  1335            db '0x%02x failed at:'
+     32782066
+     61696C65
+     64206174
+     3A
+0012 00        1336            db 0x00
+0013           1337   __str_1:
+0013 0A        1338            db 0x0A
+0014 20202020  1339            db '               '
+     20202020
+     20202020
+     202020
+0023 00        1340            db 0x00
+0024           1341   __str_2:
+0024 20253033  1342            db ' %03x'
+     78
+0029 00        1343            db 0x00
+002A           1344   _main_pattern_1_61:
+002A 00        1345            db 0x00         ; 0
+002B FF        1346            db 0xff         ; 255
+002C 55        1347            db 0x55         ; 85
+002D AA        1348            db 0xaa         ; 170
+002E 0F        1349            db 0x0f         ; 15
+002F F0        1350            db 0xf0         ; 240
+0030 5A        1351            db 0x5a         ; 90
+0031 A5        1352            db 0xa5         ; 165
+0032 01        1353            db 0x01         ; 1
+0033 02        1354            db 0x02         ; 2
+0034 04        1355            db 0x04         ; 4
+0035 08        1356            db 0x08         ; 8
+0036 10        1357            db 0x10         ; 16
+0037 20        1358            db 0x20         ; 32
+0038 40        1359            db 0x40         ; 64
+0039 80        1360            db 0x80         ; 128
+003A FE        1361            db 0xfe         ; 254
+003B FD        1362            db 0xfd         ; 253
+003C FB        1363            db 0xfb         ; 251
+003D F7        1364            db 0xf7         ; 247
+003E EF        1365            db 0xef         ; 239
+003F DF        1366            db 0xdf         ; 223
+0040 BF        1367            db 0xbf         ; 191
+0041 7F        1368            db 0x7f         ; 127
+0042           1369   __str_3:
+0042 0A        1370            db 0x0A
+0043 0A        1371            db 0x0A
+0044 41543839  1372            db 'AT89LP51Rx2 SPI EEPROM test program.'
+     4C503531
+     52783220
+     53504920
+     45455052
+     4F4D2074
+     65737420
+     70726F67
+     72616D2E
+0068 0A        1373            db 0x0A
+0069 0A        1374            db 0x0A
+006A 53656C65  1375            db 'Select option:'
+     6374206F
+     7074696F
+     6E3A
+0078 0A        1376            db 0x0A
+0079 20202031  1377            db '   1)'
+     29
+007E 20506174  1378            db ' Pattern test'
+     7465726E
+     20746573
+     74
+008B 0A        1379            db 0x0A
+008C 20202032  1380            db '   2) Random test'
+     29205261
+     6E646F6D
+     20746573
+     74
+009D 0A        1381            db 0x0A
+009E 20202033  1382            db '   3) Write Memory location'
+     29205772
+     69746520
+     4D656D6F
+     7279206C
+     6F636174
+     696F6E
+00B9 0A        1383            db 0x0A
+00BA 20202034  1384            db '   4) Read Memory location'
+     29205265
+     6164204D
+     656D6F72
+     79206C6F
+     63617469
+     6F6E
+00D4 0A        1385            db 0x0A
+00D5 20202035  1386            db '   5) Memory Location test'
+     29204D65
+     6D6F7279
+     204C6F63
+     6174696F
+     6E207465
+     7374
+00EF 0A        1387            db 0x0A
+00F0 20202036  1388            db '   6) '
+     2920
+00F6 44697370  1389            db 'Display Memory'
+     6C617920
+     4D656D6F
+     7279
+0104 0A        1390            db 0x0A
+0105 20202037  1391            db '   7) Fill Memory'
+     29204669
+     6C6C204D
+     656D6F72
+     79
+0116 0A        1392            db 0x0A
+0117 20202038  1393            db '   8) Erase Memory'
+     29204572
+     61736520
+     4D656D6F
+     7279
+0129 0A        1394            db 0x0A
+012A 4F707469  1395            db 'Option: '
+     6F6E3A20
+0132 00        1396            db 0x00
+0133           1397   __str_4:
+0133 0A        1398            db 0x0A
+0134 50617474  1399            db 'Pattern testing all memory locations.'
+     65726E20
+     74657374
+     696E6720
+     616C6C20
+     6D656D6F
+     7279206C
+     6F636174
+     696F6E73
+     2E
+0159 0A        1400            db 0x0A
+015A 00        1401            db 0x00
+015B           1402   __str_5:
+015B 0A        1403            db 0x0A
+015C 54686572  1404            db 'There were %d ERROR(s).'
+     65207765
+     72652025
+     64204552
+     524F5228
+     73292E
+0173 0A        1405            db 0x0A
+0174 00        1406            db 0x00
+0175           1407   __str_6:
+0175 0A        1408            db 0x0A
+0176 4E6F2065  1409            db 'No errors.  Memory works fine!'
+     72726F72
+     732E2020
+     4D656D6F
+     72792077
+     6F726B73
+     2066696E
+     6521
+0194 0A        1410            db 0x0A
+0195 00        1411            db 0x00
+0196           1412   __str_7:
+0196 0A        1413            db 0x0A
+0197 52616E64  1414            db 'Random testing all memory locations.'
+     6F6D2074
+     65737469
+     6E672061
+     6C6C206D
+     656D6F72
+     79206C6F
+     63617469
+     6F6E732E
+01BB 0A        1415            db 0x0A
+01BC 00        1416            db 0x00
+01BD           1417   __str_8:
+01BD 0A        1418            db 0x0A
+01BE 25303378  1419            db '%03x: '
+     3A20
+01C4 00        1420            db 0x00
+01C5           1421   __str_9:
+01C5 20253032  1422            db ' %02x'
+     78
+01CA 00        1423            db 0x00
+01CB           1424   __str_10:
+01CB 0A        1425            db 0x0A
+01CC 4552524F  1426            db 'ERROR at location %03x.  Wrote %02x but read %02x'
+     52206174
+     206C6F63
+     6174696F
+     6E202530
+     33782E20
+     2057726F
+     74652025
+     30327820
+     62757420
+     72656164
+     20253032
+     78
+01FD 0A        1427            db 0x0A
+01FE 00        1428            db 0x00
+01FF           1429   __str_11:
+01FF 0A        1430            db 0x0A
+0200 54657374  1431            db 'Test pass'
+     20706173
+     73
+0209 0A        1432            db 0x0A
+020A 00        1433            db 0x00
+020B           1434   __str_12:
+020B 0A        1435            db 0x0A
+020C 41646472  1436            db 'Address: '
+     6573733A
+     20
+0215 00        1437            db 0x00
+0216           1438   __str_13:
+0216 2578      1439            db '%x'
+0218 00        1440            db 0x00
+0219           1441   __str_14:
+0219 0A        1442            db 0x0A
+021A 56616C75  1443            db 'Value: '
+     653A20
+0221 00        1444            db 0x00
+0222           1445   __str_15:
+0222 0A        1446            db 0x0A
+0223 5B253033  1447            db '[%03x]: %02x'
+     785D3A20
+     25303278
+022F 0A        1448            db 0x0A
+0230 00        1449            db 0x00
+0231           1450   __str_16:
+0231 0A        1451            db 0x0A
+0232 4C6F6361  1452            db 'Location to test: '
+     74696F6E
+     20746F20
+     74657374
+     3A20
+0244 00        1453            db 0x00
+0245           1454   __str_17:
+0245 0A        1455            db 0x0A
+0246 54686572  1456            db 'There were %d error(s).'
+     65207765
+     72652025
+     64206572
+     726F7228
+     73292E
+025D 0A        1457            db 0x0A
+025E 00        1458            db 0x00
+025F           1459   __str_18:
+025F 0A        1460            db 0x0A
+0260 4D656D6F  1461            db 'Memory contains:'
+     72792063
+     6F6E7461
+     696E733A
+0270 0A        1462            db 0x0A
+0271 00        1463            db 0x00
+0272           1464   __str_19:
+0272 0A        1465            db 0x0A
+0273 00        1466            db 0x00
+0274           1467   
+0003           1468            CSEG
+0003           1469   
+0003           1470   end

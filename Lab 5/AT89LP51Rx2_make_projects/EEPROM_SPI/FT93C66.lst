@@ -1,0 +1,719 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Fri Mar 11 18:37:38 2022
+0000              5   ;--------------------------------------------------------
+                  5   $name FT93C66
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _FT93C66_Init
+0000             27            public _FT93C66_Write_All
+0000             28            public _FT93C66_Write
+0000             29            public _FT93C66_Erase_All
+0000             30            public _FT93C66_Erase
+0000             31            public _FT93C66_Read
+0000             32            public _FT93C66_Write_Disable
+0000             33            public _FT93C66_Write_Enable
+0000             34            public _FT93C66_Poll
+0000             35            public _spi_io
+0000             36            public _SmallDelay
+0000             37            public _FT93C66_Write_PARM_2
+0000             38            public _spi_io_PARM_2
+0000             39   ;--------------------------------------------------------
+0000             40   ; Special Function Registers
+0000             41   ;--------------------------------------------------------
+0000             42   _ACC            DATA 0xe0
+0000             43   _B              DATA 0xf0
+0000             44   _PSW            DATA 0xd0
+0000             45   _SP             DATA 0x81
+0000             46   _SPX            DATA 0xef
+0000             47   _DPL            DATA 0x82
+0000             48   _DPH            DATA 0x83
+0000             49   _DPLB           DATA 0xd4
+0000             50   _DPHB           DATA 0xd5
+0000             51   _PAGE           DATA 0xf6
+0000             52   _AX             DATA 0xe1
+0000             53   _BX             DATA 0xf7
+0000             54   _DSPR           DATA 0xe2
+0000             55   _FIRD           DATA 0xe3
+0000             56   _MACL           DATA 0xe4
+0000             57   _MACH           DATA 0xe5
+0000             58   _PCON           DATA 0x87
+0000             59   _AUXR           DATA 0x8e
+0000             60   _AUXR1          DATA 0xa2
+0000             61   _DPCF           DATA 0xa1
+0000             62   _CKRL           DATA 0x97
+0000             63   _CKCKON0        DATA 0x8f
+0000             64   _CKCKON1        DATA 0xaf
+0000             65   _CKSEL          DATA 0x85
+0000             66   _CLKREG         DATA 0xae
+0000             67   _OSCCON         DATA 0x85
+0000             68   _IE             DATA 0xa8
+0000             69   _IEN0           DATA 0xa8
+0000             70   _IEN1           DATA 0xb1
+0000             71   _IPH0           DATA 0xb7
+0000             72   _IP             DATA 0xb8
+0000             73   _IPL0           DATA 0xb8
+0000             74   _IPH1           DATA 0xb3
+0000             75   _IPL1           DATA 0xb2
+0000             76   _P0             DATA 0x80
+0000             77   _P1             DATA 0x90
+0000             78   _P2             DATA 0xa0
+0000             79   _P3             DATA 0xb0
+0000             80   _P4             DATA 0xc0
+0000             81   _P0M0           DATA 0xe6
+0000             82   _P0M1           DATA 0xe7
+0000             83   _P1M0           DATA 0xd6
+0000             84   _P1M1           DATA 0xd7
+0000             85   _P2M0           DATA 0xce
+0000             86   _P2M1           DATA 0xcf
+0000             87   _P3M0           DATA 0xc6
+0000             88   _P3M1           DATA 0xc7
+0000             89   _P4M0           DATA 0xbe
+0000             90   _P4M1           DATA 0xbf
+0000             91   _SCON           DATA 0x98
+0000             92   _SBUF           DATA 0x99
+0000             93   _SADEN          DATA 0xb9
+0000             94   _SADDR          DATA 0xa9
+0000             95   _BDRCON         DATA 0x9b
+0000             96   _BRL            DATA 0x9a
+0000             97   _TCON           DATA 0x88
+0000             98   _TMOD           DATA 0x89
+0000             99   _TCONB          DATA 0x91
+0000            100   _TL0            DATA 0x8a
+0000            101   _TH0            DATA 0x8c
+0000            102   _TL1            DATA 0x8b
+0000            103   _TH1            DATA 0x8d
+0000            104   _RL0            DATA 0xf2
+0000            105   _RH0            DATA 0xf4
+0000            106   _RL1            DATA 0xf3
+0000            107   _RH1            DATA 0xf5
+0000            108   _WDTRST         DATA 0xa6
+0000            109   _WDTPRG         DATA 0xa7
+0000            110   _T2CON          DATA 0xc8
+0000            111   _T2MOD          DATA 0xc9
+0000            112   _RCAP2H         DATA 0xcb
+0000            113   _RCAP2L         DATA 0xca
+0000            114   _TH2            DATA 0xcd
+0000            115   _TL2            DATA 0xcc
+0000            116   _SPCON          DATA 0xc3
+0000            117   _SPSTA          DATA 0xc4
+0000            118   _SPDAT          DATA 0xc5
+0000            119   _SSCON          DATA 0x93
+0000            120   _SSCS           DATA 0x94
+0000            121   _SSDAT          DATA 0x95
+0000            122   _SSADR          DATA 0x96
+0000            123   _KBLS           DATA 0x9c
+0000            124   _KBE            DATA 0x9d
+0000            125   _KBF            DATA 0x9e
+0000            126   _KBMOD          DATA 0x9f
+0000            127   _BMSEL          DATA 0x92
+0000            128   _FCON           DATA 0xd2
+0000            129   _EECON          DATA 0xd2
+0000            130   _ACSRA          DATA 0xa3
+0000            131   _ACSRB          DATA 0xab
+0000            132   _AREF           DATA 0xbd
+0000            133   _DADC           DATA 0xa4
+0000            134   _DADI           DATA 0xa5
+0000            135   _DADL           DATA 0xac
+0000            136   _DADH           DATA 0xad
+0000            137   _CCON           DATA 0xd8
+0000            138   _CMOD           DATA 0xd9
+0000            139   _CL             DATA 0xe9
+0000            140   _CH             DATA 0xf9
+0000            141   _CCAPM0         DATA 0xda
+0000            142   _CCAPM1         DATA 0xdb
+0000            143   _CCAPM2         DATA 0xdc
+0000            144   _CCAPM3         DATA 0xdd
+0000            145   _CCAPM4         DATA 0xde
+0000            146   _CCAP0H         DATA 0xfa
+0000            147   _CCAP1H         DATA 0xfb
+0000            148   _CCAP2H         DATA 0xfc
+0000            149   _CCAP3H         DATA 0xfd
+0000            150   _CCAP4H         DATA 0xfe
+0000            151   _CCAP0L         DATA 0xea
+0000            152   _CCAP1L         DATA 0xeb
+0000            153   _CCAP2L         DATA 0xec
+0000            154   _CCAP3L         DATA 0xed
+0000            155   _CCAP4L         DATA 0xee
+0000            156   ;--------------------------------------------------------
+0000            157   ; special function bits
+0000            158   ;--------------------------------------------------------
+0000            159   _ACC_0          BIT 0xe0
+0000            160   _ACC_1          BIT 0xe1
+0000            161   _ACC_2          BIT 0xe2
+0000            162   _ACC_3          BIT 0xe3
+0000            163   _ACC_4          BIT 0xe4
+0000            164   _ACC_5          BIT 0xe5
+0000            165   _ACC_6          BIT 0xe6
+0000            166   _ACC_7          BIT 0xe7
+0000            167   _B_0            BIT 0xf0
+0000            168   _B_1            BIT 0xf1
+0000            169   _B_2            BIT 0xf2
+0000            170   _B_3            BIT 0xf3
+0000            171   _B_4            BIT 0xf4
+0000            172   _B_5            BIT 0xf5
+0000            173   _B_6            BIT 0xf6
+0000            174   _B_7            BIT 0xf7
+0000            175   _P              BIT 0xd0
+0000            176   _F1             BIT 0xd1
+0000            177   _OV             BIT 0xd2
+0000            178   _RS0            BIT 0xd3
+0000            179   _RS1            BIT 0xd4
+0000            180   _F0             BIT 0xd5
+0000            181   _AC             BIT 0xd6
+0000            182   _CY             BIT 0xd7
+0000            183   _EX0            BIT 0xa8
+0000            184   _ET0            BIT 0xa9
+0000            185   _EX1            BIT 0xaa
+0000            186   _ET1            BIT 0xab
+0000            187   _ES             BIT 0xac
+0000            188   _ET2            BIT 0xad
+0000            189   _EC             BIT 0xae
+0000            190   _EA             BIT 0xaf
+0000            191   _PX0            BIT 0xb8
+0000            192   _PT0            BIT 0xb9
+0000            193   _PX1            BIT 0xba
+0000            194   _PT1            BIT 0xbb
+0000            195   _PS             BIT 0xbc
+0000            196   _PT2            BIT 0xbd
+0000            197   _IP0D           BIT 0xbf
+0000            198   _PPCL           BIT 0xbe
+0000            199   _PT2L           BIT 0xbd
+0000            200   _PLS            BIT 0xbc
+0000            201   _PT1L           BIT 0xbb
+0000            202   _PX1L           BIT 0xba
+0000            203   _PT0L           BIT 0xb9
+0000            204   _PX0L           BIT 0xb8
+0000            205   _P0_0           BIT 0x80
+0000            206   _P0_1           BIT 0x81
+0000            207   _P0_2           BIT 0x82
+0000            208   _P0_3           BIT 0x83
+0000            209   _P0_4           BIT 0x84
+0000            210   _P0_5           BIT 0x85
+0000            211   _P0_6           BIT 0x86
+0000            212   _P0_7           BIT 0x87
+0000            213   _P1_0           BIT 0x90
+0000            214   _P1_1           BIT 0x91
+0000            215   _P1_2           BIT 0x92
+0000            216   _P1_3           BIT 0x93
+0000            217   _P1_4           BIT 0x94
+0000            218   _P1_5           BIT 0x95
+0000            219   _P1_6           BIT 0x96
+0000            220   _P1_7           BIT 0x97
+0000            221   _P2_0           BIT 0xa0
+0000            222   _P2_1           BIT 0xa1
+0000            223   _P2_2           BIT 0xa2
+0000            224   _P2_3           BIT 0xa3
+0000            225   _P2_4           BIT 0xa4
+0000            226   _P2_5           BIT 0xa5
+0000            227   _P2_6           BIT 0xa6
+0000            228   _P2_7           BIT 0xa7
+0000            229   _P3_0           BIT 0xb0
+0000            230   _P3_1           BIT 0xb1
+0000            231   _P3_2           BIT 0xb2
+0000            232   _P3_3           BIT 0xb3
+0000            233   _P3_4           BIT 0xb4
+0000            234   _P3_5           BIT 0xb5
+0000            235   _P3_6           BIT 0xb6
+0000            236   _P3_7           BIT 0xb7
+0000            237   _RXD            BIT 0xb0
+0000            238   _TXD            BIT 0xb1
+0000            239   _INT0           BIT 0xb2
+0000            240   _INT1           BIT 0xb3
+0000            241   _T0             BIT 0xb4
+0000            242   _T1             BIT 0xb5
+0000            243   _WR             BIT 0xb6
+0000            244   _RD             BIT 0xb7
+0000            245   _P4_0           BIT 0xc0
+0000            246   _P4_1           BIT 0xc1
+0000            247   _P4_2           BIT 0xc2
+0000            248   _P4_3           BIT 0xc3
+0000            249   _P4_4           BIT 0xc4
+0000            250   _P4_5           BIT 0xc5
+0000            251   _P4_6           BIT 0xc6
+0000            252   _P4_7           BIT 0xc7
+0000            253   _RI             BIT 0x98
+0000            254   _TI             BIT 0x99
+0000            255   _RB8            BIT 0x9a
+0000            256   _TB8            BIT 0x9b
+0000            257   _REN            BIT 0x9c
+0000            258   _SM2            BIT 0x9d
+0000            259   _SM1            BIT 0x9e
+0000            260   _SM0            BIT 0x9f
+0000            261   _IT0            BIT 0x88
+0000            262   _IE0            BIT 0x89
+0000            263   _IT1            BIT 0x8a
+0000            264   _IE1            BIT 0x8b
+0000            265   _TR0            BIT 0x8c
+0000            266   _TF0            BIT 0x8d
+0000            267   _TR1            BIT 0x8e
+0000            268   _TF1            BIT 0x8f
+0000            269   _CP_RL2         BIT 0xc8
+0000            270   _C_T2           BIT 0xc9
+0000            271   _TR2            BIT 0xca
+0000            272   _EXEN2          BIT 0xcb
+0000            273   _TCLK           BIT 0xcc
+0000            274   _RCLK           BIT 0xcd
+0000            275   _EXF2           BIT 0xce
+0000            276   _TF2            BIT 0xcf
+0000            277   _CF             BIT 0xdf
+0000            278   _CR             BIT 0xde
+0000            279   _CCF4           BIT 0xdc
+0000            280   _CCF3           BIT 0xdb
+0000            281   _CCF2           BIT 0xda
+0000            282   _CCF1           BIT 0xd9
+0000            283   _CCF0           BIT 0xd8
+0000            284   ;--------------------------------------------------------
+0000            285   ; overlayable register banks
+0000            286   ;--------------------------------------------------------
+0000            287            rbank0 segment data overlay
+0000            288   ;--------------------------------------------------------
+0000            289   ; internal ram data
+0000            290   ;--------------------------------------------------------
+0000            291            rseg R_DSEG
+0000            292   _spi_io_PARM_2:
+0000            293            ds 2
+0002            294   _FT93C66_Write_PARM_2:
+0002            295            ds 1
+0003            296   ;--------------------------------------------------------
+0003            297   ; overlayable items in internal ram 
+0003            298   ;--------------------------------------------------------
+0000            299            rseg R_OSEG
+0000            300   ;--------------------------------------------------------
+0000            301   ; indirectly addressable internal ram data
+0000            302   ;--------------------------------------------------------
+0000            303            rseg R_ISEG
+0000            304   ;--------------------------------------------------------
+0000            305   ; absolute internal ram data
+0000            306   ;--------------------------------------------------------
+0000            307            DSEG
+0000            308   ;--------------------------------------------------------
+0000            309   ; bit data
+0000            310   ;--------------------------------------------------------
+0000            311            rseg R_BSEG
+0000            312   ;--------------------------------------------------------
+0000            313   ; paged external ram data
+0000            314   ;--------------------------------------------------------
+0000            315            rseg R_PSEG
+0000            316   ;--------------------------------------------------------
+0000            317   ; external ram data
+0000            318   ;--------------------------------------------------------
+0000            319            rseg R_XSEG
+0000            320   ;--------------------------------------------------------
+0000            321   ; absolute external ram data
+0000            322   ;--------------------------------------------------------
+0000            323            XSEG
+0000            324   ;--------------------------------------------------------
+0000            325   ; external initialized ram data
+0000            326   ;--------------------------------------------------------
+0000            327            rseg R_IXSEG
+0000            328            rseg R_HOME
+0000            329            rseg R_GSINIT
+0000            330            rseg R_CSEG
+0000            331   ;--------------------------------------------------------
+0000            332   ; Interrupt vectors
+0000            333   ;--------------------------------------------------------
+0000            334   ;--------------------------------------------------------
+0000            335   ; global & static initialisations
+0000            336   ;--------------------------------------------------------
+0000            337            rseg R_HOME
+0000            338            rseg R_GSINIT
+0000            339            rseg R_GSINIT
+0000            340   ;--------------------------------------------------------
+0000            341   ; data variables initialization
+0000            342   ;--------------------------------------------------------
+0000            343            rseg R_DINIT
+0000            344            ; The linker places a 'ret' at the end of segment R_DINIT.
+0000            345   ;--------------------------------------------------------
+0000            346   ; code
+0000            347   ;--------------------------------------------------------
+0000            348            rseg R_CSEG
+0000            349   ;------------------------------------------------------------
+0000            350   ;Allocation info for local variables in function 'SmallDelay'
+0000            351   ;------------------------------------------------------------
+0000            352   ;------------------------------------------------------------
+0000            353   ;        FT93C66.c:10: void SmallDelay (void)
+0000            354   ;        -----------------------------------------
+0000            355   ;         function SmallDelay
+0000            356   ;        -----------------------------------------
+0000            357   _SmallDelay:
+0000            358            using   0
+0000            359   ;        FT93C66.c:19: _endasm;
+0000            360            
+0000 00         361              nop ; 45 ns @ 22.1148 MHz
+0001 00         362              nop ; 90 ns
+0002 00         363              nop ; 135 ns
+0003 00         364              nop ; 180 ns
+0004 00         365              nop ; 225 ns
+0005 00         366              nop ; 270 ns
+0006            367             
+0006 22         368            ret
+0007            369   ;------------------------------------------------------------
+0007            370   ;Allocation info for local variables in function 'spi_io'
+0007            371   ;------------------------------------------------------------
+0007            372   ;out_byte                  Allocated with name '_spi_io_PARM_2'
+0007            373   ;nbits                     Allocated to registers r2 
+0007            374   ;i                         Allocated to registers r2 
+0007            375   ;mask                      Allocated to registers r3 r4 
+0007            376   ;------------------------------------------------------------
+0007            377   ;        FT93C66.c:22: unsigned int spi_io(unsigned char nbits, unsigned int out_byte)
+0007            378   ;        -----------------------------------------
+0007            379   ;         function spi_io
+0007            380   ;        -----------------------------------------
+0007            381   _spi_io:
+0007 AA82       382            mov     r2,dpl
+0009            383   ;        FT93C66.c:28: mask=1<<(nbits-1);
+0009 8A03       384            mov     ar3,r2
+000B 7C00       385            mov     r4,#0x00
+000D 1B         386            dec     r3
+000E BBFF70     387            cjne    r3,#0xff,L003012?
+0011 1C         388            dec     r4
+0012            389   L003012?:
+0012 8BF0       390            mov     b,r3
+0014 05F0       391            inc     b
+0016 7B01       392            mov     r3,#0x01
+0018 7C00       393            mov     r4,#0x00
+001A 8001       394            sjmp    L003014?
+001C            395   L003013?:
+001C EB         396            mov     a,r3
+001D 2B         397            add     a,r3
+001E FB         398            mov     r3,a
+001F EC         399            mov     a,r4
+0020 33         400            rlc     a
+0021 FC         401            mov     r4,a
+0022            402   L003014?:
+0022 D5F030     403            djnz    b,L003013?
+0025            404   ;        FT93C66.c:29: do {
+0025            405   L003003?:
+0025            406   ;        FT93C66.c:30: BB_MOSI = (out_byte & mask)?1:0;
+0025 EB         407            mov     a,r3
+0026 55F0       408            anl     a,_spi_io_PARM_2
+0028 FD         409            mov     r5,a
+0029 EC         410            mov     a,r4
+002A 55F1       411            anl     a,(_spi_io_PARM_2 + 1)
+002C 4D         412            orl     a,r5
+002D 24FF       413            add     a,#0xff
+002F 92A1       414            mov     _P2_1,c
+0031            415   ;        FT93C66.c:31: out_byte <<= 1;
+0031 E5F1       416            mov     a,(_spi_io_PARM_2 + 1)
+0033 C5F0       417            xch     a,_spi_io_PARM_2
+0035 25E0       418            add     a,acc
+0037 C5F0       419            xch     a,_spi_io_PARM_2
+0039 33         420            rlc     a
+003A F5F1       421            mov     (_spi_io_PARM_2 + 1),a
+003C            422   ;        FT93C66.c:33: BB_SCLK = 1;
+003C D2A3       423            setb    _P2_3
+003E            424   ;        FT93C66.c:34: SmallDelay();
+003E C002       425            push    ar2
+0040 C003       426            push    ar3
+0042 C004       427            push    ar4
+0044 120100     428            lcall   _SmallDelay
+0047 D004       429            pop     ar4
+0049 D003       430            pop     ar3
+004B D002       431            pop     ar2
+004D            432   ;        FT93C66.c:35: if(BB_MISO) out_byte += 1; 
+004D 30A2F0     433            jnb     _P2_2,L003002?
+0050 05F0       434            inc     _spi_io_PARM_2
+0052 E4         435            clr     a
+0053 B5F030     436            cjne    a,_spi_io_PARM_2,L003016?
+0056 05F1       437            inc     (_spi_io_PARM_2 + 1)
+0058            438   L003016?:
+0058            439   L003002?:
+0058            440   ;        FT93C66.c:36: BB_SCLK = 0;
+0058 C2A3       441            clr     _P2_3
+005A            442   ;        FT93C66.c:38: } while(--i);
+005A DA70       443            djnz    r2,L003003?
+005C            444   ;        FT93C66.c:39: BB_MOSI=0;
+005C C2A1       445            clr     _P2_1
+005E            446   ;        FT93C66.c:40: return out_byte;
+005E 85F082     447            mov     dpl,_spi_io_PARM_2
+0061 85F183     448            mov     dph,(_spi_io_PARM_2 + 1)
+0064 22         449            ret
+0065            450   ;------------------------------------------------------------
+0065            451   ;Allocation info for local variables in function 'FT93C66_Poll'
+0065            452   ;------------------------------------------------------------
+0065            453   ;j                         Allocated to registers r3 
+0065            454   ;mscount                   Allocated to registers r2 
+0065            455   ;------------------------------------------------------------
+0065            456   ;        FT93C66.c:43: void FT93C66_Poll(void)
+0065            457   ;        -----------------------------------------
+0065            458   ;         function FT93C66_Poll
+0065            459   ;        -----------------------------------------
+0065            460   _FT93C66_Poll:
+0065            461   ;        FT93C66.c:48: SmallDelay();
+0065 120100     462            lcall   _SmallDelay
+0068            463   ;        FT93C66.c:49: FT93C66_CE=1; // Activate the EEPROM.
+0068 D2A0       464            setb    _P2_0
+006A            465   ;        FT93C66.c:50: SmallDelay();
+006A 120100     466            lcall   _SmallDelay
+006D            467   ;        FT93C66.c:51: while(BB_MISO==0)
+006D 7A00       468            mov     r2,#0x00
+006F            469   L004003?:
+006F 20A2F0     470            jb      _P2_2,L004005?
+0072            471   ;        FT93C66.c:53: for(j=0; j<250; j++)
+0072 7BFA       472            mov     r3,#0xFA
+0074            473   L004008?:
+0074            474   ;        FT93C66.c:55: SmallDelay();
+0074 C002       475            push    ar2
+0076 C003       476            push    ar3
+0078 120100     477            lcall   _SmallDelay
+007B D003       478            pop     ar3
+007D D002       479            pop     ar2
+007F DB30       480            djnz    r3,L004008?
+0081            481   ;        FT93C66.c:53: for(j=0; j<250; j++)
+0081            482   ;        FT93C66.c:57: mscount++;
+0081 0A         483            inc     r2
+0082            484   ;        FT93C66.c:58: if(mscount==200) break;
+0082 BAC8B0     485            cjne    r2,#0xC8,L004003?
+0085            486   L004005?:
+0085            487   ;        FT93C66.c:60: FT93C66_CE=0; // De-activate the EEPROM.
+0085 C2A0       488            clr     _P2_0
+0087 22         489            ret
+0088            490   ;------------------------------------------------------------
+0088            491   ;Allocation info for local variables in function 'FT93C66_Write_Enable'
+0088            492   ;------------------------------------------------------------
+0088            493   ;------------------------------------------------------------
+0088            494   ;        FT93C66.c:63: void FT93C66_Write_Enable(void)
+0088            495   ;        -----------------------------------------
+0088            496   ;         function FT93C66_Write_Enable
+0088            497   ;        -----------------------------------------
+0088            498   _FT93C66_Write_Enable:
+0088            499   ;        FT93C66.c:65: FT93C66_CE=1; // Activate the EEPROM.
+0088 D2A0       500            setb    _P2_0
+008A            501   ;        FT93C66.c:66: SmallDelay();
+008A 120100     502            lcall   _SmallDelay
+008D            503   ;        FT93C66.c:67: spi_io(12, 0b_1001_1000_0000); // Send start bit, op code, and enable bits
+008D 75F080     504            mov     _spi_io_PARM_2,#0x80
+0090 75F109     505            mov     (_spi_io_PARM_2 + 1),#0x09
+0093 75820C     506            mov     dpl,#0x0C
+0096 120100     507            lcall   _spi_io
+0099            508   ;        FT93C66.c:68: FT93C66_CE=0; // De-activate the EEPROM.
+0099 C2A0       509            clr     _P2_0
+009B            510   ;        FT93C66.c:69: FT93C66_Poll();
+009B 020100     511            ljmp    _FT93C66_Poll
+009E            512   ;------------------------------------------------------------
+009E            513   ;Allocation info for local variables in function 'FT93C66_Write_Disable'
+009E            514   ;------------------------------------------------------------
+009E            515   ;------------------------------------------------------------
+009E            516   ;        FT93C66.c:72: void FT93C66_Write_Disable(void)
+009E            517   ;        -----------------------------------------
+009E            518   ;         function FT93C66_Write_Disable
+009E            519   ;        -----------------------------------------
+009E            520   _FT93C66_Write_Disable:
+009E            521   ;        FT93C66.c:74: FT93C66_CE=1; // Activate the EEPROM.
+009E D2A0       522            setb    _P2_0
+00A0            523   ;        FT93C66.c:75: SmallDelay();
+00A0 120100     524            lcall   _SmallDelay
+00A3            525   ;        FT93C66.c:76: spi_io(12, 0b_1000_0000_0000); // Send start bit, op code, and disabble bits.
+00A3 75F000     526            mov     _spi_io_PARM_2,#0x00
+00A6 75F108     527            mov     (_spi_io_PARM_2 + 1),#0x08
+00A9 75820C     528            mov     dpl,#0x0C
+00AC 120100     529            lcall   _spi_io
+00AF            530   ;        FT93C66.c:77: FT93C66_CE=0; // De-activate the EEPROM.
+00AF C2A0       531            clr     _P2_0
+00B1            532   ;        FT93C66.c:78: FT93C66_Poll();
+00B1 020100     533            ljmp    _FT93C66_Poll
+00B4            534   ;------------------------------------------------------------
+00B4            535   ;Allocation info for local variables in function 'FT93C66_Read'
+00B4            536   ;------------------------------------------------------------
+00B4            537   ;add                       Allocated to registers r2 r3 
+00B4            538   ;val                       Allocated to registers 
+00B4            539   ;------------------------------------------------------------
+00B4            540   ;        FT93C66.c:81: unsigned char FT93C66_Read(unsigned int add)
+00B4            541   ;        -----------------------------------------
+00B4            542   ;         function FT93C66_Read
+00B4            543   ;        -----------------------------------------
+00B4            544   _FT93C66_Read:
+00B4 AA82       545            mov     r2,dpl
+00B6 AB83       546            mov     r3,dph
+00B8            547   ;        FT93C66.c:84: FT93C66_CE=1; // Activate the EEPROM.
+00B8 D2A0       548            setb    _P2_0
+00BA            549   ;        FT93C66.c:85: SmallDelay();
+00BA C002       550            push    ar2
+00BC C003       551            push    ar3
+00BE 120100     552            lcall   _SmallDelay
+00C1 D003       553            pop     ar3
+00C3 D002       554            pop     ar2
+00C5            555   ;        FT93C66.c:86: spi_io(12, 0b_1100_0000_0000|add); // Send start bit, op code, and A8 down to A0.
+00C5 8AF0       556            mov     _spi_io_PARM_2,r2
+00C7 740C       557            mov     a,#0x0C
+00C9 4B         558            orl     a,r3
+00CA F5F1       559            mov     (_spi_io_PARM_2 + 1),a
+00CC 75820C     560            mov     dpl,#0x0C
+00CF 120100     561            lcall   _spi_io
+00D2            562   ;        FT93C66.c:87: val=spi_io(8, 0xff); // Read 8 bits from the memory location
+00D2 75F0FF     563            mov     _spi_io_PARM_2,#0xFF
+00D5 E4         564            clr     a
+00D6 F5F1       565            mov     (_spi_io_PARM_2 + 1),a
+00D8 758208     566            mov     dpl,#0x08
+00DB 120100     567            lcall   _spi_io
+00DE            568   ;        FT93C66.c:88: FT93C66_CE=0; // De-activate the EEPROM.
+00DE C2A0       569            clr     _P2_0
+00E0            570   ;        FT93C66.c:89: return val;
+00E0 22         571            ret
+00E1            572   ;------------------------------------------------------------
+00E1            573   ;Allocation info for local variables in function 'FT93C66_Erase'
+00E1            574   ;------------------------------------------------------------
+00E1            575   ;add                       Allocated to registers r2 r3 
+00E1            576   ;------------------------------------------------------------
+00E1            577   ;        FT93C66.c:92: void FT93C66_Erase(unsigned int add)
+00E1            578   ;        -----------------------------------------
+00E1            579   ;         function FT93C66_Erase
+00E1            580   ;        -----------------------------------------
+00E1            581   _FT93C66_Erase:
+00E1 AA82       582            mov     r2,dpl
+00E3 AB83       583            mov     r3,dph
+00E5            584   ;        FT93C66.c:94: FT93C66_CE=1; // Activate the EEPROM.
+00E5 D2A0       585            setb    _P2_0
+00E7            586   ;        FT93C66.c:95: SmallDelay();
+00E7 C002       587            push    ar2
+00E9 C003       588            push    ar3
+00EB 120100     589            lcall   _SmallDelay
+00EE D003       590            pop     ar3
+00F0 D002       591            pop     ar2
+00F2            592   ;        FT93C66.c:96: spi_io(12, 0b_1110_0000_0000|add); // Send start bit, op code, and A8 down to A0.
+00F2 8AF0       593            mov     _spi_io_PARM_2,r2
+00F4 740E       594            mov     a,#0x0E
+00F6 4B         595            orl     a,r3
+00F7 F5F1       596            mov     (_spi_io_PARM_2 + 1),a
+00F9 75820C     597            mov     dpl,#0x0C
+00FC 120100     598            lcall   _spi_io
+00FF            599   ;        FT93C66.c:97: FT93C66_CE=0; // De-activate the EEPROM.
+00FF C2A0       600            clr     _P2_0
+0101            601   ;        FT93C66.c:98: FT93C66_Poll();
+0101 020100     602            ljmp    _FT93C66_Poll
+0104            603   ;------------------------------------------------------------
+0104            604   ;Allocation info for local variables in function 'FT93C66_Erase_All'
+0104            605   ;------------------------------------------------------------
+0104            606   ;------------------------------------------------------------
+0104            607   ;        FT93C66.c:101: void FT93C66_Erase_All(void)
+0104            608   ;        -----------------------------------------
+0104            609   ;         function FT93C66_Erase_All
+0104            610   ;        -----------------------------------------
+0104            611   _FT93C66_Erase_All:
+0104            612   ;        FT93C66.c:103: FT93C66_CE=1; // Activate the EEPROM.
+0104 D2A0       613            setb    _P2_0
+0106            614   ;        FT93C66.c:104: SmallDelay();
+0106 120100     615            lcall   _SmallDelay
+0109            616   ;        FT93C66.c:105: spi_io(12, 0b_1001_0000_0000); // Send start bit, op code, and A8 down to A0.
+0109 75F000     617            mov     _spi_io_PARM_2,#0x00
+010C 75F109     618            mov     (_spi_io_PARM_2 + 1),#0x09
+010F 75820C     619            mov     dpl,#0x0C
+0112 120100     620            lcall   _spi_io
+0115            621   ;        FT93C66.c:106: FT93C66_CE=0; // De-activate the EEPROM.
+0115 C2A0       622            clr     _P2_0
+0117            623   ;        FT93C66.c:107: FT93C66_Poll();
+0117 020100     624            ljmp    _FT93C66_Poll
+011A            625   ;------------------------------------------------------------
+011A            626   ;Allocation info for local variables in function 'FT93C66_Write'
+011A            627   ;------------------------------------------------------------
+011A            628   ;val                       Allocated with name '_FT93C66_Write_PARM_2'
+011A            629   ;add                       Allocated to registers r2 r3 
+011A            630   ;------------------------------------------------------------
+011A            631   ;        FT93C66.c:110: void FT93C66_Write(unsigned int add, unsigned char val)
+011A            632   ;        -----------------------------------------
+011A            633   ;         function FT93C66_Write
+011A            634   ;        -----------------------------------------
+011A            635   _FT93C66_Write:
+011A AA82       636            mov     r2,dpl
+011C AB83       637            mov     r3,dph
+011E            638   ;        FT93C66.c:112: FT93C66_CE=1; // Activate the EEPROM.
+011E D2A0       639            setb    _P2_0
+0120            640   ;        FT93C66.c:113: SmallDelay();
+0120 C002       641            push    ar2
+0122 C003       642            push    ar3
+0124 120100     643            lcall   _SmallDelay
+0127 D003       644            pop     ar3
+0129 D002       645            pop     ar2
+012B            646   ;        FT93C66.c:114: spi_io(12, 0b_1010_0000_0000|add); // Send start bit, op code, and A8 down to A0.
+012B 8AF0       647            mov     _spi_io_PARM_2,r2
+012D 740A       648            mov     a,#0x0A
+012F 4B         649            orl     a,r3
+0130 F5F1       650            mov     (_spi_io_PARM_2 + 1),a
+0132 75820C     651            mov     dpl,#0x0C
+0135 120100     652            lcall   _spi_io
+0138            653   ;        FT93C66.c:115: spi_io(8, val); // Data to write at memory location.
+0138 85B0F0     654            mov     _spi_io_PARM_2,_FT93C66_Write_PARM_2
+013B 75F100     655            mov     (_spi_io_PARM_2 + 1),#0x00
+013E 758208     656            mov     dpl,#0x08
+0141 120100     657            lcall   _spi_io
+0144            658   ;        FT93C66.c:116: FT93C66_CE=0; // De-activate the EEPROM.
+0144 C2A0       659            clr     _P2_0
+0146            660   ;        FT93C66.c:117: FT93C66_Poll();
+0146 020100     661            ljmp    _FT93C66_Poll
+0149            662   ;------------------------------------------------------------
+0149            663   ;Allocation info for local variables in function 'FT93C66_Write_All'
+0149            664   ;------------------------------------------------------------
+0149            665   ;val                       Allocated to registers r2 
+0149            666   ;------------------------------------------------------------
+0149            667   ;        FT93C66.c:120: void FT93C66_Write_All(unsigned char val)
+0149            668   ;        -----------------------------------------
+0149            669   ;         function FT93C66_Write_All
+0149            670   ;        -----------------------------------------
+0149            671   _FT93C66_Write_All:
+0149 AA82       672            mov     r2,dpl
+014B            673   ;        FT93C66.c:122: FT93C66_CE=1; // Activate the EEPROM.
+014B D2A0       674            setb    _P2_0
+014D            675   ;        FT93C66.c:123: SmallDelay();
+014D C002       676            push    ar2
+014F 120100     677            lcall   _SmallDelay
+0152            678   ;        FT93C66.c:124: spi_io(12, 0b_1000_1000_0000); // Send start bit, op code, and A8 down to A0.
+0152 75F080     679            mov     _spi_io_PARM_2,#0x80
+0155 75F108     680            mov     (_spi_io_PARM_2 + 1),#0x08
+0158 75820C     681            mov     dpl,#0x0C
+015B 120100     682            lcall   _spi_io
+015E D002       683            pop     ar2
+0160            684   ;        FT93C66.c:125: spi_io(8, val); // Data to write at memory location.
+0160 8AF0       685            mov     _spi_io_PARM_2,r2
+0162 75F100     686            mov     (_spi_io_PARM_2 + 1),#0x00
+0165 758208     687            mov     dpl,#0x08
+0168 120100     688            lcall   _spi_io
+016B            689   ;        FT93C66.c:126: FT93C66_CE=0; // De-activate the EEPROM.
+016B C2A0       690            clr     _P2_0
+016D            691   ;        FT93C66.c:127: FT93C66_Poll();
+016D 020100     692            ljmp    _FT93C66_Poll
+0170            693   ;------------------------------------------------------------
+0170            694   ;Allocation info for local variables in function 'FT93C66_Init'
+0170            695   ;------------------------------------------------------------
+0170            696   ;------------------------------------------------------------
+0170            697   ;        FT93C66.c:130: void FT93C66_Init(void)
+0170            698   ;        -----------------------------------------
+0170            699   ;         function FT93C66_Init
+0170            700   ;        -----------------------------------------
+0170            701   _FT93C66_Init:
+0170            702   ;        FT93C66.c:132: FT93C66_CE=0;
+0170 C2A0       703            clr     _P2_0
+0172            704   ;        FT93C66.c:133: BB_SCLK=0;
+0172 C2A3       705            clr     _P2_3
+0174            706   ;        FT93C66.c:134: BB_MOSI=0;
+0174 C2A1       707            clr     _P2_1
+0176            708   ;        FT93C66.c:135: BB_MISO=1;
+0176 D2A2       709            setb    _P2_2
+0178 22         710            ret
+0179            711            rseg R_CSEG
+0179            712   
+0000            713            rseg R_XINIT
+0000            714   
+0000            715            rseg R_CONST
+0000            716   
+0000            717            CSEG
+0000            718   
+0000            719   end
