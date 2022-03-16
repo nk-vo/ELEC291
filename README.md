@@ -15,3 +15,6 @@ Design,  build,  program,  and  test  a  microcontroller  based  capacitive sens
 
 ## Lab 4
 Design temperature sensor using a digital thermometer that will serially transmit the temperature to a personal computer using the serial port.Then program the personal computer using Python to receive the temperature and conveniently present it in real time using a strip chart plot.
+
+## Lab 5
+Design, build, program, and test a microprocessor based AC voltmeter that displays both magnitude and phase.
