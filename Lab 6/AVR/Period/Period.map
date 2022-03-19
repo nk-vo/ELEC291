@@ -1,0 +1,720 @@
+Archive member included to satisfy reference by file (symbol)
+
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o)
+                              (vfprintf)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+                              Period.o (__divsf3)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o) (__divsf3x)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+                              Period.o (__floatsisf)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_inf.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o) (__fp_inf)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o) (__fp_nan)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscA.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o) (__fp_pscA)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscB.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o) (__fp_pscB)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_round.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o) (__fp_round)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o) (__fp_split3)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o) (__fp_szero)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o (exit)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+                              Period.o (__do_copy_data)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+                              Period.o (__do_clear_bss)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o) (__prologue_saves__)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o) (__epilogue_restores__)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ftoa_engine.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o) (__ftoa_engine)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o) (strnlen_P)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o) (strnlen)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fputc.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o) (fputc)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(iob.o)
+                              usart.o (__iob)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(printf.o)
+                              Period.o (printf)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(puts.o)
+                              Period.o (puts)
+c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
+                              c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o) (__ultoa_invert)
+
+Allocating common symbols
+Common symbol       size              file
+
+__iob               0x6               c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(iob.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x0000000000000000 0x0000000000020000 xr
+data             0x0000000000800060 0x000000000000ffa0 rw !x
+eeprom           0x0000000000810000 0x0000000000010000 rw !x
+fuse             0x0000000000820000 0x0000000000000400 rw !x
+lock             0x0000000000830000 0x0000000000000400 rw !x
+signature        0x0000000000840000 0x0000000000000400 rw !x
+user_signatures  0x0000000000850000 0x0000000000000400 rw !x
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x800100
+LOAD c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+LOAD Period.o
+LOAD usart.o
+LOAD c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a
+LOAD c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a
+START GROUP
+LOAD c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a
+LOAD c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a
+LOAD c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a
+LOAD c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a
+END GROUP
+                0x0000000000020000                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x20000
+                0x000000000000ffa0                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
+                0x0000000000010000                __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
+                0x0000000000000400                __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
+                0x0000000000000400                __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
+                0x0000000000000400                __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
+                0x0000000000000400                __USER_SIGNATURE_REGION_LENGTH__ = DEFINED (__USER_SIGNATURE_REGION_LENGTH__)?__USER_SIGNATURE_REGION_LENGTH__:0x400
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x0000000000000000     0x106c
+ *(.vectors)
+ .vectors       0x0000000000000000       0x68 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+                0x0000000000000000                __vector_default
+                0x0000000000000000                __vectors
+ *(.vectors)
+ *(.progmem.gcc*)
+                0x0000000000000068                . = ALIGN (0x2)
+                0x0000000000000068                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x0000000000000068        0x0 linker stubs
+ *(.trampolines*)
+                0x0000000000000068                __trampolines_end = .
+ *libprintf_flt.a:*(.progmem.data)
+ .progmem.data  0x0000000000000068        0x8 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o)
+ *libc.a:*(.progmem.data)
+ .progmem.data  0x0000000000000070       0xfa c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ftoa_engine.o)
+ *(.progmem.*)
+                0x000000000000016a                . = ALIGN (0x2)
+ *(.lowtext)
+ *(.lowtext*)
+                0x000000000000016a                __ctors_start = .
+ *(.ctors)
+                0x000000000000016a                __ctors_end = .
+                0x000000000000016a                __dtors_start = .
+ *(.dtors)
+                0x000000000000016a                __dtors_end = .
+ SORT_BY_NAME(*)(.ctors)
+ SORT_BY_NAME(*)(.dtors)
+ *(.init0)
+ .init0         0x000000000000016a        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+                0x000000000000016a                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x000000000000016a        0xc c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x0000000000000176       0x16 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+                0x0000000000000176                __do_copy_data
+ .init4         0x000000000000018c       0x10 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+                0x000000000000018c                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x000000000000019c        0x8 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ *(.init9)
+ *(.text)
+ .text          0x00000000000001a4        0x4 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+                0x00000000000001a4                __vector_22
+                0x00000000000001a4                __vector_1
+                0x00000000000001a4                __vector_24
+                0x00000000000001a4                __vector_12
+                0x00000000000001a4                __bad_interrupt
+                0x00000000000001a4                __vector_6
+                0x00000000000001a4                __vector_3
+                0x00000000000001a4                __vector_23
+                0x00000000000001a4                __vector_25
+                0x00000000000001a4                __vector_11
+                0x00000000000001a4                __vector_13
+                0x00000000000001a4                __vector_17
+                0x00000000000001a4                __vector_19
+                0x00000000000001a4                __vector_7
+                0x00000000000001a4                __vector_5
+                0x00000000000001a4                __vector_4
+                0x00000000000001a4                __vector_9
+                0x00000000000001a4                __vector_2
+                0x00000000000001a4                __vector_21
+                0x00000000000001a4                __vector_15
+                0x00000000000001a4                __vector_8
+                0x00000000000001a4                __vector_14
+                0x00000000000001a4                __vector_10
+                0x00000000000001a4                __vector_16
+                0x00000000000001a4                __vector_18
+                0x00000000000001a4                __vector_20
+ .text          0x00000000000001a8       0xec Period.o
+                0x00000000000001a8                wait_1ms
+                0x00000000000001c4                waitms
+                0x00000000000001da                GetPeriod
+ .text          0x0000000000000294       0x8e usart.o
+                0x0000000000000294                usart_init
+                0x00000000000002c6                usart_putchar
+                0x00000000000002d4                usart_putchar_printf
+                0x00000000000002f0                usart_getchar
+                0x00000000000002fe                usart_kbhit
+                0x000000000000030a                usart_pstr
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_inf.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscA.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscB.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_round.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ftoa_engine.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fputc.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(iob.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(printf.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(puts.o)
+ .text          0x0000000000000322        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
+                0x0000000000000322                . = ALIGN (0x2)
+ *(.text.*)
+ .text.startup  0x0000000000000322       0x9c Period.o
+                0x0000000000000322                main
+ .text.avr-libc
+                0x00000000000003be      0x6c2 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o)
+                0x00000000000003be                vfprintf
+ .text.avr-libc.fplib
+                0x0000000000000a80        0x8 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+                0x0000000000000a80                __divsf3
+ .text.avr-libc.fplib
+                0x0000000000000a88       0xdc c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+                0x0000000000000aa8                __divsf3x
+                0x0000000000000aae                __divsf3_pse
+ .text.avr-libc.fplib
+                0x0000000000000b64       0x7a c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+                0x0000000000000b64                __floatunsisf
+                0x0000000000000b68                __floatsisf
+ .text.avr-libc.fplib
+                0x0000000000000bde        0xc c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_inf.o)
+                0x0000000000000bde                __fp_inf
+ .text.avr-libc.fplib
+                0x0000000000000bea        0x6 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+                0x0000000000000bea                __fp_nan
+ .text.avr-libc.fplib
+                0x0000000000000bf0        0xe c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscA.o)
+                0x0000000000000bf0                __fp_pscA
+ .text.avr-libc.fplib
+                0x0000000000000bfe        0xe c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscB.o)
+                0x0000000000000bfe                __fp_pscB
+ .text.avr-libc.fplib
+                0x0000000000000c0c       0x22 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_round.o)
+                0x0000000000000c0c                __fp_round
+ .text.avr-libc.fplib
+                0x0000000000000c2e       0x44 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+                0x0000000000000c2e                __fp_split3
+                0x0000000000000c3e                __fp_splitA
+ .text.avr-libc.fplib
+                0x0000000000000c72        0xe c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+                0x0000000000000c72                __fp_zero
+                0x0000000000000c74                __fp_szero
+ .text.libgcc.mul
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc.div
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc.prologue
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc.builtins
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc.fmul
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc.fixed
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.mul
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .text.libgcc.div
+                0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .text.libgcc   0x0000000000000c80        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .text.libgcc.prologue
+                0x0000000000000c80       0x38 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+                0x0000000000000c80                __prologue_saves__
+ .text.libgcc.builtins
+                0x0000000000000cb8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .text.libgcc.fmul
+                0x0000000000000cb8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .text.libgcc.fixed
+                0x0000000000000cb8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .text.libgcc.mul
+                0x0000000000000cb8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .text.libgcc.div
+                0x0000000000000cb8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .text.libgcc   0x0000000000000cb8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .text.libgcc.prologue
+                0x0000000000000cb8       0x36 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+                0x0000000000000cb8                __epilogue_restores__
+ .text.libgcc.builtins
+                0x0000000000000cee        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .text.libgcc.fmul
+                0x0000000000000cee        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .text.libgcc.fixed
+                0x0000000000000cee        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .text.avr-libc
+                0x0000000000000cee      0x1b0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ftoa_engine.o)
+                0x0000000000000cee                __ftoa_engine
+ .text.avr-libc
+                0x0000000000000e9e       0x16 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
+                0x0000000000000e9e                strnlen_P
+ .text.avr-libc
+                0x0000000000000eb4       0x16 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen.o)
+                0x0000000000000eb4                strnlen
+ .text.avr-libc
+                0x0000000000000eca       0x60 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fputc.o)
+                0x0000000000000eca                fputc
+ .text.avr-libc
+                0x0000000000000f2a       0x2c c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(printf.o)
+                0x0000000000000f2a                printf
+ .text.avr-libc
+                0x0000000000000f56       0x56 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(puts.o)
+                0x0000000000000f56                puts
+ .text.avr-libc
+                0x0000000000000fac       0xbc c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
+                0x0000000000000fac                __ultoa_invert
+                0x0000000000001068                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x0000000000001068        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x0000000000001068                _exit
+                0x0000000000001068                exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x0000000000001068        0x4 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ *(.fini0)
+ *(.hightext)
+ *(.hightext*)
+ *(.progmemx.*)
+                0x000000000000106c                . = ALIGN (0x2)
+ *(.jumptables)
+ *(.jumptables*)
+                0x000000000000106c                _etext = .
+
+.data           0x0000000000800100       0xa6 load address 0x000000000000106c
+                0x0000000000800100                PROVIDE (__data_start = .)
+ *(.data)
+ .data          0x0000000000800100        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .data          0x0000000000800100        0x0 Period.o
+ .data          0x0000000000800100        0xe usart.o
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_inf.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscA.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscB.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_round.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ftoa_engine.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fputc.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(iob.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(printf.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(puts.o)
+ .data          0x000000000080010e        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
+ *(.data*)
+ *(.gnu.linkonce.d*)
+ *(.rodata)
+ *(.rodata*)
+ .rodata.str1.1
+                0x000000000080010e       0x97 Period.o
+ *(.gnu.linkonce.r*)
+                0x00000000008001a6                . = ALIGN (0x2)
+ *fill*         0x00000000008001a5        0x1 
+                0x00000000008001a6                _edata = .
+                0x00000000008001a6                PROVIDE (__data_end = .)
+
+.bss            0x00000000008001a6        0x8
+                0x00000000008001a6                PROVIDE (__bss_start = .)
+ *(.bss)
+ .bss           0x00000000008001a6        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .bss           0x00000000008001a6        0x2 Period.o
+                0x00000000008001a6                cnt
+ .bss           0x00000000008001a8        0x0 usart.o
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_inf.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscA.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_pscB.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_round.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ftoa_engine.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen_P.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strnlen.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fputc.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(iob.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(printf.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(puts.o)
+ .bss           0x00000000008001a8        0x0 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(ultoa_invert.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x00000000008001a8        0x6 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(iob.o)
+                0x00000000008001a8                __iob
+                0x00000000008001ae                PROVIDE (__bss_end = .)
+                0x000000000000106c                __data_load_start = LOADADDR (.data)
+                0x0000000000001112                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00000000008001ae        0x0
+                [!provide]                        PROVIDE (__noinit_start = .)
+ *(.noinit*)
+                [!provide]                        PROVIDE (__noinit_end = .)
+                0x00000000008001ae                _end = .
+                [!provide]                        PROVIDE (__heap_start = .)
+
+.eeprom         0x0000000000810000        0x0
+ *(.eeprom*)
+                0x0000000000810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x0000000000000000       0x11
+ *(.comment)
+ .comment       0x0000000000000000       0x11 Period.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 usart.o
+ .comment       0x0000000000000011       0x12 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libprintf_flt.a(vfprintf_flt.o)
+ .comment       0x0000000000000011       0x12 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fputc.o)
+ .comment       0x0000000000000011       0x12 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(iob.o)
+ .comment       0x0000000000000011       0x12 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(printf.o)
+ .comment       0x0000000000000011       0x12 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(puts.o)
+
+.note.gnu.avr.deviceinfo
+                0x0000000000000000       0x40
+ .note.gnu.avr.deviceinfo
+                0x0000000000000000       0x40 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x0000000000000000       0xe8
+ *(.debug_aranges)
+ .debug_aranges
+                0x0000000000000000       0x28 Period.o
+ .debug_aranges
+                0x0000000000000028       0x20 usart.o
+ .debug_aranges
+                0x0000000000000048       0x20 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_aranges
+                0x0000000000000068       0x20 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .debug_aranges
+                0x0000000000000088       0x20 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .debug_aranges
+                0x00000000000000a8       0x20 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .debug_aranges
+                0x00000000000000c8       0x20 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x0000000000000000      0xbbf
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x0000000000000000      0x5f4 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .debug_info    0x00000000000005f4      0x2cf Period.o
+ .debug_info    0x00000000000008c3      0x23e usart.o
+ .debug_info    0x0000000000000b01       0x26 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_info    0x0000000000000b27       0x26 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .debug_info    0x0000000000000b4d       0x26 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .debug_info    0x0000000000000b73       0x26 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .debug_info    0x0000000000000b99       0x26 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+
+.debug_abbrev   0x0000000000000000      0x951
+ *(.debug_abbrev)
+ .debug_abbrev  0x0000000000000000      0x5a2 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .debug_abbrev  0x00000000000005a2      0x1a8 Period.o
+ .debug_abbrev  0x000000000000074a      0x1a3 usart.o
+ .debug_abbrev  0x00000000000008ed       0x14 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_abbrev  0x0000000000000901       0x14 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .debug_abbrev  0x0000000000000915       0x14 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .debug_abbrev  0x0000000000000929       0x14 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .debug_abbrev  0x000000000000093d       0x14 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+
+.debug_line     0x0000000000000000      0x6e2
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x0000000000000000       0x1d c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .debug_line    0x000000000000001d      0x219 Period.o
+ .debug_line    0x0000000000000236      0x13b usart.o
+ .debug_line    0x0000000000000371       0x61 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_line    0x00000000000003d2       0x97 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .debug_line    0x0000000000000469       0x85 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .debug_line    0x00000000000004ee       0xfd c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .debug_line    0x00000000000005eb       0xf7 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+
+.debug_frame    0x0000000000000000      0x114
+ *(.debug_frame)
+ .debug_frame   0x0000000000000000       0x8c Period.o
+ .debug_frame   0x000000000000008c       0x88 usart.o
+
+.debug_str      0x0000000000000000      0x444
+ *(.debug_str)
+ .debug_str     0x0000000000000000      0x208 c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .debug_str     0x0000000000000208      0x16e Period.o
+                                        0x1a7 (size before relaxing)
+ .debug_str     0x0000000000000376       0x70 usart.o
+                                        0x173 (size before relaxing)
+ .debug_str     0x00000000000003e6       0x5e c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_str     0x0000000000000444       0x5e c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
+ .debug_str     0x0000000000000444       0x5e c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .debug_str     0x0000000000000444       0x5e c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+ .debug_str     0x0000000000000444       0x5e c:/programs/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+
+.debug_loc      0x0000000000000000      0x234
+ *(.debug_loc)
+ .debug_loc     0x0000000000000000      0x190 Period.o
+ .debug_loc     0x0000000000000190       0xa4 usart.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x0000000000000000       0x30
+ *(.debug_ranges)
+ .debug_ranges  0x0000000000000000       0x30 Period.o
+
+.debug_macro
+ *(.debug_macro)
+
+.debug_addr
+ *(.debug_addr)
+OUTPUT(Period.elf elf32-avr)
+LOAD linker stubs
