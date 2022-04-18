@@ -18,3 +18,9 @@ Design temperature sensor using a digital thermometer that will serially transmi
 
 ## Lab 5
 Design, build, program, and test a microprocessor based AC voltmeter that displays both magnitude and phase with MCP3008 chip.
+
+## Lab 6
+Temperature sensor like Lab 4 but using ATMega28 instead of the 8051 microcontroller
+
+## Project 2
+Design, build, program, and test a coinpicking robot guided by magnetic field. The core microcontroller is the ATMega28
